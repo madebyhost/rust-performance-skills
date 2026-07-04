@@ -1,3 +1,10 @@
 {
-  "mcpServers": {}
+  "mcpServers": {
+    "rust-performance": {
+      "command": "python3",
+      "args": [
+        "mcp/rust_performance_mcp.py"
+      ]
+    }
+  }
 }
