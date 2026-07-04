@@ -7,6 +7,7 @@ This repository packages a Codex-compatible plugin and portable skills that can 
 ## What It Provides
 
 - A Codex plugin manifest in `.codex-plugin/plugin.json`.
+- A local Codex plugin marketplace installer for `rust-performance-skills@personal`.
 - A router skill at `skills/rust-performance-engineering`.
 - Specialist skills for quality, core performance, async, HFT, PyO3/maturin, Wasm, FFI, unsafe, architecture, and reviews.
 - Reference playbooks for zero-copy, async, HFT/low-latency, architecture, measurement, bindings, and review.
@@ -77,9 +78,17 @@ curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/
 Targets can be scoped:
 
 ```bash
+RUST_PERF_SKILLS_TARGET=plugin sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
 RUST_PERF_SKILLS_TARGET=codex sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
 RUST_PERF_SKILLS_TARGET=claude sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
 RUST_PERF_SKILLS_TARGET=local sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
+```
+
+After plugin installation, verify visibility:
+
+```bash
+codex plugin list
+codex plugin add rust-performance-skills@personal
 ```
 
 See:
@@ -100,7 +109,7 @@ See:
 
 ## MCP Status
 
-The distribution remains skill-first. `.mcp.json` is present so the repository can grow an optional MCP server later without changing the plugin shape. A future MCP can expose deterministic checks such as Cargo profile inspection, dependency audits, perf checklist generation, and benchmark report parsing.
+The distribution remains skill-first and now includes an offline stdio MCP server at `mcp/rust_performance_mcp.py`. It exposes deterministic tools for project audit, quality-gate generation, skill listing, and Rust review checklist generation.
 
 ## Contributing
 

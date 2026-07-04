@@ -53,7 +53,19 @@ def validate_plugin() -> None:
     for key in ["displayName", "shortDescription", "longDescription", "developerName", "category", "defaultPrompt"]:
         if not interface.get(key):
             fail(f"plugin interface missing {key}")
-    json.loads(read(MCP))
+    mcp = json.loads(read(MCP))
+    servers = mcp.get("mcpServers", {})
+    server = servers.get("rust-performance")
+    if not isinstance(server, dict):
+        fail("MCP config must declare rust-performance server")
+    if server.get("command") != "python3":
+        fail("rust-performance MCP server must use python3")
+    server_args = server.get("args", [])
+    if not isinstance(server_args, list):
+        fail("rust-performance MCP args must be an array")
+    for arg in server_args:
+        if isinstance(arg, str) and arg.endswith(".py"):
+            read(ROOT / arg)
 
 
 def validate_skill(skill_name: str) -> None:
@@ -101,6 +113,8 @@ def validate_docs() -> None:
         "skills/rust-performance-engineering/agents/openai.yaml",
         "scripts/rust_project_audit.py",
         "scripts/generate_quality_gates.py",
+        "scripts/install_plugin_marketplace.py",
+        "mcp/rust_performance_mcp.py",
         "install.sh",
         "templates/ci/rust-library.yml",
         "templates/ci/pyo3-maturin.yml",
@@ -117,7 +131,16 @@ def validate_docs() -> None:
     install_docs = "\n".join(
         path.read_text(encoding="utf-8") for path in (ROOT / "docs" / "install").glob("*.md")
     )
-    for token in ["PyO3", "maturin", "Wasm", "rust_project_audit.py", "generate_quality_gates.py", "install.sh"]:
+    for token in [
+        "PyO3",
+        "maturin",
+        "Wasm",
+        "rust_project_audit.py",
+        "generate_quality_gates.py",
+        "install.sh",
+        "RUST_PERF_SKILLS_TARGET=plugin",
+        "rust-performance-skills@personal",
+    ]:
         if token not in install_docs:
             fail(f"install docs do not mention {token}")
 
@@ -125,6 +148,9 @@ def validate_docs() -> None:
     one_liner = "curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh | sh"
     if one_liner not in readme:
         fail("README does not expose the install one-liner")
+    for token in ["RUST_PERF_SKILLS_TARGET=plugin", "codex plugin list", "rust-performance-skills@personal"]:
+        if token not in readme:
+            fail(f"README does not mention {token}")
 
     sources = read(ROOT / "docs" / "sources.md")
     for token in ["cargo-nextest", "cargo-deny", "cargo-audit", "cargo-semver-checks", "Miri", "cargo-fuzz", "cargo-llvm-cov", "cargo-mutants"]:

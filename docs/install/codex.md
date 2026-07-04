@@ -2,7 +2,20 @@
 
 ## Plugin Mode
 
-One-liner install for Codex skills:
+One-liner install for Codex plugin visibility:
+
+```bash
+RUST_PERF_SKILLS_TARGET=plugin sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
+```
+
+This installs the plugin into the personal Codex marketplace as `rust-performance-skills@personal`. Verify it appears:
+
+```bash
+codex plugin list
+codex plugin add rust-performance-skills@personal
+```
+
+One-liner install for Codex skills only:
 
 ```bash
 RUST_PERF_SKILLS_TARGET=codex sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"

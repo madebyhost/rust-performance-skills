@@ -12,6 +12,14 @@ One-liner local/project fallback:
 RUST_PERF_SKILLS_TARGET=local sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
 ```
 
+For Codex plugin marketplace installation, use:
+
+```bash
+RUST_PERF_SKILLS_TARGET=plugin sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
+```
+
+The Codex marketplace entry is `rust-performance-skills@personal`.
+
 ## Portable Prompt
 
 Use:

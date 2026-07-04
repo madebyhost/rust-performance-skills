@@ -32,6 +32,14 @@ class DistributionTest(unittest.TestCase):
         self.assertEqual(manifest["skills"], "./skills/")
         self.assertIn("skills", manifest["interface"]["capabilities"])
 
+    def test_mcp_config_points_to_existing_local_server(self) -> None:
+        config = json.loads((ROOT / ".mcp.json").read_text())
+        server = config["mcpServers"]["rust-performance"]
+        self.assertEqual(server["command"], "python3")
+        for arg in server["args"]:
+            if arg.endswith(".py"):
+                self.assertTrue((ROOT / arg).exists(), f"missing MCP server {arg}")
+
     def test_required_skills_exist_with_metadata(self) -> None:
         for skill_name in REQUIRED_SKILLS:
             with self.subTest(skill=skill_name):
@@ -67,8 +75,26 @@ class DistributionTest(unittest.TestCase):
         combined = "\n".join(
             path.read_text() for path in (ROOT / "docs" / "install").glob("*.md")
         )
-        for token in ["PyO3", "maturin", "Wasm", "rust_project_audit.py", "generate_quality_gates.py", "install.sh"]:
+        for token in [
+            "PyO3",
+            "maturin",
+            "Wasm",
+            "rust_project_audit.py",
+            "generate_quality_gates.py",
+            "install.sh",
+            "RUST_PERF_SKILLS_TARGET=plugin",
+            "rust-performance-skills@personal",
+        ]:
             self.assertIn(token, combined)
+
+    def test_v4_plugin_and_mcp_files_exist(self) -> None:
+        for rel in [
+            "scripts/install_plugin_marketplace.py",
+            "mcp/rust_performance_mcp.py",
+            "tests/test_plugin_marketplace.py",
+            "tests/test_mcp_contract.py",
+        ]:
+            self.assertTrue((ROOT / rel).exists(), f"missing {rel}")
 
     def test_v3_templates_and_evals_exist(self) -> None:
         for rel in [
