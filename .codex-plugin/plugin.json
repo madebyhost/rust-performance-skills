@@ -1,0 +1,21 @@
+{
+  "name": "rust-performance-skills",
+  "version": "0.1.0",
+  "description": "Portable Rust performance engineering skills for Codex and other coding agents.",
+  "author": {
+    "name": "madebyhost"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Rust Performance Skills",
+    "shortDescription": "Low-latency Rust engineering guidance.",
+    "longDescription": "Rust Performance Skills helps coding agents design, review, and optimize Rust systems for low latency, throughput, memory efficiency, async correctness, and high-frequency trading workloads.",
+    "developerName": "madebyhost",
+    "category": "Development",
+    "capabilities": [
+      "skills"
+    ],
+    "defaultPrompt": "Use $rust-performance-engineering to design or review this Rust code for low latency and performance."
+  },
+  "mcpServers": "./.mcp.json"
+}

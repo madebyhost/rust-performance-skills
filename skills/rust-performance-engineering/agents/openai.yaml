@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Performance Engineering"
+  short_description: "Low-latency Rust design and review"
+  default_prompt: "Use $rust-performance-engineering to review this Rust code for latency, throughput, allocation pressure, and concurrency risks."
+
+policy:
+  allow_implicit_invocation: true
