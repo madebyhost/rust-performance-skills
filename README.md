@@ -11,6 +11,9 @@ This repository packages a Codex-compatible plugin and portable skills that can 
 - Specialist skills for quality, core performance, async, HFT, PyO3/maturin, Wasm, FFI, unsafe, architecture, and reviews.
 - Reference playbooks for zero-copy, async, HFT/low-latency, architecture, measurement, bindings, and review.
 - A static audit helper at `scripts/rust_project_audit.py`.
+- A quality-gate generator at `scripts/generate_quality_gates.py`.
+- Reusable GitHub Actions templates under `templates/ci`.
+- Evaluation prompts under `evals` for maintainers.
 - Install notes for Codex, Claude Code, and generic agents.
 - CI validation for plugin metadata, skill frontmatter, and reference links.
 - A source map in [docs/sources.md](docs/sources.md) for maintainers.
@@ -42,6 +45,9 @@ Use `$rust-performance-engineering` when an agent is asked to:
 - `rust-unsafe-soundness`: unsafe invariants, Miri/sanitizers, safe wrappers.
 - `rust-architecture-patterns`: DDD, onion, hexagonal, ECS, actor, pipeline, disruptor.
 - `rust-review-auditor`: Rust PR/repository review workflow.
+- `rust-ci-quality-gates`: CI gates for Rust, PyO3, Wasm, unsafe, fuzzing, coverage, semver, and benchmarks.
+- `rust-testing-verification`: verification strategy for tests, Miri, fuzzing, concurrency, bindings, and hot paths.
+- `rust-crate-release-engineering`: crate release readiness, semver, packaging, wheels, Wasm artifacts, and FFI releases.
 
 ## Audit Helper
 
@@ -53,7 +59,28 @@ python3 scripts/rust_project_audit.py /path/to/rust/project
 
 Use `--json` when another tool or agent should consume the output.
 
+Generate suggested quality gates from an audit:
+
+```bash
+python3 scripts/rust_project_audit.py /path/to/rust/project --json > audit.json
+python3 scripts/generate_quality_gates.py audit.json
+```
+
 ## Install
+
+One-liner for Codex, Claude Code, and project-local fallback:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh | sh
+```
+
+Targets can be scoped:
+
+```bash
+RUST_PERF_SKILLS_TARGET=codex sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
+RUST_PERF_SKILLS_TARGET=claude sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
+RUST_PERF_SKILLS_TARGET=local sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
+```
 
 See:
 

@@ -36,6 +36,9 @@ Load these specialist skills as needed:
 - `rust-unsafe-soundness`: unsafe review, invariants, Miri/sanitizers, safe wrapper design.
 - `rust-architecture-patterns`: onion, hexagonal, DDD, ECS, actor, pipeline, disruptor, hot-path exceptions.
 - `rust-review-auditor`: PR/repository audit workflow for Rust quality, safety, and performance.
+- `rust-ci-quality-gates`: CI gates for format, lint, tests, coverage, dependency policy, semver, Miri, fuzzing, and benchmarks.
+- `rust-testing-verification`: test strategy for correctness, unsafe, async, parsers, bindings, Wasm, PyO3, and latency-sensitive code.
+- `rust-crate-release-engineering`: release readiness, Cargo metadata, public API compatibility, wheels, Wasm artifacts, and crate publishing.
 
 Load these local references when the task is broad or does not map cleanly to one specialist:
 

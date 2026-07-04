@@ -9,6 +9,14 @@ This project turns stable Rust ecosystem guidance into agent workflows. Prefer p
 - Cargo profiles: https://doc.rust-lang.org/cargo/reference/profiles.html
 - Clippy lints: https://doc.rust-lang.org/clippy/lints.html
 - Criterion.rs: https://bheisler.github.io/criterion.rs/book/
+- cargo-nextest: https://nexte.st/
+- cargo-deny: https://embarkstudios.github.io/cargo-deny/
+- cargo-audit: https://rustsec.org/
+- cargo-semver-checks: https://github.com/obi1kenobi/cargo-semver-checks
+- Miri: https://github.com/rust-lang/miri/
+- cargo-fuzz: https://rust-fuzz.github.io/book/cargo-fuzz.html
+- cargo-llvm-cov: https://crates.io/crates/cargo-llvm-cov
+- cargo-mutants: https://mutants.rs/
 
 ## Unsafe And FFI
 

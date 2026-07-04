@@ -22,6 +22,9 @@ REQUIRED_SKILLS = [
     "rust-unsafe-soundness",
     "rust-architecture-patterns",
     "rust-review-auditor",
+    "rust-ci-quality-gates",
+    "rust-testing-verification",
+    "rust-crate-release-engineering",
 ]
 
 
@@ -97,15 +100,36 @@ def validate_docs() -> None:
         "docs/install/generic-agents.md",
         "skills/rust-performance-engineering/agents/openai.yaml",
         "scripts/rust_project_audit.py",
+        "scripts/generate_quality_gates.py",
+        "install.sh",
+        "templates/ci/rust-library.yml",
+        "templates/ci/pyo3-maturin.yml",
+        "templates/ci/wasm.yml",
+        "templates/ci/hft-perf.yml",
+        "evals/rust-quality-review.md",
+        "evals/pyo3-optimization.md",
+        "evals/wasm-boundary.md",
+        "evals/hft-hot-path.md",
+        "evals/unsafe-soundness.md",
     ]:
         read(ROOT / rel)
 
     install_docs = "\n".join(
         path.read_text(encoding="utf-8") for path in (ROOT / "docs" / "install").glob("*.md")
     )
-    for token in ["PyO3", "maturin", "Wasm", "rust_project_audit.py"]:
+    for token in ["PyO3", "maturin", "Wasm", "rust_project_audit.py", "generate_quality_gates.py", "install.sh"]:
         if token not in install_docs:
             fail(f"install docs do not mention {token}")
+
+    readme = read(ROOT / "README.md")
+    one_liner = "curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh | sh"
+    if one_liner not in readme:
+        fail("README does not expose the install one-liner")
+
+    sources = read(ROOT / "docs" / "sources.md")
+    for token in ["cargo-nextest", "cargo-deny", "cargo-audit", "cargo-semver-checks", "Miri", "cargo-fuzz", "cargo-llvm-cov", "cargo-mutants"]:
+        if token not in sources:
+            fail(f"sources do not mention {token}")
 
 
 def main() -> None:

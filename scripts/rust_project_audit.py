@@ -9,6 +9,8 @@ from pathlib import Path
 
 HFT_RE = re.compile(r"hft|multicast|ring[_ -]?buffer|disruptor|orderbook|order_book|market[_ -]?data|low[_ -]?latency", re.I)
 UNSAFE_RE = re.compile(r"\bunsafe\b|\*const\b|\*mut\b|transmute|MaybeUninit|NonNull")
+PUBLIC_API_RE = re.compile(r"(?m)^\s*pub\s+(?:unsafe\s+)?(?:async\s+)?(?:fn|struct|enum|trait|mod|type|const|static)\b")
+PARSER_RE = re.compile(r"\bparse(?:r|_|\b)|decode|deserialize", re.I)
 
 
 def load_toml(path: Path) -> dict:
@@ -30,6 +32,11 @@ def read_rust_sources(root: Path) -> str:
     return "\n".join(chunks)
 
 
+def append_unique(values: list[str], value: str) -> None:
+    if value not in values:
+        values.append(value)
+
+
 def dependencies(cargo: dict) -> set[str]:
     deps: set[str] = set()
     for section in ["dependencies", "dev-dependencies", "build-dependencies"]:
@@ -42,6 +49,46 @@ def dependencies(cargo: dict) -> set[str]:
 def has_cdylib(cargo: dict) -> bool:
     crate_type = cargo.get("lib", {}).get("crate-type", [])
     return "cdylib" in crate_type
+
+
+def has_nextest_config(root: Path) -> bool:
+    return any(
+        path.exists()
+        for path in [
+            root / ".config" / "nextest" / "config.toml",
+            root / ".config" / "nextest.toml",
+            root / "nextest.toml",
+        ]
+    )
+
+
+def has_cargo_deny_config(root: Path) -> bool:
+    return any(
+        path.exists()
+        for path in [
+            root / "deny.toml",
+            root / ".cargo" / "deny.toml",
+            root / ".config" / "cargo-deny" / "deny.toml",
+        ]
+    )
+
+
+def has_fuzz_targets(root: Path) -> bool:
+    fuzz_dir = root / "fuzz" / "fuzz_targets"
+    return fuzz_dir.exists() and any(fuzz_dir.glob("*.rs"))
+
+
+def has_coverage_workflow(root: Path) -> bool:
+    workflows = root / ".github" / "workflows"
+    if not workflows.exists():
+        return False
+    for path in list(workflows.glob("*.yml")) + list(workflows.glob("*.yaml")):
+        try:
+            if "llvm-cov" in path.read_text(encoding="utf-8", errors="ignore"):
+                return True
+        except OSError:
+            continue
+    return False
 
 
 def detect_project_type(cargo: dict, pyproject: dict | None, deps: set[str]) -> str:
@@ -83,50 +130,70 @@ def audit(root: Path) -> dict:
     result["project_type"] = detect_project_type(cargo, pyproject, deps)
 
     package = cargo.get("package", {})
+    if "workspace" in cargo:
+        append_unique(result["strengths"], "workspace configured")
+    if (root / "Cargo.lock").exists():
+        append_unique(result["strengths"], "Cargo.lock present")
+    if has_cargo_deny_config(root):
+        append_unique(result["strengths"], "cargo-deny config present")
+    if has_nextest_config(root):
+        append_unique(result["strengths"], "nextest config present")
+    if has_fuzz_targets(root):
+        append_unique(result["strengths"], "fuzz targets present")
+    if has_coverage_workflow(root):
+        append_unique(result["strengths"], "coverage workflow present")
+
     if package.get("edition") == "2024":
-        result["strengths"].append("edition 2024 configured")
+        append_unique(result["strengths"], "edition 2024 configured")
     else:
-        result["recommendations"].append("consider edition 2024 for new crates when MSRV allows")
+        append_unique(result["recommendations"], "consider edition 2024 for new crates when MSRV allows")
 
     profile = cargo.get("profile", {}).get("release", {})
     if profile:
-        result["strengths"].append("release profile configured")
+        append_unique(result["strengths"], "release profile configured")
         if "lto" not in profile:
-            result["recommendations"].append("evaluate lto for release performance or size")
+            append_unique(result["recommendations"], "evaluate lto for release performance or size")
         if "codegen-units" not in profile:
-            result["recommendations"].append("evaluate codegen-units=1 for release hot paths")
+            append_unique(result["recommendations"], "evaluate codegen-units=1 for release hot paths")
     else:
-        result["findings"].append("no explicit release profile")
-        result["recommendations"].append("document release profile tradeoffs before performance claims")
+        append_unique(result["findings"], "no explicit release profile")
+        append_unique(result["recommendations"], "document release profile tradeoffs before performance claims")
 
     lints = cargo.get("lints", {})
     if lints.get("rust", {}).get("unsafe_code") in {"warn", "deny", "forbid"}:
-        result["strengths"].append("unsafe_code lint configured")
+        append_unique(result["strengths"], "unsafe_code lint configured")
     else:
-        result["recommendations"].append("configure unsafe_code lint and local unsafe allowances")
+        append_unique(result["recommendations"], "configure unsafe_code lint and local unsafe allowances")
+
+    if PUBLIC_API_RE.search(sources):
+        append_unique(result["findings"], "semver-sensitive public library API")
+        append_unique(result["recommendations"], "consider cargo-semver-checks before release")
 
     if "pyo3" in deps:
-        result["strengths"].append("PyO3 dependency detected")
+        append_unique(result["strengths"], "PyO3 dependency detected")
         if has_cdylib(cargo):
-            result["strengths"].append("cdylib crate type configured")
-        result["recommendations"].append("consider Python::detach for CPU-heavy Rust work")
-        result["recommendations"].append("benchmark Python caller to include conversion and boundary cost")
+            append_unique(result["strengths"], "cdylib crate type configured")
+        append_unique(result["recommendations"], "consider Python::detach for CPU-heavy Rust work")
+        append_unique(result["recommendations"], "benchmark Python caller to include conversion and boundary cost")
     if pyproject and "maturin" in str(pyproject).lower():
-        result["strengths"].append("maturin packaging detected")
+        append_unique(result["strengths"], "maturin packaging detected")
 
     if {"wasm-bindgen", "web-sys", "js-sys"} & deps:
-        result["strengths"].append("Wasm dependency detected")
-        result["recommendations"].append("measure generated wasm and JS boundary cost")
-        result["recommendations"].append("separate size tuning from runtime performance tuning")
+        append_unique(result["strengths"], "Wasm dependency detected")
+        append_unique(result["recommendations"], "measure generated wasm and JS boundary cost")
+        append_unique(result["recommendations"], "separate size tuning from runtime performance tuning")
 
     if UNSAFE_RE.search(sources):
-        result["findings"].append("unsafe Rust present")
-        result["recommendations"].append("require SAFETY comments and soundness review")
-        result["recommendations"].append("run Miri or sanitizers where supported")
+        append_unique(result["findings"], "unsafe Rust present")
+        append_unique(result["recommendations"], "require SAFETY comments and soundness review")
+        append_unique(result["recommendations"], "run Miri or sanitizers where supported")
+
+    if PARSER_RE.search(sources) or UNSAFE_RE.search(sources):
+        append_unique(result["recommendations"], "Miri can be useful for parser or unsafe-adjacent tests")
 
     if HFT_RE.search(sources) or HFT_RE.search(cargo_path.read_text(encoding="utf-8")):
-        result["findings"].append("low-latency/HFT vocabulary present")
-        result["recommendations"].append("capture p99/p999 latency, drops, queue depth, and replay behavior")
+        append_unique(result["findings"], "low-latency/HFT vocabulary present")
+        append_unique(result["recommendations"], "capture p99/p999 latency, drops, queue depth, and replay behavior")
 
     return result
 

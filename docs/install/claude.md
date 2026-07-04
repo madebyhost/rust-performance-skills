@@ -2,6 +2,12 @@
 
 ## Skills-Only Mode
 
+One-liner install for Claude Code style skills:
+
+```bash
+RUST_PERF_SKILLS_TARGET=claude sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
+```
+
 Copy the skill into Claude's skill directory:
 
 ```bash
@@ -31,3 +37,5 @@ For Rust performance tasks, read skills/rust-performance-engineering/SKILL.md an
 ```
 
 For repository orientation, run `python3 scripts/rust_project_audit.py .` before reviewing.
+Use `python3 scripts/generate_quality_gates.py audit.json` after saving audit JSON to produce CI suggestions for Rust, PyO3/maturin, and Wasm projects.
+The installer entrypoint is `install.sh`.

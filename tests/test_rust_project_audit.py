@@ -125,6 +125,44 @@ pub fn udp_multicast_ring_buffer() {}
         self.assertIn("low-latency/HFT vocabulary present", result["findings"])
         self.assertIn("require SAFETY comments and soundness review", result["recommendations"])
 
+    def test_detects_quality_gate_artifacts(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / ".config" / "nextest").mkdir(parents=True)
+            (root / ".github" / "workflows").mkdir(parents=True)
+            (root / "fuzz" / "fuzz_targets").mkdir(parents=True)
+            (root / "src").mkdir()
+            (root / "Cargo.toml").write_text(
+                """
+[workspace]
+members = ["crates/core"]
+
+[package]
+name = "quality"
+version = "0.2.0"
+edition = "2024"
+
+[dependencies]
+serde = "1"
+""".strip()
+            )
+            (root / "Cargo.lock").write_text("# lock")
+            (root / "deny.toml").write_text("[advisories]\n")
+            (root / ".config" / "nextest" / "config.toml").write_text("[profile.default]\n")
+            (root / "fuzz" / "fuzz_targets" / "parser.rs").write_text("fuzz_target!(|data: &[u8]| {});")
+            (root / ".github" / "workflows" / "coverage.yml").write_text("cargo llvm-cov nextest\n")
+            (root / "src" / "lib.rs").write_text("pub fn parse(_: &[u8]) {}\n")
+            result = run_audit(root)
+        self.assertIn("workspace configured", result["strengths"])
+        self.assertIn("Cargo.lock present", result["strengths"])
+        self.assertIn("cargo-deny config present", result["strengths"])
+        self.assertIn("nextest config present", result["strengths"])
+        self.assertIn("fuzz targets present", result["strengths"])
+        self.assertIn("coverage workflow present", result["strengths"])
+        self.assertIn("semver-sensitive public library API", result["findings"])
+        self.assertIn("consider cargo-semver-checks before release", result["recommendations"])
+        self.assertIn("Miri can be useful for parser or unsafe-adjacent tests", result["recommendations"])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,18 @@
+name: hft-perf
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * 1"
+
+jobs:
+  latency:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo test --all-targets --all-features
+      - run: cargo bench
+      - name: Latency evidence
+        run: |
+          echo "Record p50/p95/p99/p999, drops, queue depth, warmup, CPU model, kernel, governor, and noise notes."

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Testing Verification"
+  short_description: "Rust test strategy for correctness, safety, fuzzing, and benchmarks"
+  default_prompt: "Use $rust-testing-verification to design a Rust verification plan with unit tests, integration tests, fuzzing, Miri, coverage, and benchmarks."
+
+policy:
+  allow_implicit_invocation: true

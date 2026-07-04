@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust CI Quality Gates"
+  short_description: "Rust CI gates for quality, security, coverage, and release readiness"
+  default_prompt: "Use $rust-ci-quality-gates to design CI checks for this Rust project, including tests, linting, dependency policy, coverage, semver, and specialist gates."
+
+policy:
+  allow_implicit_invocation: true

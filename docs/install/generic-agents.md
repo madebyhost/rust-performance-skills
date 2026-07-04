@@ -6,6 +6,12 @@ Any coding agent can use this repository if it supports one of these patterns:
 - project-local instruction files such as `AGENTS.md`, `CLAUDE.md`, or `GEMINI.md`;
 - explicit prompt references to files.
 
+One-liner local/project fallback:
+
+```bash
+RUST_PERF_SKILLS_TARGET=local sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
+```
+
 ## Portable Prompt
 
 Use:
@@ -35,3 +41,4 @@ python3 scripts/rust_project_audit.py . --json
 ```
 
 Use the JSON output to decide whether PyO3/maturin, Wasm, unsafe, FFI, or low-latency skills should be loaded.
+Then run `python3 scripts/generate_quality_gates.py audit.json` to produce a quality-gate command set. The installer entrypoint is `install.sh`.

@@ -2,6 +2,12 @@
 
 ## Plugin Mode
 
+One-liner install for Codex skills:
+
+```bash
+RUST_PERF_SKILLS_TARGET=codex sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
+```
+
 This repository contains a Codex plugin manifest:
 
 ```text
@@ -39,3 +45,12 @@ python3 scripts/rust_project_audit.py /path/to/rust/project
 ```
 
 This reports Rust, PyO3/maturin, Wasm, unsafe, and low-latency signals for the agent to inspect.
+
+To turn the audit into a suggested command set, run:
+
+```bash
+python3 scripts/rust_project_audit.py /path/to/rust/project --json > audit.json
+python3 scripts/generate_quality_gates.py audit.json
+```
+
+The installer entrypoint is `install.sh`.

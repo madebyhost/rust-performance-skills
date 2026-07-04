@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Crate Release Engineering"
+  short_description: "Rust release readiness, semver, packaging, wheels, and Wasm artifacts"
+  default_prompt: "Use $rust-crate-release-engineering to prepare this Rust crate or workspace for release, including semver, docs, CI, packaging, and artifact checks."
+
+policy:
+  allow_implicit_invocation: true

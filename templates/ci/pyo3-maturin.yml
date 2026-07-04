@@ -1,0 +1,25 @@
+name: pyo3-maturin
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  wheel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip maturin
+      - run: cargo fmt --all --check
+      - run: cargo clippy --all-targets --all-features -- -D warnings
+      - run: cargo test --all-targets --all-features
+      - run: maturin build --release
+      - run: python -m pip install target/wheels/*.whl
+      - run: python -c "import importlib.metadata; print('wheel installed')"

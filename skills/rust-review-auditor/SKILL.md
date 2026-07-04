@@ -15,6 +15,8 @@ Use this skill for review stance. Load `references/review-auditor.md` for checkl
 4. Recommend exact verification commands.
 5. Avoid style-only findings unless they affect maintainability or API quality.
 
+Load `rust-ci-quality-gates` when CI is missing or weak, `rust-testing-verification` when evidence is thin, and `rust-crate-release-engineering` when public API, packaging, or release artifacts are affected.
+
 ## Output
 
 Lead with findings. Include file/line references when available. Then list test gaps and residual risks.

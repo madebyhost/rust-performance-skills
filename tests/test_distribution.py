@@ -19,6 +19,9 @@ REQUIRED_SKILLS = [
     "rust-unsafe-soundness",
     "rust-architecture-patterns",
     "rust-review-auditor",
+    "rust-ci-quality-gates",
+    "rust-testing-verification",
+    "rust-crate-release-engineering",
 ]
 
 
@@ -64,8 +67,27 @@ class DistributionTest(unittest.TestCase):
         combined = "\n".join(
             path.read_text() for path in (ROOT / "docs" / "install").glob("*.md")
         )
-        for token in ["PyO3", "maturin", "Wasm", "rust_project_audit.py"]:
+        for token in ["PyO3", "maturin", "Wasm", "rust_project_audit.py", "generate_quality_gates.py", "install.sh"]:
             self.assertIn(token, combined)
+
+    def test_v3_templates_and_evals_exist(self) -> None:
+        for rel in [
+            "templates/ci/rust-library.yml",
+            "templates/ci/pyo3-maturin.yml",
+            "templates/ci/wasm.yml",
+            "templates/ci/hft-perf.yml",
+            "evals/rust-quality-review.md",
+            "evals/pyo3-optimization.md",
+            "evals/wasm-boundary.md",
+            "evals/hft-hot-path.md",
+            "evals/unsafe-soundness.md",
+        ]:
+            self.assertTrue((ROOT / rel).exists(), f"missing {rel}")
+
+    def test_source_map_mentions_v3_tools(self) -> None:
+        sources = (ROOT / "docs" / "sources.md").read_text()
+        for token in ["cargo-nextest", "cargo-deny", "cargo-audit", "cargo-semver-checks", "Miri", "cargo-fuzz", "cargo-llvm-cov", "cargo-mutants"]:
+            self.assertIn(token, sources)
 
 
 if __name__ == "__main__":
