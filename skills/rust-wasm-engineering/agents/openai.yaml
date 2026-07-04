@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Wasm Engineering"
+  short_description: "High-quality Rust WebAssembly packages"
+  default_prompt: "Use $rust-wasm-engineering to design or review this Rust/Wasm package for size and performance."
+
+policy:
+  allow_implicit_invocation: true

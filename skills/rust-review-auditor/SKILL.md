@@ -1,0 +1,20 @@
+---
+name: rust-review-auditor
+description: "Use for Rust code reviews, repository audits, PR reviews, and quality/performance assessments covering correctness, tests, API design, performance regressions, unsafe soundness, async/concurrency, FFI, PyO3/maturin, Wasm, and maintainability."
+---
+
+# Rust Review Auditor
+
+Use this skill for review stance. Load `references/review-auditor.md` for checklists.
+
+## Review Workflow
+
+1. Inspect diff, `Cargo.toml`, tests, CI, and public API changes.
+2. Classify risks: correctness, performance, safety, concurrency, API, packaging, docs.
+3. Prioritize findings by severity and evidence.
+4. Recommend exact verification commands.
+5. Avoid style-only findings unless they affect maintainability or API quality.
+
+## Output
+
+Lead with findings. Include file/line references when available. Then list test gaps and residual risks.

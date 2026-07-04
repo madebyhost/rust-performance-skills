@@ -10,6 +10,7 @@ This project is meant to improve how coding agents work on performance-sensitive
 - Keep `SKILL.md` concise. Put detailed domain material in `references/`.
 - Do not recommend `unsafe` as a default optimization path.
 - Cite primary or stable references when adding facts that depend on external tools or platform behavior.
+- Prefer the source map in `docs/sources.md` before adding secondary blog references.
 
 ## Local Validation
 

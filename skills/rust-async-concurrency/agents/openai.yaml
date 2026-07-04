@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Async Concurrency"
+  short_description: "Tokio, Rayon, channels, locks, and backpressure"
+  default_prompt: "Use $rust-async-concurrency to design this Rust async/concurrent code safely and efficiently."
+
+policy:
+  allow_implicit_invocation: true

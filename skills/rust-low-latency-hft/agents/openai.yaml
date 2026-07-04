@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Low-Latency HFT"
+  short_description: "HFT-style tail latency and hot-path design"
+  default_prompt: "Use $rust-low-latency-hft to design or review this market-data or trading hot path."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust FFI Bindings"
+  short_description: "Safe Rust interop and binding design"
+  default_prompt: "Use $rust-ffi-bindings to design or review these Rust FFI bindings."
+
+policy:
+  allow_implicit_invocation: true

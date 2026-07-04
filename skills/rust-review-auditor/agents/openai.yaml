@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Review Auditor"
+  short_description: "Rust PR and repository review workflow"
+  default_prompt: "Use $rust-review-auditor to review this Rust diff for correctness, performance, safety, and test gaps."
+
+policy:
+  allow_implicit_invocation: true

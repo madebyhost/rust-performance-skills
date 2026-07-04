@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Architecture Patterns"
+  short_description: "Rust DDD, actors, pipelines, and hot paths"
+  default_prompt: "Use $rust-architecture-patterns to choose a Rust architecture that fits this domain and performance profile."
+
+policy:
+  allow_implicit_invocation: true

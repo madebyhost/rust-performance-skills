@@ -55,6 +55,7 @@
 - Modify: `.github/workflows/ci.yml`
 - Modify: `README.md`
 - Modify: `docs/install/*.md`
+- Create: `docs/sources.md`
 
 - [ ] Implement validation against all v2 skills.
 - [ ] Implement the project audit CLI.

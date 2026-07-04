@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Python PyO3 Maturin"
+  short_description: "Fast Python extensions with Rust and PyO3"
+  default_prompt: "Use $rust-python-pyo3-maturin to design a PyO3/maturin extension that speeds up Python safely."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Code Quality"
+  short_description: "Idiomatic Rust quality and API review"
+  default_prompt: "Use $rust-code-quality to review this Rust crate for API design, lints, tests, docs, and maintainability."
+
+policy:
+  allow_implicit_invocation: true

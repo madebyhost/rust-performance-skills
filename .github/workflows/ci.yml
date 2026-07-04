@@ -15,4 +15,6 @@ jobs:
         with:
           python-version: "3.12"
       - name: Validate distribution
-        run: python3 scripts/validate_distribution.py
+        run: |
+          python3 -m unittest discover -s tests
+          python3 scripts/validate_distribution.py

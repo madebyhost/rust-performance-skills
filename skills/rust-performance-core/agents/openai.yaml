@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Performance Core"
+  short_description: "Profiling, allocation, cache, and build tuning"
+  default_prompt: "Use $rust-performance-core to optimize this Rust hot path with measurement-first reasoning."
+
+policy:
+  allow_implicit_invocation: true

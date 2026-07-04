@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Unsafe Soundness"
+  short_description: "Unsafe Rust invariants and soundness review"
+  default_prompt: "Use $rust-unsafe-soundness to review this unsafe Rust for soundness and safe abstraction boundaries."
+
+policy:
+  allow_implicit_invocation: true
