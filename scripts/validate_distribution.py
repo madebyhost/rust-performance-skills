@@ -116,10 +116,12 @@ def validate_docs() -> None:
         "docs/install/codex.md",
         "docs/install/claude.md",
         "docs/install/generic-agents.md",
+        "docs/install/multi-agent.md",
         "skills/rust-performance-engineering/agents/openai.yaml",
         "scripts/rust_project_audit.py",
         "scripts/generate_quality_gates.py",
         "scripts/install_plugin_marketplace.py",
+        "scripts/install_agent_adapters.py",
         "mcp/rust_performance_mcp.py",
         "install.sh",
         "templates/ci/rust-library.yml",
@@ -157,6 +159,17 @@ def validate_docs() -> None:
         "generate_quality_gates.py",
         "install.sh",
         "RUST_PERF_SKILLS_TARGET=plugin",
+        "RUST_PERF_SKILLS_AGENTS",
+        "Gemini CLI",
+        "Cursor",
+        "Windsurf",
+        "Cline",
+        "Roo Code",
+        "Kilo Code",
+        "Antigravity",
+        "Hermes",
+        "OpenClaw",
+        "Ollama",
         "rust-performance-skills@personal",
     ]:
         if token not in install_docs:
@@ -166,7 +179,14 @@ def validate_docs() -> None:
     one_liner = "curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh | sh"
     if one_liner not in readme:
         fail("README does not expose the install one-liner")
-    for token in ["RUST_PERF_SKILLS_TARGET=plugin", "codex plugin list", "rust-performance-skills@personal"]:
+    for token in [
+        "RUST_PERF_SKILLS_TARGET=plugin",
+        "RUST_PERF_SKILLS_AGENTS",
+        "Gemini CLI",
+        "OpenClaw",
+        "codex plugin list",
+        "rust-performance-skills@personal",
+    ]:
         if token not in readme:
             fail(f"README does not mention {token}")
 

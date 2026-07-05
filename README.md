@@ -16,7 +16,7 @@ This repository packages a Codex-compatible plugin and portable skills that can 
 - Reusable GitHub Actions templates under `templates/ci`.
 - Evaluation prompts under `evals` for maintainers.
 - An expert rulebook under `rules/` with imported and extended Rust rule cards.
-- Install notes for Codex, Claude Code, and generic agents.
+- Install notes for Codex, Claude Code, Gemini CLI, Cursor, Windsurf, Cline/Roo Code, Kilo Code, Antigravity, Pi, Hermes, OpenCode, OpenClaw/Ollama, Copilot, and generic agents.
 - CI validation for plugin metadata, skill frontmatter, and reference links.
 - A source map in [docs/sources.md](docs/sources.md) for maintainers.
 
@@ -82,20 +82,32 @@ python3 scripts/generate_quality_gates.py audit.json
 
 ## Install
 
-One-liner for Codex, Claude Code, and project-local fallback:
+One-liner with multi-agent detection:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh | sh
 ```
 
+By default the installer detects installed coding agents and writes static adapters only. It can install for Codex, Claude Code, Gemini CLI, Cursor, Windsurf, Cline, Roo Code, Kilo Code, Google Antigravity, Pi, Hermes, OpenCode, OpenClaw, Ollama-launched OpenClaw, GitHub Copilot, and a project-local fallback.
+
 Targets can be scoped:
 
 ```bash
+RUST_PERF_SKILLS_TARGET=agents RUST_PERF_SKILLS_AGENTS=gemini,cursor,hermes,openclaw sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
+RUST_PERF_SKILLS_TARGET=agents RUST_PERF_SKILLS_AGENTS=all sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
 RUST_PERF_SKILLS_TARGET=plugin sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
 RUST_PERF_SKILLS_TARGET=codex sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
 RUST_PERF_SKILLS_TARGET=claude sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
 RUST_PERF_SKILLS_TARGET=local sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
+RUST_PERF_SKILLS_TARGET=cursor sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
 ```
+
+Useful install variables:
+
+- `RUST_PERF_SKILLS_AGENTS=auto|all|codex,claude,gemini,cursor,windsurf,cline,roo,kilocode,antigravity,pi,hermes,opencode,openclaw,ollama,copilot`
+- `RUST_PERF_SKILLS_PROJECT_DIR=/path/to/project` for project-level rules such as Cursor, Windsurf, Cline/Roo, Kilo Code, Antigravity, and Copilot.
+- `RUST_PERF_SKILLS_AGENT_BUNDLE_DIR=$HOME/.agents/rust-performance-skills` for the durable shared skill bundle.
+- `RUST_PERF_SKILLS_SKIP_CODEX_ADD=1` to skip `codex plugin add rust-performance-skills@personal`.
 
 After plugin installation, verify visibility:
 
@@ -108,6 +120,7 @@ See:
 
 - [Codex](docs/install/codex.md)
 - [Claude Code and Anthropic-style agents](docs/install/claude.md)
+- [Multi-agent install](docs/install/multi-agent.md)
 - [Generic coding agents](docs/install/generic-agents.md)
 
 ## Design Principles

@@ -16,6 +16,24 @@ class InstallerContractTest(unittest.TestCase):
             "RUST_PERF_SKILLS_PLUGIN_DIR",
             "RUST_PERF_SKILLS_MARKETPLACE",
             "RUST_PERF_SKILLS_SKIP_CODEX_ADD",
+            "RUST_PERF_SKILLS_AGENTS",
+            "RUST_PERF_SKILLS_PROJECT_DIR",
+            "RUST_PERF_SKILLS_AGENT_BUNDLE_DIR",
+            "auto",
+            "agents",
+            "gemini",
+            "cursor",
+            "windsurf",
+            "cline",
+            "roo",
+            "kilocode",
+            "antigravity",
+            "pi",
+            "hermes",
+            "opencode",
+            "openclaw",
+            "ollama",
+            "copilot",
             "codex",
             ".codex",
             "claude",
@@ -29,6 +47,9 @@ class InstallerContractTest(unittest.TestCase):
     def test_readme_exposes_one_liner(self) -> None:
         readme = (ROOT / "README.md").read_text()
         self.assertIn("curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh | sh", readme)
+        self.assertIn("RUST_PERF_SKILLS_AGENTS", readme)
+        self.assertIn("Gemini CLI", readme)
+        self.assertIn("OpenClaw", readme)
         self.assertIn("RUST_PERF_SKILLS_TARGET=plugin", readme)
         self.assertIn("codex plugin list", readme)
         self.assertIn("rust-performance-skills@personal", readme)

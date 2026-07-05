@@ -2,6 +2,14 @@
 
 ## Plugin Mode
 
+The default one-liner detects Codex when the `codex` command or `$HOME/.codex`
+is present. In that case it installs the skills and, when `codex` is available,
+also refreshes the personal Codex plugin marketplace entry:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh | sh
+```
+
 One-liner install for Codex plugin visibility:
 
 ```bash

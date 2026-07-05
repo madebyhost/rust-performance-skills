@@ -3,10 +3,13 @@ set -eu
 
 REPO_URL="https://github.com/madebyhost/rust-performance-skills"
 REF="${RUST_PERF_SKILLS_REF:-main}"
-TARGET="${RUST_PERF_SKILLS_TARGET:-all}"
+TARGET="${RUST_PERF_SKILLS_TARGET:-auto}"
 PREFIX="${RUST_PERF_SKILLS_PREFIX:-$HOME}"
 PLUGIN_DIR="${RUST_PERF_SKILLS_PLUGIN_DIR:-$HOME/plugins/rust-performance-skills}"
 MARKETPLACE="${RUST_PERF_SKILLS_MARKETPLACE:-$HOME/.agents/plugins/marketplace.json}"
+AGENTS="${RUST_PERF_SKILLS_AGENTS:-auto}"
+PROJECT_DIR="${RUST_PERF_SKILLS_PROJECT_DIR:-$PWD}"
+AGENT_BUNDLE_DIR="${RUST_PERF_SKILLS_AGENT_BUNDLE_DIR:-$PREFIX/.agents/rust-performance-skills}"
 
 tmp_dir="$(mktemp -d)"
 cleanup() {
@@ -55,7 +58,26 @@ install_plugin() {
   fi
 }
 
+install_agent_adapters() {
+  selected_agents="$1"
+  python3 "$src_dir/scripts/install_agent_adapters.py" \
+    --source "$src_dir" \
+    --prefix "$PREFIX" \
+    --project-dir "$PROJECT_DIR" \
+    --bundle-dir "$AGENT_BUNDLE_DIR" \
+    --agents "$selected_agents"
+}
+
 case "$TARGET" in
+  auto)
+    install_agent_adapters "$AGENTS"
+    if [ "${RUST_PERF_SKILLS_SKIP_CODEX_ADD:-0}" != "1" ] && command -v codex >/dev/null 2>&1; then
+      install_plugin
+    fi
+    ;;
+  agents)
+    install_agent_adapters "$AGENTS"
+    ;;
   codex)
     install_skills "$PREFIX/.codex/skills"
     ;;
@@ -73,9 +95,13 @@ case "$TARGET" in
     install_skills "$PREFIX/.claude/skills"
     install_skills "$PWD/.agents/skills"
     install_plugin
+    install_agent_adapters "${RUST_PERF_SKILLS_AGENTS:-all}"
+    ;;
+  gemini|cursor|windsurf|cline|roo|kilocode|antigravity|pi|hermes|opencode|openclaw|ollama|copilot)
+    install_agent_adapters "$TARGET"
     ;;
   *)
-    echo "error: RUST_PERF_SKILLS_TARGET must be all, codex, claude, local, or plugin" >&2
+    echo "error: RUST_PERF_SKILLS_TARGET must be auto, agents, all, codex, claude, local, plugin, gemini, cursor, windsurf, cline, roo, kilocode, antigravity, pi, hermes, opencode, openclaw, ollama, or copilot" >&2
     exit 2
     ;;
 esac

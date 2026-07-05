@@ -2,6 +2,13 @@
 
 ## Skills-Only Mode
 
+The default one-liner detects Claude Code when the `claude` command or
+`$HOME/.claude` is present:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh | sh
+```
+
 One-liner install for Claude Code style skills:
 
 ```bash

@@ -6,6 +6,16 @@ Any coding agent can use this repository if it supports one of these patterns:
 - project-local instruction files such as `AGENTS.md`, `CLAUDE.md`, or `GEMINI.md`;
 - explicit prompt references to files.
 
+For agents with known instruction surfaces, prefer the multi-agent installer:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh | sh
+```
+
+It detects Codex, Claude Code, Gemini CLI, Cursor, Windsurf, Cline, Roo Code,
+Kilo Code, Google Antigravity, Pi, Hermes, OpenCode, OpenClaw, Ollama-launched
+OpenClaw, and GitHub Copilot. See `docs/install/multi-agent.md`.
+
 One-liner local/project fallback:
 
 ```bash

@@ -29,6 +29,13 @@ This project turns stable Rust ecosystem guidance into agent workflows. Prefer p
 - Local comparison notes: docs/third-party-rust-skills-review.md
 - Local MCPMarket review notes: docs/mcpmarket-rust-best-practices-review.md
 
+## Multi-Agent Install Surfaces
+
+- RTK init target list: `rtk init --help`
+- Hermes configuration and skills directory: https://hermes-agent.nousresearch.com/docs/user-guide/configuration
+- OpenClaw configuration and skills config: https://docs.openclaw.ai/gateway/configuration
+- Ollama OpenClaw integration: https://docs.ollama.com/integrations/openclaw
+
 ## Rust Expert Rulebook
 
 - Local rule cards: rules/
