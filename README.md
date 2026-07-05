@@ -53,6 +53,7 @@ Use `$rust-performance-engineering` when an agent is asked to:
 - `rust-sbe-binary-codecs`: SBE and fixed-layout binary codec design for zero-copy low-latency Rust.
 - `rust-math-algorithms-performance`: graph, search, Monte Carlo, Markov, Poisson, SIMD, Rayon, and cache-aware math.
 - `rust-memory-simd-io-performance`: allocators, arenas, SIMD, mmap, io_uring, direct I/O, huge pages, NUMA, and zero-copy byte layout.
+- `rust-api-type-system-design`: type-driven API design, validated newtypes, typestate, serde compatibility, macros, traits, cfgs, and semver boundaries.
 
 ## Audit Helper
 

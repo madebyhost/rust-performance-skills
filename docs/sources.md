@@ -6,6 +6,8 @@ This project turns stable Rust ecosystem guidance into agent workflows. Prefer p
 
 - The Rust Performance Book: https://nnethercote.github.io/perf-book/
 - Rust API Guidelines: https://rust-lang.github.io/api-guidelines/
+- Rust Design Patterns: https://rust-unofficial.github.io/patterns/
+- Rust 2024 Edition Guide: https://doc.rust-lang.org/edition-guide/rust-2024/
 - Cargo profiles: https://doc.rust-lang.org/cargo/reference/profiles.html
 - Clippy lints: https://doc.rust-lang.org/clippy/lints.html
 - Criterion.rs: https://bheisler.github.io/criterion.rs/book/
@@ -17,6 +19,12 @@ This project turns stable Rust ecosystem guidance into agent workflows. Prefer p
 - cargo-fuzz: https://rust-fuzz.github.io/book/cargo-fuzz.html
 - cargo-llvm-cov: https://crates.io/crates/cargo-llvm-cov
 - cargo-mutants: https://mutants.rs/
+
+## Comparative Rust Skill Corpora
+
+- leonardomso/rust-skills: https://github.com/leonardomso/rust-skills
+- actionbook/rust-skills: https://github.com/actionbook/rust-skills
+- Local comparison notes: docs/third-party-rust-skills-review.md
 
 ## Kernel And eBPF
 

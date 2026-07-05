@@ -89,6 +89,16 @@ TOOLS = [
             },
         },
     },
+    {
+        "name": "api_type_design_checklist",
+        "description": "Return type-driven API, serde compatibility, trait, macro, cfg, and semver review checks for Rust.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "signals": {"type": "array", "items": {"type": "string"}},
+            },
+        },
+    },
 ]
 
 
@@ -130,6 +140,14 @@ def detect_performance_domains(arguments: dict[str, Any]) -> dict[str, Any]:
         append_unique(domains, "simd")
     if any(token in text for token in ["memory/simd/i/o", "i/o", "io_uring", "io-uring", "mmap", "direct-i/o", "direct i/o"]):
         append_unique(domains, "io")
+    if any(token in text for token in ["api/type-system", "public api", "semver", "sealed trait", "typestate"]):
+        append_unique(domains, "api")
+    if any(token in text for token in ["api/type-system", "typestate", "newtype", "phantomdata", "type-state"]):
+        append_unique(domains, "type")
+    if any(token in text for token in ["api/type-system", "serde", "deny_unknown_fields", "flattening"]):
+        append_unique(domains, "serde")
+    if any(token in text for token in ["api/type-system", "macro", "$crate", "macro_rules"]):
+        append_unique(domains, "macro")
     if any(token in text for token in ["low-latency", "hft", "market data", "multicast"]):
         append_unique(domains, "hft")
     if any(token in text for token in ["pyo3", "maturin", "python"]):
@@ -210,6 +228,26 @@ def memory_simd_io_checklist(arguments: dict[str, Any]) -> dict[str, Any]:
     return {"checks": checks}
 
 
+def api_type_design_checklist(arguments: dict[str, Any]) -> dict[str, Any]:
+    text = " ".join(str(signal).lower() for signal in arguments.get("signals", []))
+    checks = [
+        "classify the boundary as public API, internal module API, serde DTO, macro API, or domain model",
+        "prefer concrete types until generic or dynamic dispatch is justified",
+        "protect public API changes with docs, examples, and semver checks",
+    ]
+    if any(token in text for token in ["type", "typestate", "newtype", "phantom", "validated"]):
+        checks.append("encode invariants with validated newtypes or typestate only when states are real")
+    if any(token in text for token in ["sealed", "trait", "dyn", "generic"]):
+        checks.append("document sealed-trait intent and external implementation policy")
+    if "serde" in text or "config" in text:
+        checks.append("check serde defaults, unknown fields, flattening, and compatibility tests")
+    if "macro" in text or "$crate" in text:
+        checks.append("verify macro hygiene with $crate paths and hidden helpers")
+    if "feature" in text or "cfg" in text:
+        checks.append("keep features additive and declare custom cfgs with unexpected_cfgs")
+    return {"checks": checks}
+
+
 def review_checklist(arguments: dict[str, Any]) -> dict[str, Any]:
     findings = "\n".join(arguments.get("findings", []))
     findings_lower = findings.lower()
@@ -237,6 +275,10 @@ def review_checklist(arguments: dict[str, Any]) -> dict[str, Any]:
         token in findings_lower for token in ["allocator", "mmap", "io_uring", "io-uring", "simd", "numa", "huge-page"]
     ):
         checks.extend(["allocator, SIMD, mmap, and io_uring evidence", "NUMA, huge-page, and fallback assumptions"])
+    if "api/type-system" in findings_lower or any(
+        token in findings_lower for token in ["typestate", "serde", "sealed trait", "macro", "semver"]
+    ):
+        checks.extend(["type-driven API invariants and serde compatibility", "macro, cfg, feature, and semver API risks"])
     return {"checks": checks}
 
 
@@ -257,6 +299,8 @@ def call_tool(name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         return binary_encoding_checklist(arguments)
     if name == "memory_simd_io_checklist":
         return memory_simd_io_checklist(arguments)
+    if name == "api_type_design_checklist":
+        return api_type_design_checklist(arguments)
     raise ValueError(f"unknown tool: {name}")
 
 

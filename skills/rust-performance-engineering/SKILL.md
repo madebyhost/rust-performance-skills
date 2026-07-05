@@ -43,6 +43,7 @@ Load these specialist skills as needed:
 - `rust-sbe-binary-codecs`: SBE, fixed-layout binary codecs, zero-copy decode, schema versioning, and market-data wire formats.
 - `rust-math-algorithms-performance`: graph/search/stochastic/numerical algorithms, layouts, SIMD, Rayon, ndarray, and cache-aware math.
 - `rust-memory-simd-io-performance`: allocators, arenas, SoA/AoS, SIMD, mmap, io_uring, direct I/O, huge pages, NUMA, and zero-copy casts.
+- `rust-api-type-system-design`: public APIs, validated newtypes, typestate, traits, serde compatibility, macros, cfgs, and semver-sensitive type boundaries.
 
 Load these local references when the task is broad or does not map cleanly to one specialist:
 

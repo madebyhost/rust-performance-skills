@@ -29,6 +29,7 @@ REQUIRED_SKILLS = [
     "rust-sbe-binary-codecs",
     "rust-math-algorithms-performance",
     "rust-memory-simd-io-performance",
+    "rust-api-type-system-design",
 ]
 
 
@@ -133,6 +134,8 @@ def validate_docs() -> None:
         "evals/sbe-market-data-codec.md",
         "evals/math-graph-simulation.md",
         "evals/memory-simd-io-hotpath.md",
+        "evals/api-type-system-design.md",
+        "docs/third-party-rust-skills-review.md",
     ]:
         read(ROOT / rel)
 
@@ -192,6 +195,11 @@ def validate_docs() -> None:
         "zerocopy",
         "HugeTLB",
         "NUMA",
+        "leonardomso/rust-skills",
+        "actionbook/rust-skills",
+        "Rust API Guidelines",
+        "Rust Design Patterns",
+        "Rust 2024 Edition Guide",
     ]:
         if token not in sources:
             fail(f"sources do not mention {token}")

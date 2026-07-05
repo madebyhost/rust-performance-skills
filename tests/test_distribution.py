@@ -26,6 +26,7 @@ REQUIRED_SKILLS = [
     "rust-sbe-binary-codecs",
     "rust-math-algorithms-performance",
     "rust-memory-simd-io-performance",
+    "rust-api-type-system-design",
 ]
 
 
@@ -125,6 +126,17 @@ class DistributionTest(unittest.TestCase):
     def test_v6_memory_simd_io_eval_exists(self) -> None:
         self.assertTrue((ROOT / "evals" / "memory-simd-io-hotpath.md").exists())
 
+    def test_v7_api_type_system_eval_and_review_exist(self) -> None:
+        for rel in [
+            "evals/api-type-system-design.md",
+            "docs/third-party-rust-skills-review.md",
+        ]:
+            self.assertTrue((ROOT / rel).exists(), f"missing {rel}")
+        review = (ROOT / "docs" / "third-party-rust-skills-review.md").read_text()
+        self.assertIn("leonardomso/rust-skills", review)
+        self.assertIn("actionbook/rust-skills", review)
+        self.assertIn("static guidance only", review)
+
     def test_source_map_mentions_v3_tools(self) -> None:
         sources = (ROOT / "docs" / "sources.md").read_text()
         for token in ["cargo-nextest", "cargo-deny", "cargo-audit", "cargo-semver-checks", "Miri", "cargo-fuzz", "cargo-llvm-cov", "cargo-mutants"]:
@@ -161,6 +173,17 @@ class DistributionTest(unittest.TestCase):
             "zerocopy",
             "HugeTLB",
             "NUMA",
+        ]:
+            self.assertIn(token, sources)
+
+    def test_source_map_mentions_v7_comparison_sources(self) -> None:
+        sources = (ROOT / "docs" / "sources.md").read_text()
+        for token in [
+            "leonardomso/rust-skills",
+            "actionbook/rust-skills",
+            "Rust API Guidelines",
+            "Rust Design Patterns",
+            "Rust 2024 Edition Guide",
         ]:
             self.assertIn(token, sources)
 

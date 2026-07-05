@@ -259,6 +259,49 @@ pub fn run() {
         self.assertIn("validate SIMD dispatch, scalar fallback, and target-feature safety", result["recommendations"])
         self.assertIn("measure page faults, mmap behavior, and io_uring queue depth under load", result["recommendations"])
 
+    def test_detects_api_type_system_design_signals(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "src").mkdir()
+            (root / "Cargo.toml").write_text(
+                """
+[package]
+name = "typed-api"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+thiserror = "2"
+""".strip()
+            )
+            (root / "src" / "lib.rs").write_text(
+                """
+use std::marker::PhantomData;
+
+#[derive(serde::Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Config { endpoint: String }
+
+pub struct Draft;
+pub struct Ready;
+pub struct Request<State> { _state: PhantomData<State> }
+
+mod private { pub trait Sealed {} }
+pub trait Driver: private::Sealed {}
+
+macro_rules! call_internal {
+    () => { $crate::internal() };
+}
+""".strip()
+            )
+            result = run_audit(root)
+        self.assertIn("API/type-system design signals present", result["findings"])
+        self.assertIn("serde/type-state API tooling detected", result["strengths"])
+        self.assertIn("verify type-state transitions, sealed trait intent, and validated newtype boundaries", result["recommendations"])
+        self.assertIn("check serde compatibility: defaults, unknown fields, flattening, and feature flags", result["recommendations"])
+        self.assertIn("review macro hygiene, $crate paths, and public helper visibility", result["recommendations"])
+
     def test_detects_quality_gate_artifacts(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

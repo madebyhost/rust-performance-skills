@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust API Type System"
+  short_description: "Type-driven Rust API design, serde compatibility, macros, and semver-safe boundaries"
+  default_prompt: "Use $rust-api-type-system-design to review this Rust API for type-driven invariants, trait design, serde compatibility, macro hygiene, and semver risk."
+
+policy:
+  allow_implicit_invocation: true

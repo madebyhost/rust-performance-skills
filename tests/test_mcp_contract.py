@@ -35,6 +35,7 @@ class McpContractTest(unittest.TestCase):
         self.assertIn("rust_algorithm_checklist", names)
         self.assertIn("binary_encoding_review_checklist", names)
         self.assertIn("memory_simd_io_checklist", names)
+        self.assertIn("api_type_design_checklist", names)
 
     def test_direct_call_audit_and_gates(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -82,6 +83,7 @@ class McpContractTest(unittest.TestCase):
                 "SBE/binary codec signals present",
                 "math/algorithm performance signals present",
                 "memory/SIMD/I/O performance signals present",
+                "API/type-system design signals present",
                 "unsafe Rust present",
             ],
             "recommendations": [],
@@ -100,7 +102,10 @@ class McpContractTest(unittest.TestCase):
             stdout=subprocess.PIPE,
         )
         domains = json.loads(completed.stdout)
-        self.assertEqual(["ebpf", "sbe", "math", "memory", "simd", "io", "unsafe"], domains["domains"])
+        self.assertEqual(
+            ["ebpf", "sbe", "math", "memory", "simd", "io", "api", "type", "serde", "macro", "unsafe"],
+            domains["domains"],
+        )
 
         completed = subprocess.run(
             [
@@ -162,6 +167,25 @@ class McpContractTest(unittest.TestCase):
                 sys.executable,
                 str(SERVER),
                 "--call",
+                "api_type_design_checklist",
+                "--arguments",
+                json.dumps({"signals": ["typestate", "serde", "sealed trait", "macro_rules"]}),
+            ],
+            check=True,
+            text=True,
+            stdout=subprocess.PIPE,
+        )
+        api = json.loads(completed.stdout)
+        self.assertIn("encode invariants with validated newtypes or typestate only when states are real", api["checks"])
+        self.assertIn("document sealed-trait intent and external implementation policy", api["checks"])
+        self.assertIn("check serde defaults, unknown fields, flattening, and compatibility tests", api["checks"])
+        self.assertIn("verify macro hygiene with $crate paths and hidden helpers", api["checks"])
+
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(SERVER),
+                "--call",
                 "rust_review_checklist",
                 "--arguments",
                 json.dumps({"project_type": "rust", "findings": audit["findings"]}),
@@ -175,6 +199,7 @@ class McpContractTest(unittest.TestCase):
         self.assertIn("SBE schema compatibility and golden frames", review["checks"])
         self.assertIn("algorithmic complexity and cache-aware data layout", review["checks"])
         self.assertIn("allocator, SIMD, mmap, and io_uring evidence", review["checks"])
+        self.assertIn("type-driven API invariants and serde compatibility", review["checks"])
 
 
 if __name__ == "__main__":

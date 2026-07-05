@@ -30,6 +30,12 @@ MEMORY_SIMD_IO_RE = re.compile(
     r"zero-copy|zerocopy",
     re.I,
 )
+API_TYPE_RE = re.compile(
+    r"typestate|phantomdata|sealed\s+trait|private::sealed|deny_unknown_fields|serde\(default\)|"
+    r"serde\(flatten\)|non_exhaustive|fromstr|tryfrom|impl\s+trait|dyn\s+trait|macro_rules!|\$crate|"
+    r"validated\s+newtype|newtype|parse,\s*don'?t\s+validate|unexpected_cfgs|check-cfg|object safety",
+    re.I,
+)
 UNSAFE_RE = re.compile(r"\bunsafe\b|\*const\b|\*mut\b|transmute|MaybeUninit|NonNull")
 PUBLIC_API_RE = re.compile(r"(?m)^\s*pub\s+(?:unsafe\s+)?(?:async\s+)?(?:fn|struct|enum|trait|mod|type|const|static)\b")
 PARSER_RE = re.compile(r"\bparse(?:r|_|\b)|decode|deserialize", re.I)
@@ -52,6 +58,7 @@ MEMORY_SIMD_IO_DEPS = {
     "crossbeam-utils",
     "slab",
 }
+API_TYPE_DEPS = {"serde", "thiserror", "proptest", "trybuild", "static_assertions"}
 
 
 def load_toml(path: Path) -> dict:
@@ -283,6 +290,15 @@ def audit(root: Path) -> dict:
         append_unique(result["recommendations"], "validate SIMD dispatch, scalar fallback, and target-feature safety")
         append_unique(result["recommendations"], "measure page faults, mmap behavior, and io_uring queue depth under load")
         append_unique(result["recommendations"], "document NUMA, huge-page, and direct-I/O deployment assumptions")
+
+    if API_TYPE_RE.search(project_text) or API_TYPE_DEPS & deps:
+        append_unique(result["findings"], "API/type-system design signals present")
+        if API_TYPE_DEPS & deps:
+            append_unique(result["strengths"], "serde/type-state API tooling detected")
+        append_unique(result["recommendations"], "verify type-state transitions, sealed trait intent, and validated newtype boundaries")
+        append_unique(result["recommendations"], "check serde compatibility: defaults, unknown fields, flattening, and feature flags")
+        append_unique(result["recommendations"], "review macro hygiene, $crate paths, and public helper visibility")
+        append_unique(result["recommendations"], "run semver checks or compile-fail tests for public type-system APIs")
 
     return result
 
