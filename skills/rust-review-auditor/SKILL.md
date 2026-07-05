@@ -16,7 +16,7 @@ Use this skill for review stance. Load `references/review-auditor.md` for checkl
 5. Avoid style-only findings unless they affect maintainability or API quality.
 
 Load `rust-ci-quality-gates` when CI is missing or weak, `rust-testing-verification` when evidence is thin, and `rust-crate-release-engineering` when public API, packaging, or release artifacts are affected.
-Load `rust-ebpf-kernel-performance` for eBPF/kernel hooks, `rust-sbe-binary-codecs` for fixed binary wire formats, and `rust-math-algorithms-performance` for graph, simulation, stochastic, SIMD, or numerical kernels.
+Load `rust-ebpf-kernel-performance` for eBPF/kernel hooks, `rust-sbe-binary-codecs` for fixed binary wire formats, `rust-math-algorithms-performance` for graph, simulation, stochastic, SIMD, or numerical kernels, and `rust-memory-simd-io-performance` for allocator, layout, SIMD, mmap, io_uring, NUMA, or huge-page hot paths.
 
 ## Output
 

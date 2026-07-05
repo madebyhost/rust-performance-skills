@@ -10,7 +10,7 @@ from pathlib import Path
 HFT_RE = re.compile(r"hft|multicast|ring[_ -]?buffer|disruptor|orderbook|order_book|market[_ -]?data|low[_ -]?latency", re.I)
 EBPF_RE = re.compile(
     r"\bebpf\b|\bbpf_|\bBPF_(?:PROG|MAP)_TYPE|af_xdp|\bxdp\b|xskmap|cpumap|devmap|sockmap|sockhash|"
-    r"kprobe|uprobe|tracepoint|tcx?|ringbuf|verifier|bounded loop|tail call|aya[_-]?bpf|libbpf",
+    r"kprobe|uprobe|tracepoint|\btc\b|\btcx\b|ringbuf|verifier|bounded loop|tail call|aya[_-]?bpf|libbpf",
     re.I,
 )
 SBE_RE = re.compile(
@@ -23,6 +23,13 @@ MATH_RE = re.compile(
     r"bellman|floyd|kruskal|prim|pagerank|toposort|sparse matrix|linear algebra|simulation",
     re.I,
 )
+MEMORY_SIMD_IO_RE = re.compile(
+    r"memmap|mmap|io[_-]?uring|o_direct|direct i/o|page fault|huge\s*pages?|hugetlb|transparent huge|"
+    r"\bnuma\b|cache\s*line|false sharing|prefetch|core::arch|std::simd|portable_simd|target_feature|"
+    r"\bsimd\b|\bsoa\b|\baos\b|allocator|jemalloc|mimalloc|bumpalo|arena|slab|bytemuck|zerocopy|"
+    r"zero-copy|zerocopy",
+    re.I,
+)
 UNSAFE_RE = re.compile(r"\bunsafe\b|\*const\b|\*mut\b|transmute|MaybeUninit|NonNull")
 PUBLIC_API_RE = re.compile(r"(?m)^\s*pub\s+(?:unsafe\s+)?(?:async\s+)?(?:fn|struct|enum|trait|mod|type|const|static)\b")
 PARSER_RE = re.compile(r"\bparse(?:r|_|\b)|decode|deserialize", re.I)
@@ -30,6 +37,21 @@ PROJECT_TEXT_EXTENSIONS = {".rs", ".toml", ".xml", ".sbe", ".proto", ".fbs", ".y
 EBPF_DEPS = {"aya", "aya-bpf", "libbpf-rs", "libbpf-cargo", "redbpf", "rbpf"}
 SBE_DEPS = {"sbe", "sbe-codegen", "simple-binary-encoding", "fix-sbe", "fix-simple-binary-encoding"}
 MATH_DEPS = {"petgraph", "ndarray", "nalgebra", "sprs", "faer", "statrs", "rand_distr", "argmin"}
+MEMORY_SIMD_IO_DEPS = {
+    "memmap2",
+    "io-uring",
+    "mimalloc",
+    "tikv-jemallocator",
+    "tikv-jemalloc-ctl",
+    "bumpalo",
+    "bytemuck",
+    "zerocopy",
+    "wide",
+    "safe_arch",
+    "aligned-vec",
+    "crossbeam-utils",
+    "slab",
+}
 
 
 def load_toml(path: Path) -> dict:
@@ -252,6 +274,15 @@ def audit(root: Path) -> dict:
         append_unique(result["recommendations"], "benchmark algorithmic complexity against representative graph sizes")
         append_unique(result["recommendations"], "control RNG seeds and statistical tolerances for simulations")
         append_unique(result["recommendations"], "prefer compact IDs, preallocation, and cache-friendly layouts for graph hot paths")
+
+    if MEMORY_SIMD_IO_RE.search(project_text) or MEMORY_SIMD_IO_DEPS & deps:
+        append_unique(result["findings"], "memory/SIMD/I/O performance signals present")
+        if MEMORY_SIMD_IO_DEPS & deps:
+            append_unique(result["strengths"], "allocator and zero-copy tooling detected")
+        append_unique(result["recommendations"], "benchmark allocator choice with representative allocation lifetimes")
+        append_unique(result["recommendations"], "validate SIMD dispatch, scalar fallback, and target-feature safety")
+        append_unique(result["recommendations"], "measure page faults, mmap behavior, and io_uring queue depth under load")
+        append_unique(result["recommendations"], "document NUMA, huge-page, and direct-I/O deployment assumptions")
 
     return result
 

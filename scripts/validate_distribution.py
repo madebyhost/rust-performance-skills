@@ -28,6 +28,7 @@ REQUIRED_SKILLS = [
     "rust-ebpf-kernel-performance",
     "rust-sbe-binary-codecs",
     "rust-math-algorithms-performance",
+    "rust-memory-simd-io-performance",
 ]
 
 
@@ -131,6 +132,7 @@ def validate_docs() -> None:
         "evals/ebpf-xdp-kernel.md",
         "evals/sbe-market-data-codec.md",
         "evals/math-graph-simulation.md",
+        "evals/memory-simd-io-hotpath.md",
     ]:
         read(ROOT / rel)
 
@@ -179,6 +181,17 @@ def validate_docs() -> None:
         "Rayon",
         "rand_distr",
         "statrs",
+        "core::arch",
+        "std::simd",
+        "memmap2",
+        "io-uring",
+        "mimalloc",
+        "tikv-jemallocator",
+        "bumpalo",
+        "bytemuck",
+        "zerocopy",
+        "HugeTLB",
+        "NUMA",
     ]:
         if token not in sources:
             fail(f"sources do not mention {token}")

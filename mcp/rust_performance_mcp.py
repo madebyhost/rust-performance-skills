@@ -79,6 +79,16 @@ TOOLS = [
             },
         },
     },
+    {
+        "name": "memory_simd_io_checklist",
+        "description": "Return allocator, SIMD, mmap, io_uring, NUMA, and zero-copy review checks for Rust hot paths.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "signals": {"type": "array", "items": {"type": "string"}},
+            },
+        },
+    },
 ]
 
 
@@ -114,6 +124,12 @@ def detect_performance_domains(arguments: dict[str, Any]) -> dict[str, Any]:
         append_unique(domains, "sbe")
     if any(token in text for token in ["math/algorithm", "algorithm", "graph", "monte carlo", "poisson", "markov"]):
         append_unique(domains, "math")
+    if any(token in text for token in ["memory/simd/i/o", "allocator", "allocation", "mmap", "memmap", "numa", "huge"]):
+        append_unique(domains, "memory")
+    if any(token in text for token in ["memory/simd/i/o", "simd", "core::arch", "target-feature", "target_feature"]):
+        append_unique(domains, "simd")
+    if any(token in text for token in ["memory/simd/i/o", "i/o", "io_uring", "io-uring", "mmap", "direct-i/o", "direct i/o"]):
+        append_unique(domains, "io")
     if any(token in text for token in ["low-latency", "hft", "market data", "multicast"]):
         append_unique(domains, "hft")
     if any(token in text for token in ["pyo3", "maturin", "python"]):
@@ -174,6 +190,26 @@ def binary_encoding_checklist(arguments: dict[str, Any]) -> dict[str, Any]:
     return {"checks": checks}
 
 
+def memory_simd_io_checklist(arguments: dict[str, Any]) -> dict[str, Any]:
+    text = " ".join(str(signal).lower() for signal in arguments.get("signals", []))
+    checks = [
+        "measure allocation count, copy count, cache misses, page faults, and syscalls before optimizing",
+        "prefer layout and lifetime fixes before global allocator changes",
+        "keep portable fallback paths for OS-specific I/O and CPU-specific SIMD",
+    ]
+    if any(token in text for token in ["allocator", "mimalloc", "jemalloc", "bumpalo", "arena", "slab"]):
+        checks.append("benchmark allocator choice with production allocation lifetimes")
+    if any(token in text for token in ["simd", "core::arch", "std::simd", "target_feature", "target-feature"]):
+        checks.append("validate SIMD dispatch, scalar fallback, and target-feature gates")
+    if any(token in text for token in ["mmap", "memmap", "io_uring", "io-uring", "direct", "o_direct"]):
+        checks.append("measure page faults, mmap readahead, and io_uring queue depth")
+    if any(token in text for token in ["numa", "huge", "hugetlb", "page"]):
+        checks.append("pin CPU and memory locality only after NUMA evidence")
+    if any(token in text for token in ["bytemuck", "zerocopy", "zero-copy"]):
+        checks.append("document byte layout, alignment, endian, padding, and lifetime invariants")
+    return {"checks": checks}
+
+
 def review_checklist(arguments: dict[str, Any]) -> dict[str, Any]:
     findings = "\n".join(arguments.get("findings", []))
     findings_lower = findings.lower()
@@ -197,6 +233,10 @@ def review_checklist(arguments: dict[str, Any]) -> dict[str, Any]:
         checks.extend(["SBE schema compatibility and golden frames", "zero-copy frame lifetime and bounds handling"])
     if "math/algorithm" in findings_lower or "algorithm" in findings_lower:
         checks.extend(["algorithmic complexity and cache-aware data layout", "deterministic stochastic test tolerances"])
+    if "memory/simd/i/o" in findings_lower or any(
+        token in findings_lower for token in ["allocator", "mmap", "io_uring", "io-uring", "simd", "numa", "huge-page"]
+    ):
+        checks.extend(["allocator, SIMD, mmap, and io_uring evidence", "NUMA, huge-page, and fallback assumptions"])
     return {"checks": checks}
 
 
@@ -215,6 +255,8 @@ def call_tool(name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         return algorithm_checklist(arguments)
     if name == "binary_encoding_review_checklist":
         return binary_encoding_checklist(arguments)
+    if name == "memory_simd_io_checklist":
+        return memory_simd_io_checklist(arguments)
     raise ValueError(f"unknown tool: {name}")
 
 

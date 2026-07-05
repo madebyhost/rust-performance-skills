@@ -5,7 +5,7 @@ description: "Use for core Rust performance optimization: profiling, benchmarkin
 
 # Rust Performance Core
 
-Use this skill for measured Rust optimization. Load `references/performance-core.md` for detailed tactics.
+Use this skill for measured Rust optimization. Load `references/performance-core.md` for detailed tactics. Load `rust-memory-simd-io-performance` when allocator choice, SIMD, mmap, io_uring, huge pages, NUMA, or zero-copy byte layout dominates the change.
 
 ## Workflow
 

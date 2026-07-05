@@ -34,6 +34,7 @@ class McpContractTest(unittest.TestCase):
         self.assertIn("detect_performance_domains", names)
         self.assertIn("rust_algorithm_checklist", names)
         self.assertIn("binary_encoding_review_checklist", names)
+        self.assertIn("memory_simd_io_checklist", names)
 
     def test_direct_call_audit_and_gates(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -80,6 +81,7 @@ class McpContractTest(unittest.TestCase):
                 "eBPF/kernel performance signals present",
                 "SBE/binary codec signals present",
                 "math/algorithm performance signals present",
+                "memory/SIMD/I/O performance signals present",
                 "unsafe Rust present",
             ],
             "recommendations": [],
@@ -98,7 +100,7 @@ class McpContractTest(unittest.TestCase):
             stdout=subprocess.PIPE,
         )
         domains = json.loads(completed.stdout)
-        self.assertEqual(["ebpf", "sbe", "math", "unsafe"], domains["domains"])
+        self.assertEqual(["ebpf", "sbe", "math", "memory", "simd", "io", "unsafe"], domains["domains"])
 
         completed = subprocess.run(
             [
@@ -141,6 +143,25 @@ class McpContractTest(unittest.TestCase):
                 sys.executable,
                 str(SERVER),
                 "--call",
+                "memory_simd_io_checklist",
+                "--arguments",
+                json.dumps({"signals": ["memmap2", "io-uring", "mimalloc", "std::simd", "NUMA"]}),
+            ],
+            check=True,
+            text=True,
+            stdout=subprocess.PIPE,
+        )
+        memory = json.loads(completed.stdout)
+        self.assertIn("benchmark allocator choice with production allocation lifetimes", memory["checks"])
+        self.assertIn("validate SIMD dispatch, scalar fallback, and target-feature gates", memory["checks"])
+        self.assertIn("measure page faults, mmap readahead, and io_uring queue depth", memory["checks"])
+        self.assertIn("pin CPU and memory locality only after NUMA evidence", memory["checks"])
+
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(SERVER),
+                "--call",
                 "rust_review_checklist",
                 "--arguments",
                 json.dumps({"project_type": "rust", "findings": audit["findings"]}),
@@ -153,6 +174,7 @@ class McpContractTest(unittest.TestCase):
         self.assertIn("eBPF verifier, map, and privilege assumptions", review["checks"])
         self.assertIn("SBE schema compatibility and golden frames", review["checks"])
         self.assertIn("algorithmic complexity and cache-aware data layout", review["checks"])
+        self.assertIn("allocator, SIMD, mmap, and io_uring evidence", review["checks"])
 
 
 if __name__ == "__main__":

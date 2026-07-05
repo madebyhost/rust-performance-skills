@@ -25,6 +25,7 @@ REQUIRED_SKILLS = [
     "rust-ebpf-kernel-performance",
     "rust-sbe-binary-codecs",
     "rust-math-algorithms-performance",
+    "rust-memory-simd-io-performance",
 ]
 
 
@@ -121,6 +122,9 @@ class DistributionTest(unittest.TestCase):
         ]:
             self.assertTrue((ROOT / rel).exists(), f"missing {rel}")
 
+    def test_v6_memory_simd_io_eval_exists(self) -> None:
+        self.assertTrue((ROOT / "evals" / "memory-simd-io-hotpath.md").exists())
+
     def test_source_map_mentions_v3_tools(self) -> None:
         sources = (ROOT / "docs" / "sources.md").read_text()
         for token in ["cargo-nextest", "cargo-deny", "cargo-audit", "cargo-semver-checks", "Miri", "cargo-fuzz", "cargo-llvm-cov", "cargo-mutants"]:
@@ -140,6 +144,23 @@ class DistributionTest(unittest.TestCase):
             "Rayon",
             "rand_distr",
             "statrs",
+        ]:
+            self.assertIn(token, sources)
+
+    def test_source_map_mentions_v6_tools(self) -> None:
+        sources = (ROOT / "docs" / "sources.md").read_text()
+        for token in [
+            "core::arch",
+            "std::simd",
+            "memmap2",
+            "io-uring",
+            "mimalloc",
+            "tikv-jemallocator",
+            "bumpalo",
+            "bytemuck",
+            "zerocopy",
+            "HugeTLB",
+            "NUMA",
         ]:
             self.assertIn(token, sources)
 

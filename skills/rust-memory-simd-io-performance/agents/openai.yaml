@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Memory SIMD I/O"
+  short_description: "Allocator, SIMD, mmap, io_uring, NUMA, and zero-copy performance for Rust"
+  default_prompt: "Use $rust-memory-simd-io-performance to review this Rust hot path for memory layout, allocator behavior, SIMD safety, and kernel/storage I/O performance."
+
+policy:
+  allow_implicit_invocation: true

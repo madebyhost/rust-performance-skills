@@ -52,6 +52,7 @@ Use `$rust-performance-engineering` when an agent is asked to:
 - `rust-ebpf-kernel-performance`: Rust eBPF, XDP, tc, probes, maps, verifier, and kernel/user boundary performance.
 - `rust-sbe-binary-codecs`: SBE and fixed-layout binary codec design for zero-copy low-latency Rust.
 - `rust-math-algorithms-performance`: graph, search, Monte Carlo, Markov, Poisson, SIMD, Rayon, and cache-aware math.
+- `rust-memory-simd-io-performance`: allocators, arenas, SIMD, mmap, io_uring, direct I/O, huge pages, NUMA, and zero-copy byte layout.
 
 ## Audit Helper
 

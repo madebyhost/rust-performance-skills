@@ -223,6 +223,42 @@ pub fn run() {
         self.assertIn("benchmark algorithmic complexity against representative graph sizes", result["recommendations"])
         self.assertIn("control RNG seeds and statistical tolerances for simulations", result["recommendations"])
 
+    def test_detects_memory_simd_io_performance_signals(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "src").mkdir()
+            (root / "Cargo.toml").write_text(
+                """
+[package]
+name = "hot-io"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+memmap2 = "0.9"
+io-uring = "0.7"
+mimalloc = "0.1"
+tikv-jemallocator = "0.7"
+bumpalo = "3"
+bytemuck = "1"
+zerocopy = "0.8"
+""".strip()
+            )
+            (root / "src" / "lib.rs").write_text(
+                """
+use core::arch::x86_64::_mm_prefetch;
+pub fn run() {
+    let _ = "std::simd SoA AoS cache line false sharing huge pages NUMA mmap O_DIRECT page fault";
+}
+""".strip()
+            )
+            result = run_audit(root)
+        self.assertIn("memory/SIMD/I/O performance signals present", result["findings"])
+        self.assertIn("allocator and zero-copy tooling detected", result["strengths"])
+        self.assertIn("benchmark allocator choice with representative allocation lifetimes", result["recommendations"])
+        self.assertIn("validate SIMD dispatch, scalar fallback, and target-feature safety", result["recommendations"])
+        self.assertIn("measure page faults, mmap behavior, and io_uring queue depth under load", result["recommendations"])
+
     def test_detects_quality_gate_artifacts(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -41,6 +41,21 @@ This project turns stable Rust ecosystem guidance into agent workflows. Prefer p
 - statrs: https://docs.rs/statrs/latest/statrs/
 - Rust std SIMD: https://doc.rust-lang.org/std/simd/
 
+## Memory SIMD And I/O
+
+- Rust core::arch SIMD intrinsics: https://doc.rust-lang.org/core/arch/
+- Rust std::simd portable SIMD: https://doc.rust-lang.org/std/simd/
+- memmap2: https://docs.rs/memmap2/
+- io-uring: https://docs.rs/io-uring/latest/io_uring/
+- io_uring manual pages: https://man7.org/linux/man-pages/man7/io_uring.7.html
+- mimalloc: https://docs.rs/mimalloc/
+- tikv-jemallocator: https://docs.rs/tikv-jemallocator/
+- bumpalo: https://docs.rs/bumpalo/latest/bumpalo/
+- bytemuck: https://docs.rs/bytemuck/
+- zerocopy: https://docs.rs/zerocopy/latest/zerocopy/
+- Linux HugeTLB documentation: https://www.kernel.org/doc/Documentation/vm/hugetlbpage.txt
+- Linux NUMA memory policy: https://man7.org/linux/man-pages/man2/set_mempolicy.2.html
+
 ## Unsafe And FFI
 
 - The Rustonomicon: https://doc.rust-lang.org/nomicon/

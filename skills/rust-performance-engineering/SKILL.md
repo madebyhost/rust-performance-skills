@@ -42,6 +42,7 @@ Load these specialist skills as needed:
 - `rust-ebpf-kernel-performance`: Rust eBPF, XDP, tc, probes, maps, verifier constraints, AF_XDP, and kernel/user boundary performance.
 - `rust-sbe-binary-codecs`: SBE, fixed-layout binary codecs, zero-copy decode, schema versioning, and market-data wire formats.
 - `rust-math-algorithms-performance`: graph/search/stochastic/numerical algorithms, layouts, SIMD, Rayon, ndarray, and cache-aware math.
+- `rust-memory-simd-io-performance`: allocators, arenas, SoA/AoS, SIMD, mmap, io_uring, direct I/O, huge pages, NUMA, and zero-copy casts.
 
 Load these local references when the task is broad or does not map cleanly to one specialist:
 
