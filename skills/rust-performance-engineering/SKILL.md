@@ -39,6 +39,9 @@ Load these specialist skills as needed:
 - `rust-ci-quality-gates`: CI gates for format, lint, tests, coverage, dependency policy, semver, Miri, fuzzing, and benchmarks.
 - `rust-testing-verification`: test strategy for correctness, unsafe, async, parsers, bindings, Wasm, PyO3, and latency-sensitive code.
 - `rust-crate-release-engineering`: release readiness, Cargo metadata, public API compatibility, wheels, Wasm artifacts, and crate publishing.
+- `rust-ebpf-kernel-performance`: Rust eBPF, XDP, tc, probes, maps, verifier constraints, AF_XDP, and kernel/user boundary performance.
+- `rust-sbe-binary-codecs`: SBE, fixed-layout binary codecs, zero-copy decode, schema versioning, and market-data wire formats.
+- `rust-math-algorithms-performance`: graph/search/stochastic/numerical algorithms, layouts, SIMD, Rayon, ndarray, and cache-aware math.
 
 Load these local references when the task is broad or does not map cleanly to one specialist:
 

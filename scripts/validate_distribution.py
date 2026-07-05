@@ -25,6 +25,9 @@ REQUIRED_SKILLS = [
     "rust-ci-quality-gates",
     "rust-testing-verification",
     "rust-crate-release-engineering",
+    "rust-ebpf-kernel-performance",
+    "rust-sbe-binary-codecs",
+    "rust-math-algorithms-performance",
 ]
 
 
@@ -125,6 +128,9 @@ def validate_docs() -> None:
         "evals/wasm-boundary.md",
         "evals/hft-hot-path.md",
         "evals/unsafe-soundness.md",
+        "evals/ebpf-xdp-kernel.md",
+        "evals/sbe-market-data-codec.md",
+        "evals/math-graph-simulation.md",
     ]:
         read(ROOT / rel)
 
@@ -153,7 +159,27 @@ def validate_docs() -> None:
             fail(f"README does not mention {token}")
 
     sources = read(ROOT / "docs" / "sources.md")
-    for token in ["cargo-nextest", "cargo-deny", "cargo-audit", "cargo-semver-checks", "Miri", "cargo-fuzz", "cargo-llvm-cov", "cargo-mutants"]:
+    for token in [
+        "cargo-nextest",
+        "cargo-deny",
+        "cargo-audit",
+        "cargo-semver-checks",
+        "Miri",
+        "cargo-fuzz",
+        "cargo-llvm-cov",
+        "cargo-mutants",
+        "docs.ebpf.io",
+        "ebpf.io",
+        "Aya",
+        "libbpf-rs",
+        "FIX SBE",
+        "Real Logic SBE",
+        "petgraph",
+        "ndarray",
+        "Rayon",
+        "rand_distr",
+        "statrs",
+    ]:
         if token not in sources:
             fail(f"sources do not mention {token}")
 

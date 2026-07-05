@@ -13,7 +13,8 @@ Use this skill when tail latency and jitter dominate design. Load `references/lo
 2. Identify the hot loop and remove cold-path concerns from it.
 3. Bound allocation, queues, logging, syscalls, and locks after warmup.
 4. Choose SPSC ring, MPSC queue, actor, pipeline, or disruptor based on fanout and ordering.
-5. Verify with replayed production-like market data and tail latency histograms.
+5. Load `rust-sbe-binary-codecs` for binary market-data codecs and `rust-ebpf-kernel-performance` for XDP, AF_XDP, tc, or probe-based kernel paths.
+6. Verify with replayed production-like market data and tail latency histograms.
 
 ## Output
 

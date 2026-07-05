@@ -22,6 +22,9 @@ REQUIRED_SKILLS = [
     "rust-ci-quality-gates",
     "rust-testing-verification",
     "rust-crate-release-engineering",
+    "rust-ebpf-kernel-performance",
+    "rust-sbe-binary-codecs",
+    "rust-math-algorithms-performance",
 ]
 
 
@@ -110,9 +113,34 @@ class DistributionTest(unittest.TestCase):
         ]:
             self.assertTrue((ROOT / rel).exists(), f"missing {rel}")
 
+    def test_v5_kernel_codecs_math_evals_exist(self) -> None:
+        for rel in [
+            "evals/ebpf-xdp-kernel.md",
+            "evals/sbe-market-data-codec.md",
+            "evals/math-graph-simulation.md",
+        ]:
+            self.assertTrue((ROOT / rel).exists(), f"missing {rel}")
+
     def test_source_map_mentions_v3_tools(self) -> None:
         sources = (ROOT / "docs" / "sources.md").read_text()
         for token in ["cargo-nextest", "cargo-deny", "cargo-audit", "cargo-semver-checks", "Miri", "cargo-fuzz", "cargo-llvm-cov", "cargo-mutants"]:
+            self.assertIn(token, sources)
+
+    def test_source_map_mentions_v5_tools(self) -> None:
+        sources = (ROOT / "docs" / "sources.md").read_text()
+        for token in [
+            "docs.ebpf.io",
+            "ebpf.io",
+            "Aya",
+            "libbpf-rs",
+            "FIX SBE",
+            "Real Logic SBE",
+            "petgraph",
+            "ndarray",
+            "Rayon",
+            "rand_distr",
+            "statrs",
+        ]:
             self.assertIn(token, sources)
 
 

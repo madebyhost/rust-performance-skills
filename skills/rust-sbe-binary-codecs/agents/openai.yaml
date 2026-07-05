@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust SBE Binary Codecs"
+  short_description: "SBE and fixed-layout binary codec performance for Rust"
+  default_prompt: "Use $rust-sbe-binary-codecs to review this Rust binary codec or SBE schema for zero-copy decode, compatibility, and low latency."
+
+policy:
+  allow_implicit_invocation: true

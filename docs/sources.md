@@ -18,6 +18,29 @@ This project turns stable Rust ecosystem guidance into agent workflows. Prefer p
 - cargo-llvm-cov: https://crates.io/crates/cargo-llvm-cov
 - cargo-mutants: https://mutants.rs/
 
+## Kernel And eBPF
+
+- Linux BPF documentation: https://docs.kernel.org/bpf/
+- docs.ebpf.io: https://docs.ebpf.io/
+- ebpf.io: https://ebpf.io/
+- Aya: https://aya-rs.dev/
+- libbpf-rs: https://github.com/libbpf/libbpf-rs
+
+## Binary Encoding
+
+- FIX SBE: https://github.com/FIXTradingCommunity/fix-simple-binary-encoding
+- Real Logic SBE: https://real-logic.github.io/simple-binary-encoding/
+
+## Math And Algorithms
+
+- petgraph: https://docs.rs/petgraph/latest/petgraph/
+- ndarray: https://docs.rs/ndarray/latest/ndarray/
+- Rayon: https://docs.rs/rayon/latest/rayon/
+- rand: https://docs.rs/rand/latest/rand/
+- rand_distr: https://docs.rs/rand_distr/latest/rand_distr/
+- statrs: https://docs.rs/statrs/latest/statrs/
+- Rust std SIMD: https://doc.rust-lang.org/std/simd/
+
 ## Unsafe And FFI
 
 - The Rustonomicon: https://doc.rust-lang.org/nomicon/

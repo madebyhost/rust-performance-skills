@@ -49,6 +49,9 @@ Use `$rust-performance-engineering` when an agent is asked to:
 - `rust-ci-quality-gates`: CI gates for Rust, PyO3, Wasm, unsafe, fuzzing, coverage, semver, and benchmarks.
 - `rust-testing-verification`: verification strategy for tests, Miri, fuzzing, concurrency, bindings, and hot paths.
 - `rust-crate-release-engineering`: crate release readiness, semver, packaging, wheels, Wasm artifacts, and FFI releases.
+- `rust-ebpf-kernel-performance`: Rust eBPF, XDP, tc, probes, maps, verifier, and kernel/user boundary performance.
+- `rust-sbe-binary-codecs`: SBE and fixed-layout binary codec design for zero-copy low-latency Rust.
+- `rust-math-algorithms-performance`: graph, search, Monte Carlo, Markov, Poisson, SIMD, Rayon, and cache-aware math.
 
 ## Audit Helper
 

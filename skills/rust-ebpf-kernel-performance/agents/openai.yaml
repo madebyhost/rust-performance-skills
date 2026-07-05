@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust eBPF Kernel Performance"
+  short_description: "Rust eBPF, XDP, maps, verifier, and kernel-path performance"
+  default_prompt: "Use $rust-ebpf-kernel-performance to review this Rust eBPF or kernel-path design for performance, verifier constraints, maps, and safety."
+
+policy:
+  allow_implicit_invocation: true

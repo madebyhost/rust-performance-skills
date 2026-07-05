@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Math Algorithms Performance"
+  short_description: "Graph, simulation, stochastic, SIMD, and cache-aware math performance"
+  default_prompt: "Use $rust-math-algorithms-performance to optimize this Rust graph, search, simulation, or numerical algorithm for layout, allocation, parallelism, and correctness."
+
+policy:
+  allow_implicit_invocation: true
