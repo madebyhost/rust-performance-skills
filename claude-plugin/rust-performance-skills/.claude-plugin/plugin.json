@@ -1,6 +1,7 @@
 {
   "name": "rust-performance-skills",
   "displayName": "Rust Performance Skills",
+  "version": "0.1.0",
   "description": "Expert Rust performance engineering plugin with skills, rulebook, and deterministic MCP tools for low-latency systems, PyO3, Wasm, SBE, eBPF, and zero-copy design.",
   "author": {
     "name": "madebyhost",
