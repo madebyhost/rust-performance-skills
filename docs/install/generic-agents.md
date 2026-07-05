@@ -14,7 +14,9 @@ curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/
 
 It detects Codex, Claude Code, Gemini CLI, Cursor, Windsurf, Cline, Roo Code,
 Kilo Code, Google Antigravity, Pi, Hermes, OpenCode, OpenClaw, Ollama-launched
-OpenClaw, and GitHub Copilot. See `docs/install/multi-agent.md`.
+OpenClaw, and GitHub Copilot. Claude Code is installed as a real plugin through
+a local marketplace, not as loose standalone skills. See
+`docs/install/multi-agent.md`.
 
 One-liner local/project fallback:
 

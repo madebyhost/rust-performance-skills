@@ -4,13 +4,16 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import shutil
+import subprocess
 import sys
 from pathlib import Path
 
 
 PLUGIN_NAME = "rust-performance-skills"
+CLAUDE_MARKETPLACE_NAME = "madebyhost-rust-performance"
 ROUTER_SKILL = "rust-performance-engineering"
 MARKER_START = "<!-- rust-performance-skills:start -->"
 MARKER_END = "<!-- rust-performance-skills:end -->"
@@ -137,6 +140,84 @@ def copy_bundle(source: Path, bundle_dir: Path) -> None:
     codex_plugin = source / ".codex-plugin"
     if codex_plugin.exists():
         copy_tree(codex_plugin, bundle_dir / ".codex-plugin")
+    claude_manifest = source / "claude-plugin" / PLUGIN_NAME / ".claude-plugin" / "plugin.json"
+    if not claude_manifest.exists():
+        claude_manifest = source / ".claude-plugin" / "plugin.json"
+    if claude_manifest.exists():
+        (bundle_dir / ".claude-plugin").mkdir(parents=True, exist_ok=True)
+        shutil.copy2(claude_manifest, bundle_dir / ".claude-plugin" / "plugin.json")
+
+
+def marketplace_json(marketplace_name: str, plugin_source: str | dict[str, str]) -> dict[str, object]:
+    return {
+        "name": marketplace_name,
+        "owner": {"name": "madebyhost", "email": "contact@mehdiaissani.com"},
+        "description": "madebyhost marketplace for Rust performance engineering plugins.",
+        "plugins": [
+            {
+                "name": PLUGIN_NAME,
+                "displayName": "Rust Performance Skills",
+                "source": plugin_source,
+                "description": "Expert Rust performance engineering plugin with skills, rulebook, and deterministic MCP tools.",
+                "author": {"name": "madebyhost", "email": "contact@mehdiaissani.com"},
+                "homepage": "https://github.com/madebyhost/rust-performance-skills",
+                "repository": "https://github.com/madebyhost/rust-performance-skills",
+                "license": "MIT",
+                "keywords": ["rust", "performance", "low-latency", "pyo3", "wasm", "ebpf", "sbe", "hft"],
+                "category": "development",
+                "defaultEnabled": True,
+            }
+        ],
+    }
+
+
+def write_claude_marketplace(source: Path, marketplace_root: Path, marketplace_name: str) -> Path:
+    plugin_root = marketplace_root / "plugins" / PLUGIN_NAME
+    if plugin_root.exists():
+        shutil.rmtree(plugin_root)
+    copy_bundle(source, plugin_root)
+    write_file(
+        marketplace_root / ".claude-plugin" / "marketplace.json",
+        json.dumps(marketplace_json(marketplace_name, f"./plugins/{PLUGIN_NAME}"), indent=2) + "\n",
+    )
+    return plugin_root
+
+
+def should_run_claude_cli(prefix: Path) -> bool:
+    if os.environ.get("RUST_PERF_SKILLS_SKIP_CLAUDE_ADD") == "1":
+        return False
+    if not shutil.which("claude"):
+        return False
+    if os.environ.get("RUST_PERF_SKILLS_FORCE_CLAUDE_ADD") == "1":
+        return True
+    return prefix == Path.home()
+
+
+def maybe_install_claude_plugin(prefix: Path, marketplace_root: Path, marketplace_name: str) -> list[Path]:
+    if not should_run_claude_cli(prefix):
+        print(f"skipped: claude plugin marketplace add {marketplace_root}")
+        print(f"skipped: claude plugin install {PLUGIN_NAME}@{marketplace_name}")
+        return []
+    subprocess.run(["claude", "plugin", "marketplace", "add", str(marketplace_root)], check=True)
+    subprocess.run(["claude", "plugin", "install", f"{PLUGIN_NAME}@{marketplace_name}", "--scope", "user"], check=True)
+    return [marketplace_root]
+
+
+def maybe_clean_claude_standalone_skills(prefix: Path) -> list[Path]:
+    if os.environ.get("RUST_PERF_SKILLS_CLAUDE_CLEAN_STANDALONE") != "1":
+        return []
+    skills_root = prefix / ".claude" / "skills"
+    removed: list[Path] = []
+    if not skills_root.exists():
+        return removed
+    for path in sorted(skills_root.glob("rust-*")):
+        if path.is_symlink():
+            path.unlink()
+            removed.append(path)
+        elif path.is_dir():
+            shutil.rmtree(path)
+            removed.append(path)
+    return removed
 
 
 def write_file(path: Path, content: str) -> None:
@@ -205,9 +286,14 @@ def install_codex(source: Path, prefix: Path, project_dir: Path, bundle_dir: Pat
 
 
 def install_claude(source: Path, prefix: Path, project_dir: Path, bundle_dir: Path) -> list[Path]:
-    dest = prefix / ".claude" / "skills"
-    copy_all_skills(source, dest)
-    return [dest]
+    marketplace_name = os.environ.get("RUST_PERF_SKILLS_CLAUDE_MARKETPLACE", CLAUDE_MARKETPLACE_NAME)
+    marketplace_root = prefix / ".claude" / "rust-performance-skills-marketplace"
+    plugin_root = write_claude_marketplace(source, marketplace_root, marketplace_name)
+    installed_paths = maybe_install_claude_plugin(prefix, marketplace_root, marketplace_name)
+    removed_paths = maybe_clean_claude_standalone_skills(prefix)
+    for path in removed_paths:
+        print(f"removed standalone Claude skill: {path}")
+    return [marketplace_root, plugin_root, *installed_paths]
 
 
 def install_local(source: Path, prefix: Path, project_dir: Path, bundle_dir: Path) -> list[Path]:
@@ -336,6 +422,7 @@ def main() -> int:
     parser.add_argument("--prefix", type=Path, default=Path.home())
     parser.add_argument("--project-dir", type=Path, default=Path.cwd())
     parser.add_argument("--bundle-dir", type=Path)
+    parser.add_argument("--claude-marketplace", default=os.environ.get("RUST_PERF_SKILLS_CLAUDE_MARKETPLACE", CLAUDE_MARKETPLACE_NAME))
     parser.add_argument("--agents", default="auto")
     args = parser.parse_args()
 
@@ -343,6 +430,7 @@ def main() -> int:
     prefix = args.prefix.expanduser().resolve()
     project_dir = args.project_dir.expanduser().resolve()
     bundle_dir = (args.bundle_dir or (prefix / ".agents" / PLUGIN_NAME)).expanduser().resolve()
+    os.environ["RUST_PERF_SKILLS_CLAUDE_MARKETPLACE"] = args.claude_marketplace
 
     try:
         agents = parse_agents(args.agents, prefix)

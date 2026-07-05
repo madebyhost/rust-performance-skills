@@ -88,7 +88,7 @@ One-liner with multi-agent detection:
 curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh | sh
 ```
 
-By default the installer detects installed coding agents and writes static adapters only. It can install for Codex, Claude Code, Gemini CLI, Cursor, Windsurf, Cline, Roo Code, Kilo Code, Google Antigravity, Pi, Hermes, OpenCode, OpenClaw, Ollama-launched OpenClaw, GitHub Copilot, and a project-local fallback.
+By default the installer detects installed coding agents and writes static adapters only. For Claude Code, it installs a real Claude plugin through a local marketplace so the whole Rust package can be enabled or disabled as one plugin. It can install for Codex, Claude Code, Gemini CLI, Cursor, Windsurf, Cline, Roo Code, Kilo Code, Google Antigravity, Pi, Hermes, OpenCode, OpenClaw, Ollama-launched OpenClaw, GitHub Copilot, and a project-local fallback.
 
 Targets can be scoped:
 
@@ -98,6 +98,7 @@ RUST_PERF_SKILLS_TARGET=agents RUST_PERF_SKILLS_AGENTS=all sh -c "$(curl -fsSL h
 RUST_PERF_SKILLS_TARGET=plugin sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
 RUST_PERF_SKILLS_TARGET=codex sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
 RUST_PERF_SKILLS_TARGET=claude sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
+RUST_PERF_SKILLS_TARGET=claude-skills sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
 RUST_PERF_SKILLS_TARGET=local sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
 RUST_PERF_SKILLS_TARGET=cursor sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
 ```
@@ -108,6 +109,14 @@ Useful install variables:
 - `RUST_PERF_SKILLS_PROJECT_DIR=/path/to/project` for project-level rules such as Cursor, Windsurf, Cline/Roo, Kilo Code, Antigravity, and Copilot.
 - `RUST_PERF_SKILLS_AGENT_BUNDLE_DIR=$HOME/.agents/rust-performance-skills` for the durable shared skill bundle.
 - `RUST_PERF_SKILLS_SKIP_CODEX_ADD=1` to skip `codex plugin add rust-performance-skills@personal`.
+- `RUST_PERF_SKILLS_SKIP_CLAUDE_ADD=1` to create the local Claude marketplace without running `claude plugin marketplace add` or `claude plugin install`.
+- `RUST_PERF_SKILLS_CLAUDE_CLEAN_STANDALONE=1` to remove older standalone Claude copies at `$HOME/.claude/skills/rust-*` after installing the Claude plugin.
+
+For Claude Code, disable the whole package with:
+
+```bash
+claude plugin disable rust-performance-skills@madebyhost-rust-performance
+```
 
 After plugin installation, verify visibility:
 

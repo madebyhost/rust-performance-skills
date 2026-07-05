@@ -26,7 +26,7 @@ mcp/rust_performance_mcp.py
 | Agent | Detection | Install surface |
 | --- | --- | --- |
 | Codex | `codex` or `$HOME/.codex` | `$HOME/.codex/skills`, plus Codex plugin marketplace when `codex` is present |
-| Claude Code | `claude` or `$HOME/.claude` | `$HOME/.claude/skills` |
+| Claude Code | `claude` or `$HOME/.claude` | Local Claude marketplace plus `rust-performance-skills@madebyhost-rust-performance` plugin install |
 | Gemini CLI | `gemini` or `$HOME/.gemini` | `$HOME/.gemini/GEMINI.md` marker block |
 | Cursor | `cursor` or `$HOME/.cursor` | `.cursor/rules/rust-performance-skills.mdc` |
 | Windsurf | `windsurf` | `.windsurfrules` marker block |
@@ -63,6 +63,7 @@ Install one adapter directly:
 
 ```bash
 RUST_PERF_SKILLS_TARGET=cursor sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
+RUST_PERF_SKILLS_TARGET=claude sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
 RUST_PERF_SKILLS_TARGET=hermes sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
 RUST_PERF_SKILLS_TARGET=openclaw sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
 ```
@@ -77,6 +78,9 @@ RUST_PERF_SKILLS_PROJECT_DIR=/path/to/project RUST_PERF_SKILLS_TARGET=agents RUS
 ## Safety Model
 
 - The installer writes static instruction files and skill directories.
+- Claude Code is the exception: the installer creates a local Claude marketplace
+  and installs a real Claude plugin so users can disable the full package at
+  once.
 - It does not install or patch agent hooks.
 - It does not edit API keys, secrets, model provider configs, or shell startup
   files.
@@ -97,3 +101,9 @@ RUST_PERF_SKILLS_TARGET=plugin sh -c "$(curl -fsSL https://raw.githubusercontent
 ```
 
 The Codex marketplace entry is `rust-performance-skills@personal`.
+
+For Claude skills-only fallback, use:
+
+```bash
+RUST_PERF_SKILLS_TARGET=claude-skills sh -c "$(curl -fsSL https://raw.githubusercontent.com/madebyhost/rust-performance-skills/main/install.sh)"
+```

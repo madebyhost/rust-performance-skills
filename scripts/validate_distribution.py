@@ -117,6 +117,8 @@ def validate_docs() -> None:
         "docs/install/claude.md",
         "docs/install/generic-agents.md",
         "docs/install/multi-agent.md",
+        ".claude-plugin/marketplace.json",
+        "claude-plugin/rust-performance-skills/.claude-plugin/plugin.json",
         "skills/rust-performance-engineering/agents/openai.yaml",
         "scripts/rust_project_audit.py",
         "scripts/generate_quality_gates.py",
@@ -159,7 +161,12 @@ def validate_docs() -> None:
         "generate_quality_gates.py",
         "install.sh",
         "RUST_PERF_SKILLS_TARGET=plugin",
+        "RUST_PERF_SKILLS_TARGET=claude",
+        "RUST_PERF_SKILLS_TARGET=claude-skills",
+        "RUST_PERF_SKILLS_CLAUDE_CLEAN_STANDALONE",
         "RUST_PERF_SKILLS_AGENTS",
+        "claude plugin install",
+        "claude plugin disable",
         "Gemini CLI",
         "Cursor",
         "Windsurf",
@@ -181,9 +188,11 @@ def validate_docs() -> None:
         fail("README does not expose the install one-liner")
     for token in [
         "RUST_PERF_SKILLS_TARGET=plugin",
+        "RUST_PERF_SKILLS_TARGET=claude-skills",
         "RUST_PERF_SKILLS_AGENTS",
         "Gemini CLI",
         "OpenClaw",
+        "claude plugin disable",
         "codex plugin list",
         "rust-performance-skills@personal",
     ]:

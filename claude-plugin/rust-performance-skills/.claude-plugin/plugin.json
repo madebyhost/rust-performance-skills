@@ -1,0 +1,32 @@
+{
+  "name": "rust-performance-skills",
+  "displayName": "Rust Performance Skills",
+  "description": "Expert Rust performance engineering plugin with skills, rulebook, and deterministic MCP tools for low-latency systems, PyO3, Wasm, SBE, eBPF, and zero-copy design.",
+  "author": {
+    "name": "madebyhost",
+    "email": "contact@mehdiaissani.com"
+  },
+  "homepage": "https://github.com/madebyhost/rust-performance-skills",
+  "repository": "https://github.com/madebyhost/rust-performance-skills",
+  "license": "MIT",
+  "keywords": [
+    "rust",
+    "performance",
+    "low-latency",
+    "pyo3",
+    "wasm",
+    "ebpf",
+    "sbe",
+    "hft"
+  ],
+  "skills": "./skills/",
+  "mcpServers": {
+    "rust-performance": {
+      "command": "python3",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/mcp/rust_performance_mcp.py"
+      ],
+      "cwd": "${CLAUDE_PLUGIN_ROOT}"
+    }
+  }
+}

@@ -10,6 +10,10 @@ MARKETPLACE="${RUST_PERF_SKILLS_MARKETPLACE:-$HOME/.agents/plugins/marketplace.j
 AGENTS="${RUST_PERF_SKILLS_AGENTS:-auto}"
 PROJECT_DIR="${RUST_PERF_SKILLS_PROJECT_DIR:-$PWD}"
 AGENT_BUNDLE_DIR="${RUST_PERF_SKILLS_AGENT_BUNDLE_DIR:-$PREFIX/.agents/rust-performance-skills}"
+CLAUDE_MARKETPLACE="${RUST_PERF_SKILLS_CLAUDE_MARKETPLACE:-madebyhost-rust-performance}"
+# RUST_PERF_SKILLS_SKIP_CLAUDE_ADD=1 skips `claude plugin marketplace add` and `claude plugin install`.
+# RUST_PERF_SKILLS_FORCE_CLAUDE_ADD=1 allows tests or custom prefixes to force Claude CLI registration.
+# RUST_PERF_SKILLS_CLAUDE_CLEAN_STANDALONE=1 removes older ~/.claude/skills/rust-* standalone copies.
 
 tmp_dir="$(mktemp -d)"
 cleanup() {
@@ -65,6 +69,7 @@ install_agent_adapters() {
     --prefix "$PREFIX" \
     --project-dir "$PROJECT_DIR" \
     --bundle-dir "$AGENT_BUNDLE_DIR" \
+    --claude-marketplace "$CLAUDE_MARKETPLACE" \
     --agents "$selected_agents"
 }
 
@@ -82,6 +87,9 @@ case "$TARGET" in
     install_skills "$PREFIX/.codex/skills"
     ;;
   claude)
+    install_agent_adapters claude
+    ;;
+  claude-skills)
     install_skills "$PREFIX/.claude/skills"
     ;;
   local)
@@ -92,7 +100,6 @@ case "$TARGET" in
     ;;
   all)
     install_skills "$PREFIX/.codex/skills"
-    install_skills "$PREFIX/.claude/skills"
     install_skills "$PWD/.agents/skills"
     install_plugin
     install_agent_adapters "${RUST_PERF_SKILLS_AGENTS:-all}"
@@ -101,9 +108,9 @@ case "$TARGET" in
     install_agent_adapters "$TARGET"
     ;;
   *)
-    echo "error: RUST_PERF_SKILLS_TARGET must be auto, agents, all, codex, claude, local, plugin, gemini, cursor, windsurf, cline, roo, kilocode, antigravity, pi, hermes, opencode, openclaw, ollama, or copilot" >&2
+    echo "error: RUST_PERF_SKILLS_TARGET must be auto, agents, all, codex, claude, claude-skills, local, plugin, gemini, cursor, windsurf, cline, roo, kilocode, antigravity, pi, hermes, opencode, openclaw, ollama, or copilot" >&2
     exit 2
     ;;
 esac
 
-echo "invoke with: Use \$rust-performance-engineering to review this Rust project."
+echo "invoke with: Use \$rust-performance-engineering, or /rust-performance-skills:rust-performance-engineering in Claude plugin mode."

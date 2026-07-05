@@ -32,6 +32,9 @@ This project turns stable Rust ecosystem guidance into agent workflows. Prefer p
 ## Multi-Agent Install Surfaces
 
 - RTK init target list: `rtk init --help`
+- Claude Code plugin creation: https://code.claude.com/docs/en/plugins
+- Claude Code plugin marketplaces: https://code.claude.com/docs/en/plugin-marketplaces
+- Claude Code plugin discovery and disable flow: https://code.claude.com/docs/en/discover-plugins
 - Hermes configuration and skills directory: https://hermes-agent.nousresearch.com/docs/user-guide/configuration
 - OpenClaw configuration and skills config: https://docs.openclaw.ai/gateway/configuration
 - Ollama OpenClaw integration: https://docs.ollama.com/integrations/openclaw

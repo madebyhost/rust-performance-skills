@@ -1,0 +1,35 @@
+{
+  "name": "madebyhost-rust-performance",
+  "owner": {
+    "name": "madebyhost",
+    "email": "contact@mehdiaissani.com"
+  },
+  "description": "madebyhost marketplace for Rust performance engineering plugins.",
+  "plugins": [
+    {
+      "name": "rust-performance-skills",
+      "displayName": "Rust Performance Skills",
+      "source": "./claude-plugin/rust-performance-skills",
+      "description": "Expert Rust performance engineering plugin with skills, rulebook, and deterministic MCP tools.",
+      "author": {
+        "name": "madebyhost",
+        "email": "contact@mehdiaissani.com"
+      },
+      "homepage": "https://github.com/madebyhost/rust-performance-skills",
+      "repository": "https://github.com/madebyhost/rust-performance-skills",
+      "license": "MIT",
+      "keywords": [
+        "rust",
+        "performance",
+        "low-latency",
+        "pyo3",
+        "wasm",
+        "ebpf",
+        "sbe",
+        "hft"
+      ],
+      "category": "development",
+      "defaultEnabled": true
+    }
+  ]
+}
