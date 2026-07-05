@@ -36,10 +36,16 @@ API_TYPE_RE = re.compile(
     r"validated\s+newtype|newtype|parse,\s*don'?t\s+validate|unexpected_cfgs|check-cfg|object safety",
     re.I,
 )
+TAURI_RE = re.compile(
+    r"\btauri\b|@tauri-apps|tauri\.conf|tauri\s+(?:android|ios)\b|"
+    r"tauri::command|tauri::ipc::Channel|invoke\(|emit\(",
+    re.I,
+)
 UNSAFE_RE = re.compile(r"\bunsafe\b|\*const\b|\*mut\b|transmute|MaybeUninit|NonNull")
 PUBLIC_API_RE = re.compile(r"(?m)^\s*pub\s+(?:unsafe\s+)?(?:async\s+)?(?:fn|struct|enum|trait|mod|type|const|static)\b")
 PARSER_RE = re.compile(r"\bparse(?:r|_|\b)|decode|deserialize", re.I)
-PROJECT_TEXT_EXTENSIONS = {".rs", ".toml", ".xml", ".sbe", ".proto", ".fbs", ".yaml", ".yml"}
+PROJECT_TEXT_EXTENSIONS = {".rs", ".toml", ".xml", ".sbe", ".proto", ".fbs", ".yaml", ".yml", ".json", ".json5"}
+SKIP_PARTS = {"target", ".git", "node_modules", "dist", "build", ".next", ".turbo"}
 EBPF_DEPS = {"aya", "aya-bpf", "libbpf-rs", "libbpf-cargo", "redbpf", "rbpf"}
 SBE_DEPS = {"sbe", "sbe-codegen", "simple-binary-encoding", "fix-sbe", "fix-simple-binary-encoding"}
 MATH_DEPS = {"petgraph", "ndarray", "nalgebra", "sprs", "faer", "statrs", "rand_distr", "argmin"}
@@ -59,6 +65,18 @@ MEMORY_SIMD_IO_DEPS = {
     "slab",
 }
 API_TYPE_DEPS = {"serde", "thiserror", "proptest", "trybuild", "static_assertions"}
+TAURI_DEPS = {
+    "tauri",
+    "tauri-build",
+    "tauri-plugin-shell",
+    "tauri-plugin-fs",
+    "tauri-plugin-http",
+    "tauri-plugin-dialog",
+    "tauri-plugin-os",
+    "tauri-plugin-store",
+    "tauri-plugin-updater",
+}
+TAURI_CONFIG_NAMES = {"tauri.conf.json", "tauri.conf.json5", "tauri.conf.toml", "Tauri.toml"}
 
 
 def load_toml(path: Path) -> dict:
@@ -71,7 +89,7 @@ def load_toml(path: Path) -> dict:
 def read_rust_sources(root: Path) -> str:
     chunks: list[str] = []
     for path in root.rglob("*.rs"):
-        if any(part in {"target", ".git"} for part in path.parts):
+        if any(part in SKIP_PARTS for part in path.parts):
             continue
         try:
             chunks.append(path.read_text(encoding="utf-8", errors="ignore"))
@@ -83,7 +101,7 @@ def read_rust_sources(root: Path) -> str:
 def read_project_text(root: Path) -> str:
     chunks: list[str] = []
     for path in root.rglob("*"):
-        if any(part in {"target", ".git"} for part in path.parts):
+        if any(part in SKIP_PARTS for part in path.parts):
             continue
         if not path.is_file() or path.name == "Cargo.lock" or path.suffix not in PROJECT_TEXT_EXTENSIONS:
             continue
@@ -155,19 +173,48 @@ def has_coverage_workflow(root: Path) -> bool:
     return False
 
 
-def detect_project_type(cargo: dict, pyproject: dict | None, deps: set[str]) -> str:
+def has_tauri_config(root: Path) -> bool:
+    candidates: list[Path] = []
+    for base in [root, root / "src-tauri"]:
+        candidates.extend(base / name for name in TAURI_CONFIG_NAMES)
+    if root.name == "src-tauri":
+        candidates.extend(root.parent / name for name in TAURI_CONFIG_NAMES)
+    if any(path.exists() for path in candidates):
+        return True
+
+    for package_json in [root / "package.json", root.parent / "package.json"]:
+        if not package_json.exists():
+            continue
+        try:
+            if "@tauri-apps/" in package_json.read_text(encoding="utf-8", errors="ignore"):
+                return True
+        except OSError:
+            continue
+    return False
+
+
+def is_tauri_project(root: Path, deps: set[str], project_text: str) -> bool:
+    return bool(TAURI_DEPS & deps or has_tauri_config(root) or TAURI_RE.search(project_text))
+
+
+def detect_project_type(cargo: dict, pyproject: dict | None, deps: set[str], root: Path, project_text: str) -> str:
+    if cargo.get("__parse_error__"):
+        return "invalid-cargo"
+    if is_tauri_project(root, deps, project_text):
+        return "tauri-app"
     if "pyo3" in deps or "maturin" in (pyproject or {}).get("build-system", {}).get("build-backend", ""):
         return "pyo3-extension"
     if {"wasm-bindgen", "web-sys", "js-sys"} & deps:
         return "wasm"
-    if cargo.get("__parse_error__"):
-        return "invalid-cargo"
     return "rust"
 
 
 def audit(root: Path) -> dict:
     root = root.resolve()
     cargo_path = root / "Cargo.toml"
+    tauri_cargo_path = root / "src-tauri" / "Cargo.toml"
+    if not cargo_path.exists() and tauri_cargo_path.exists():
+        cargo_path = tauri_cargo_path
     result = {
         "path": str(root),
         "project_type": "unknown",
@@ -178,7 +225,7 @@ def audit(root: Path) -> dict:
 
     if not cargo_path.exists():
         result["findings"].append("missing Cargo.toml")
-        result["recommendations"].append("run audit from a Rust crate or workspace root")
+        result["recommendations"].append("run audit from a Rust crate, workspace root, or Tauri project root with src-tauri/Cargo.toml")
         return result
 
     cargo = load_toml(cargo_path)
@@ -192,9 +239,11 @@ def audit(root: Path) -> dict:
     deps = dependencies(cargo)
     sources = read_rust_sources(root)
     project_text = read_project_text(root)
-    result["project_type"] = detect_project_type(cargo, pyproject, deps)
+    result["project_type"] = detect_project_type(cargo, pyproject, deps, root, project_text)
 
     package = cargo.get("package", {})
+    if cargo_path.parent.name == "src-tauri":
+        append_unique(result["strengths"], "Tauri src-tauri Rust crate detected")
     if "workspace" in cargo:
         append_unique(result["strengths"], "workspace configured")
     if (root / "Cargo.lock").exists():
@@ -247,6 +296,18 @@ def audit(root: Path) -> dict:
         append_unique(result["strengths"], "Wasm dependency detected")
         append_unique(result["recommendations"], "measure generated wasm and JS boundary cost")
         append_unique(result["recommendations"], "separate size tuning from runtime performance tuning")
+
+    if is_tauri_project(root, deps, project_text):
+        append_unique(result["strengths"], "Tauri app structure detected")
+        if TAURI_DEPS & deps:
+            append_unique(result["strengths"], "Tauri Rust dependency detected")
+        append_unique(
+            result["recommendations"],
+            "load rust-tauri-app-performance for Tauri desktop/mobile architecture, IPC, bundle size, and platform distribution",
+        )
+        append_unique(result["recommendations"], "batch command IPC and use channels for streaming instead of per-item invokes")
+        append_unique(result["recommendations"], "test Windows, Linux, macOS, iOS, and Android targets that are in scope")
+        append_unique(result["recommendations"], "measure startup time, bundle size, memory, and webview responsiveness")
 
     if UNSAFE_RE.search(sources):
         append_unique(result["findings"], "unsafe Rust present")

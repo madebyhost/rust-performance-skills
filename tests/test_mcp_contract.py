@@ -36,6 +36,7 @@ class McpContractTest(unittest.TestCase):
         self.assertIn("binary_encoding_review_checklist", names)
         self.assertIn("memory_simd_io_checklist", names)
         self.assertIn("api_type_design_checklist", names)
+        self.assertIn("tauri_app_checklist", names)
         self.assertIn("select_rust_rules", names)
         self.assertIn("explain_rust_rule", names)
 
@@ -86,6 +87,7 @@ class McpContractTest(unittest.TestCase):
                 "math/algorithm performance signals present",
                 "memory/SIMD/I/O performance signals present",
                 "API/type-system design signals present",
+                "Tauri app structure detected",
                 "unsafe Rust present",
             ],
             "recommendations": [],
@@ -105,7 +107,7 @@ class McpContractTest(unittest.TestCase):
         )
         domains = json.loads(completed.stdout)
         self.assertEqual(
-            ["ebpf", "sbe", "math", "memory", "simd", "io", "api", "type", "serde", "macro", "unsafe"],
+            ["ebpf", "sbe", "math", "memory", "simd", "io", "api", "type", "serde", "macro", "tauri", "unsafe"],
             domains["domains"],
         )
 
@@ -188,6 +190,30 @@ class McpContractTest(unittest.TestCase):
                 sys.executable,
                 str(SERVER),
                 "--call",
+                "tauri_app_checklist",
+                "--arguments",
+                json.dumps(
+                    {
+                        "targets": ["Windows", "Linux", "iOS", "Android"],
+                        "signals": ["IPC", "channels", "startup", "bundle size", "secure credentials"],
+                    }
+                ),
+            ],
+            check=True,
+            text=True,
+            stdout=subprocess.PIPE,
+        )
+        tauri = json.loads(completed.stdout)
+        self.assertIn("batch command IPC and avoid per-item invoke calls", tauri["checks"])
+        self.assertIn("use Tauri channels for streaming progress, telemetry, logs, or long-running task output", tauri["checks"])
+        self.assertIn("verify tauri android and tauri ios prerequisites, signing, permissions, lifecycle, and device tests", tauri["checks"])
+        self.assertIn("tune release profile, strip/LTO/panic strategy, frontend assets, unused plugins, and updater payload size", tauri["checks"])
+
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(SERVER),
+                "--call",
                 "rust_review_checklist",
                 "--arguments",
                 json.dumps({"project_type": "rust", "findings": audit["findings"]}),
@@ -202,6 +228,7 @@ class McpContractTest(unittest.TestCase):
         self.assertIn("algorithmic complexity and cache-aware data layout", review["checks"])
         self.assertIn("allocator, SIMD, mmap, and io_uring evidence", review["checks"])
         self.assertIn("type-driven API invariants and serde compatibility", review["checks"])
+        self.assertIn("Tauri command batching and channel streaming", review["checks"])
 
     def test_direct_call_rulebook_tools(self) -> None:
         completed = subprocess.run(
@@ -223,6 +250,24 @@ class McpContractTest(unittest.TestCase):
         self.assertIn("hft-udp-multicast-hotpath", rule_ids)
         self.assertIn("sbe-zero-copy-lifetime", rule_ids)
         self.assertIn("pyo3-release-gil-hotloop", rule_ids)
+
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(SERVER),
+                "--call",
+                "select_rust_rules",
+                "--arguments",
+                json.dumps({"signals": ["tauri IPC channels"], "domain": "tauri", "limit": 4}),
+            ],
+            check=True,
+            text=True,
+            stdout=subprocess.PIPE,
+        )
+        tauri_rules = json.loads(completed.stdout)
+        tauri_rule_ids = {rule["id"] for rule in tauri_rules["rules"]}
+        self.assertIn("tauri-batched-ipc-boundary", tauri_rule_ids)
+        self.assertIn("tauri-channel-streaming", tauri_rule_ids)
 
         completed = subprocess.run(
             [

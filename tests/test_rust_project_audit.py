@@ -102,6 +102,45 @@ web-sys = "0.3"
         self.assertEqual(result["project_type"], "wasm")
         self.assertIn("measure generated wasm and JS boundary cost", result["recommendations"])
 
+    def test_detects_tauri_project_from_src_tauri_root(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "src-tauri" / "src").mkdir(parents=True)
+            (root / "src-tauri" / "Cargo.toml").write_text(
+                """
+[package]
+name = "desktop-fast"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+tauri = "2"
+tauri-plugin-shell = "2"
+serde = { version = "1", features = ["derive"] }
+""".strip()
+            )
+            (root / "src-tauri" / "tauri.conf.json").write_text('{"productName":"DesktopFast"}')
+            (root / "package.json").write_text('{"devDependencies":{"@tauri-apps/cli":"^2"}}')
+            (root / "src-tauri" / "src" / "lib.rs").write_text(
+                """
+#[tauri::command]
+async fn stream(progress: tauri::ipc::Channel<String>) {
+    let _ = progress;
+}
+""".strip()
+            )
+            result = run_audit(root)
+        self.assertEqual(result["project_type"], "tauri-app")
+        self.assertIn("Tauri src-tauri Rust crate detected", result["strengths"])
+        self.assertIn("Tauri app structure detected", result["strengths"])
+        self.assertIn("Tauri Rust dependency detected", result["strengths"])
+        self.assertIn(
+            "load rust-tauri-app-performance for Tauri desktop/mobile architecture, IPC, bundle size, and platform distribution",
+            result["recommendations"],
+        )
+        self.assertIn("batch command IPC and use channels for streaming instead of per-item invokes", result["recommendations"])
+        self.assertIn("test Windows, Linux, macOS, iOS, and Android targets that are in scope", result["recommendations"])
+
     def test_detects_unsafe_and_hft_signals(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

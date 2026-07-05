@@ -1,6 +1,6 @@
 {
   "name": "rust-performance-skills",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Portable Rust performance engineering skills for Codex and other coding agents.",
   "author": {
     "name": "madebyhost"
@@ -9,7 +9,7 @@
   "interface": {
     "displayName": "Rust Performance Skills",
     "shortDescription": "Low-latency Rust engineering guidance.",
-    "longDescription": "Rust Performance Skills helps coding agents design, review, and optimize Rust systems for low latency, throughput, memory efficiency, async correctness, and high-frequency trading workloads.",
+    "longDescription": "Rust Performance Skills helps coding agents design, review, and optimize Rust systems for low latency, throughput, memory efficiency, async correctness, high-frequency trading workloads, PyO3, Wasm, Tauri desktop/mobile apps, and FFI.",
     "developerName": "madebyhost",
     "category": "Development",
     "capabilities": [

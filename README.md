@@ -1,15 +1,15 @@
 # Rust Performance Skills
 
-Portable agent skills for building and reviewing high-performance Rust systems, Python extensions, Wasm modules, and FFI bindings.
+Portable agent skills for building and reviewing high-performance Rust systems, Python extensions, Wasm modules, Tauri apps, and FFI bindings.
 
-This repository packages a Codex-compatible plugin and portable skills that can also be copied into Claude Code, other skill-aware coding agents, or project-local agent instructions. It focuses on real Rust performance work: measurement first, explicit latency budgets, allocation control, cache-aware data layout, async/runtime choices, concurrency, zero-copy, low-latency/HFT patterns, PyO3/maturin, WebAssembly, FFI, and unsafe soundness.
+This repository packages a Codex-compatible plugin and portable skills that can also be copied into Claude Code, other skill-aware coding agents, or project-local agent instructions. It focuses on real Rust performance work: measurement first, explicit latency budgets, allocation control, cache-aware data layout, async/runtime choices, concurrency, zero-copy, low-latency/HFT patterns, PyO3/maturin, WebAssembly, Tauri desktop/mobile apps, FFI, and unsafe soundness.
 
 ## What It Provides
 
 - A Codex plugin manifest in `.codex-plugin/plugin.json`.
 - A local Codex plugin marketplace installer for `rust-performance-skills@personal`.
 - A router skill at `skills/rust-performance-engineering`.
-- Specialist skills for quality, core performance, async, HFT, PyO3/maturin, Wasm, FFI, unsafe, architecture, and reviews.
+- Specialist skills for quality, core performance, async, HFT, PyO3/maturin, Wasm, Tauri, FFI, unsafe, architecture, and reviews.
 - Reference playbooks for zero-copy, async, HFT/low-latency, architecture, measurement, bindings, and review.
 - A static audit helper at `scripts/rust_project_audit.py`.
 - A quality-gate generator at `scripts/generate_quality_gates.py`.
@@ -30,6 +30,7 @@ Use `$rust-performance-engineering` when an agent is asked to:
 - build market-data, order-routing, HFT, telemetry, networking, or data-plane systems;
 - speed up Python with PyO3/maturin;
 - produce high-quality Rust/Wasm packages;
+- build Rust-backed applications for iOS, Android, Windows, Linux, and macOS with Tauri;
 - design FFI or language bindings;
 - choose between onion, hexagonal, ECS, actor, pipeline, or disruptor-style architecture;
 - justify `unsafe`, lock-free data structures, CPU pinning, cache padding, or memory pools.
@@ -43,6 +44,7 @@ Use `$rust-performance-engineering` when an agent is asked to:
 - `rust-low-latency-hft`: tail latency, ring buffers, multicast, CPU/cache/NUMA.
 - `rust-python-pyo3-maturin`: PyO3, maturin, GIL/free-threading, wheels.
 - `rust-wasm-engineering`: wasm-bindgen, JS boundary, code size, runtime performance.
+- `rust-tauri-app-performance`: Tauri desktop/mobile apps, IPC, channels, system webview, bundle size, iOS, Android, Windows, Linux, macOS, and signing.
 - `rust-ffi-bindings`: bindgen, cbindgen, napi-rs, ABI and ownership boundaries.
 - `rust-unsafe-soundness`: unsafe invariants, Miri/sanitizers, safe wrappers.
 - `rust-architecture-patterns`: DDD, onion, hexagonal, ECS, actor, pipeline, disruptor.
@@ -61,7 +63,7 @@ Use `$rust-performance-engineering` when an agent is asked to:
 
 The plugin includes a heavy rulebook for expert behavior, not only broad guidance. Rule cards live in `rules/` and use this schema: `id`, `severity`, `trigger`, `bad`, `good`, `when`, `when_not`, `verification`, `sources`, and `related_rules`.
 
-The corpus imports and normalizes the MIT-licensed rules from `leonardomso/rust-skills`, then adds plugin-specific rules for HFT, SBE, eBPF, PyO3, Wasm, SIMD, NUMA, graph/math kernels, and io_uring. Agents should cite rule IDs when reviewing or making non-trivial Rust design choices.
+The corpus imports and normalizes the MIT-licensed rules from `leonardomso/rust-skills`, then adds plugin-specific rules for HFT, SBE, eBPF, PyO3, Wasm, Tauri, SIMD, NUMA, graph/math kernels, and io_uring. Agents should cite rule IDs when reviewing or making non-trivial Rust design choices.
 
 ## Audit Helper
 
@@ -144,7 +146,7 @@ See:
 
 ## MCP Status
 
-The distribution remains skill-first and now includes an offline stdio MCP server at `mcp/rust_performance_mcp.py`. It exposes deterministic tools for project audit, quality-gate generation, skill listing, Rust review checklist generation, rule selection, and rule explanation.
+The distribution remains skill-first and now includes an offline stdio MCP server at `mcp/rust_performance_mcp.py`. It exposes deterministic tools for project audit, quality-gate generation, skill listing, Rust review checklist generation, Tauri app checks, rule selection, and rule explanation.
 
 ## Contributing
 

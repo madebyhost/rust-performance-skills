@@ -103,6 +103,17 @@ TOOLS = [
         },
     },
     {
+        "name": "tauri_app_checklist",
+        "description": "Return Tauri desktop/mobile performance, IPC, packaging, and security checks for Rust-backed apps.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "targets": {"type": "array", "items": {"type": "string"}},
+                "signals": {"type": "array", "items": {"type": "string"}},
+            },
+        },
+    },
+    {
         "name": "select_rust_rules",
         "description": "Select concrete Rust expert rule cards by signals, domain, severity, and limit.",
         "inputSchema": {
@@ -257,6 +268,8 @@ def detect_performance_domains(arguments: dict[str, Any]) -> dict[str, Any]:
         append_unique(domains, "pyo3")
     if "wasm" in text:
         append_unique(domains, "wasm")
+    if any(token in text for token in ["tauri", "src-tauri", "system webview", "ipc", "desktop/mobile"]):
+        append_unique(domains, "tauri")
     if "unsafe" in text:
         append_unique(domains, "unsafe")
     return {"domains": domains}
@@ -351,6 +364,28 @@ def api_type_design_checklist(arguments: dict[str, Any]) -> dict[str, Any]:
     return {"checks": checks}
 
 
+def tauri_app_checklist(arguments: dict[str, Any]) -> dict[str, Any]:
+    targets = {str(target).lower() for target in arguments.get("targets", [])}
+    text = " ".join(str(signal).lower() for signal in arguments.get("signals", []))
+    checks = [
+        "state why Tauri is appropriate versus native UI, Wasm-only, or a browser app",
+        "define the frontend/Rust ownership split and keep heavy native work in Rust",
+        "batch command IPC and avoid per-item invoke calls",
+        "use Tauri channels for streaming progress, telemetry, logs, or long-running task output",
+        "measure startup time, memory, bundle size, command latency, channel backlog, and UI frame time",
+        "validate command inputs and keep capabilities least-privilege",
+    ]
+    if any(target in targets for target in ["windows", "linux", "macos", "desktop"]):
+        checks.append("run desktop bundle smoke tests on every OS in scope, including system webview assumptions")
+    if any(target in targets for target in ["ios", "android", "mobile"]) or "mobile" in text:
+        checks.append("verify tauri android and tauri ios prerequisites, signing, permissions, lifecycle, and device tests")
+    if any(token in text for token in ["startup", "bundle", "size", "small"]):
+        checks.append("tune release profile, strip/LTO/panic strategy, frontend assets, unused plugins, and updater payload size")
+    if any(token in text for token in ["secure", "credential", "secret", "capability"]):
+        checks.append("keep secrets in Rust/native secure storage and avoid generic shell/filesystem/network commands")
+    return {"checks": checks}
+
+
 def review_checklist(arguments: dict[str, Any]) -> dict[str, Any]:
     findings = "\n".join(arguments.get("findings", []))
     findings_lower = findings.lower()
@@ -366,6 +401,8 @@ def review_checklist(arguments: dict[str, Any]) -> dict[str, Any]:
         checks.extend(["Python/Rust boundary cost", "maturin wheel build and import test"])
     if arguments.get("project_type") == "wasm":
         checks.extend(["JS/Wasm boundary cost", "wasm-pack build and test"])
+    if arguments.get("project_type") == "tauri-app":
+        checks.extend(["Tauri IPC/channel boundary", "desktop/mobile bundle, signing, and system webview assumptions"])
     if "low-latency/HFT vocabulary present" in findings:
         checks.extend(["p99/p999 latency", "drops and queue depth", "CPU/cache/network assumptions"])
     if "ebpf" in findings_lower or "kernel performance" in findings_lower:
@@ -382,6 +419,8 @@ def review_checklist(arguments: dict[str, Any]) -> dict[str, Any]:
         token in findings_lower for token in ["typestate", "serde", "sealed trait", "macro", "semver"]
     ):
         checks.extend(["type-driven API invariants and serde compatibility", "macro, cfg, feature, and semver API risks"])
+    if "tauri" in findings_lower or "desktop/mobile" in findings_lower or "system webview" in findings_lower:
+        checks.extend(["Tauri command batching and channel streaming", "startup, bundle size, mobile, and signing evidence"])
     return {"checks": checks}
 
 
@@ -404,6 +443,8 @@ def call_tool(name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         return memory_simd_io_checklist(arguments)
     if name == "api_type_design_checklist":
         return api_type_design_checklist(arguments)
+    if name == "tauri_app_checklist":
+        return tauri_app_checklist(arguments)
     if name == "select_rust_rules":
         return select_rust_rules(arguments)
     if name == "explain_rust_rule":
@@ -429,7 +470,7 @@ def handle_request(request: dict[str, Any]) -> dict[str, Any] | None:
                 {
                     "protocolVersion": "2024-11-05",
                     "capabilities": {"tools": {}},
-                    "serverInfo": {"name": "rust-performance-skills", "version": "0.1.0"},
+                    "serverInfo": {"name": "rust-performance-skills", "version": "0.1.1"},
                 },
             )
         if method == "notifications/initialized":

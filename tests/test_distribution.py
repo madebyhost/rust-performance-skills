@@ -27,6 +27,7 @@ REQUIRED_SKILLS = [
     "rust-math-algorithms-performance",
     "rust-memory-simd-io-performance",
     "rust-api-type-system-design",
+    "rust-tauri-app-performance",
     "rust-expert-rulebook",
 ]
 
@@ -148,6 +149,31 @@ class DistributionTest(unittest.TestCase):
         ]:
             self.assertTrue((ROOT / rel).exists(), f"missing {rel}")
 
+    def test_tauri_skill_covers_cross_platform_performance(self) -> None:
+        skill = ROOT / "skills" / "rust-tauri-app-performance" / "SKILL.md"
+        reference = ROOT / "skills" / "rust-tauri-app-performance" / "references" / "tauri-performance.md"
+        eval_case = ROOT / "evals" / "tauri-cross-platform-app.md"
+        self.assertTrue(skill.exists(), "missing Tauri skill")
+        self.assertTrue(reference.exists(), "missing Tauri reference")
+        self.assertTrue(eval_case.exists(), "missing Tauri eval")
+        text = skill.read_text()
+        combined = text + "\n" + reference.read_text() + "\n" + eval_case.read_text()
+        for token in [
+            "Tauri",
+            "iOS",
+            "Windows",
+            "Linux",
+            "mobile",
+            "IPC",
+            "channels",
+            "bundle size",
+            "system webview",
+            "tauri android",
+            "tauri ios",
+            "rust-performance-core",
+        ]:
+            self.assertIn(token, combined)
+
     def test_source_map_mentions_v3_tools(self) -> None:
         sources = (ROOT / "docs" / "sources.md").read_text()
         for token in ["cargo-nextest", "cargo-deny", "cargo-audit", "cargo-semver-checks", "Miri", "cargo-fuzz", "cargo-llvm-cov", "cargo-mutants"]:
@@ -195,6 +221,18 @@ class DistributionTest(unittest.TestCase):
             "Rust API Guidelines",
             "Rust Design Patterns",
             "Rust 2024 Edition Guide",
+        ]:
+            self.assertIn(token, sources)
+
+    def test_source_map_mentions_tauri_sources(self) -> None:
+        sources = (ROOT / "docs" / "sources.md").read_text()
+        for token in [
+            "Tauri v2",
+            "Tauri process model",
+            "Tauri IPC",
+            "Tauri app size",
+            "Tauri mobile prerequisites",
+            "Tauri distribution",
         ]:
             self.assertIn(token, sources)
 

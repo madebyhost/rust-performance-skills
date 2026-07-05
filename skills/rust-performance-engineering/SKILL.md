@@ -1,6 +1,6 @@
 ---
 name: rust-performance-engineering
-description: "Primary router for Rust performance and quality work. Use when designing, implementing, optimizing, auditing, or reviewing Rust systems, Rust-backed Python extensions, WebAssembly modules, FFI/bindings, low-latency/HFT systems, async services, libraries, crates, or any code path with explicit or implied quality, safety, latency, throughput, memory, zero-copy, concurrency, cache, or packaging constraints."
+description: "Primary router for Rust performance and quality work. Use when designing, implementing, optimizing, auditing, or reviewing Rust systems, Rust-backed Python extensions, WebAssembly modules, Tauri desktop/mobile applications, FFI/bindings, low-latency/HFT systems, async services, libraries, crates, or any code path with explicit or implied quality, safety, latency, throughput, memory, zero-copy, concurrency, cache, or packaging constraints."
 ---
 
 # Rust Performance Engineering
@@ -44,6 +44,7 @@ Load these specialist skills as needed:
 - `rust-math-algorithms-performance`: graph/search/stochastic/numerical algorithms, layouts, SIMD, Rayon, ndarray, and cache-aware math.
 - `rust-memory-simd-io-performance`: allocators, arenas, SoA/AoS, SIMD, mmap, io_uring, direct I/O, huge pages, NUMA, and zero-copy casts.
 - `rust-api-type-system-design`: public APIs, validated newtypes, typestate, traits, serde compatibility, macros, cfgs, and semver-sensitive type boundaries.
+- `rust-tauri-app-performance`: Tauri v2 desktop/mobile apps for Windows, Linux, macOS, iOS, Android, IPC/channels, system webview tradeoffs, bundle size, signing, and Rust/frontend boundaries.
 - `rust-expert-rulebook`: concrete Rust rule cards with rule IDs, bad/good examples, exceptions, and verification checks.
 
 Load these local references when the task is broad or does not map cleanly to one specialist:
@@ -82,5 +83,7 @@ For Rust design, implementation, optimization, or review, include:
 - how to verify the recommendation.
 
 For PyO3/maturin or Wasm work, also mention boundary crossing cost, packaging target, release/profile settings, and benchmark strategy.
+
+For Tauri work, also mention target platforms, system webview assumptions, IPC/channel boundary, frontend/Rust ownership split, startup and bundle size targets, security capabilities, and signing/distribution plan.
 
 For HFT or ultra-low-latency work, also mention tail latency, jitter, warmup, kernel/network path, CPU isolation, clocking/timestamps, packet loss, and recovery behavior.

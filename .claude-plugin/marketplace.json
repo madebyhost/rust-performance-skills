@@ -10,7 +10,7 @@
       "name": "rust-performance-skills",
       "displayName": "Rust Performance Skills",
       "source": "./claude-plugin/rust-performance-skills",
-      "description": "Expert Rust performance engineering plugin with skills, rulebook, and deterministic MCP tools.",
+      "description": "Expert Rust performance engineering plugin with skills, rulebook, deterministic MCP tools, and Tauri desktop/mobile guidance.",
       "author": {
         "name": "madebyhost",
         "email": "contact@mehdiaissani.com"
@@ -24,6 +24,7 @@
         "low-latency",
         "pyo3",
         "wasm",
+        "tauri",
         "ebpf",
         "sbe",
         "hft"

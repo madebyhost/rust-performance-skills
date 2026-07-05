@@ -3832,6 +3832,38 @@
       "trigger": "SIMD acceleration using core::arch, std::simd, target_feature, or CPU-specific hot paths."
     },
     {
+      "domain": "tauri",
+      "id": "tauri-batched-ipc-boundary",
+      "path": "rules/tauri-batched-ipc-boundary.md",
+      "related_rules": [
+        "wasm-boundary-copy-budget",
+        "perf-batch-processing",
+        "async-blocking-boundary-budget"
+      ],
+      "severity": "high",
+      "sources": [
+        "Tauri IPC: https://v2.tauri.app/concept/inter-process-communication/",
+        "Tauri Rust to frontend communication: https://v2.tauri.app/develop/calling-frontend/"
+      ],
+      "trigger": "Tauri commands or frontend code call `invoke` per row, packet, record, log line, progress tick, or UI item."
+    },
+    {
+      "domain": "tauri",
+      "id": "tauri-channel-streaming",
+      "path": "rules/tauri-channel-streaming.md",
+      "related_rules": [
+        "tauri-batched-ipc-boundary",
+        "async-bounded-channel",
+        "async-cancel-safety"
+      ],
+      "severity": "high",
+      "sources": [
+        "Tauri Rust to frontend communication: https://v2.tauri.app/develop/calling-frontend/",
+        "Tauri IPC: https://v2.tauri.app/concept/inter-process-communication/"
+      ],
+      "trigger": "Tauri apps stream progress, logs, search results, telemetry, imports, or long-running Rust task output to the frontend."
+    },
+    {
       "domain": "test",
       "id": "test-arrange-act-assert",
       "path": "rules/test-arrange-act-assert.md",

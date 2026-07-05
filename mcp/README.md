@@ -13,6 +13,7 @@ Current tools:
 - `binary_encoding_review_checklist`: return SBE and binary-codec checks.
 - `memory_simd_io_checklist`: return allocator, SIMD, mmap, io_uring, NUMA, and zero-copy checks.
 - `api_type_design_checklist`: return API/type-system, serde, macro, cfg, and semver checks.
+- `tauri_app_checklist`: return Tauri desktop/mobile IPC, channels, bundle, signing, system webview, and security checks.
 - `select_rust_rules`: select concrete rule cards from `rules/index.json`.
 - `explain_rust_rule`: return one full rule card with bad/good examples and verification.
 

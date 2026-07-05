@@ -72,6 +72,7 @@ def domain_for(rule_id: str) -> str:
         "ebpf": "ebpf",
         "pyo3": "pyo3",
         "wasm": "wasm",
+        "tauri": "tauri",
         "simd": "simd",
         "numa": "numa",
         "math": "math",

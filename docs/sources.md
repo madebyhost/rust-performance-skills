@@ -46,7 +46,7 @@ This project turns stable Rust ecosystem guidance into agent workflows. Prefer p
 - Importer: scripts/import_leonardomso_rules.py
 - Rule schema: id, severity, trigger, bad, good, when, when_not, verification, sources, related_rules
 - Imported base: leonardomso/rust-skills under the repository MIT license, normalized into local expert rule cards.
-- Local extensions: rust-performance-skills rules for HFT, SBE, eBPF, PyO3, Wasm, SIMD, NUMA, graph/math kernels, and io_uring.
+- Local extensions: rust-performance-skills rules for HFT, SBE, eBPF, PyO3, Wasm, Tauri, SIMD, NUMA, graph/math kernels, and io_uring.
 - MCPMarket review extensions: rust-best-practices guidance normalized into stronger local rules for async runtime selection, blocking boundaries, constructor ownership, fallible iterator collection, boolean API modes, early-return readability, named constants, and local quality gates.
 
 ## Kernel And eBPF
@@ -106,3 +106,14 @@ This project turns stable Rust ecosystem guidance into agent workflows. Prefer p
 - Rust and WebAssembly: https://rustwasm.github.io/book/
 - wasm-bindgen guide: https://rustwasm.github.io/docs/wasm-bindgen/
 - Rust WebAssembly overview: https://www.rust-lang.org/what/wasm/
+
+## Tauri Desktop And Mobile Apps
+
+- Tauri v2: https://v2.tauri.app/start/
+- Tauri process model: https://v2.tauri.app/concept/process-model/
+- Tauri IPC: https://v2.tauri.app/concept/inter-process-communication/
+- Tauri app size: https://v2.tauri.app/concept/size/
+- Tauri mobile prerequisites: https://v2.tauri.app/start/prerequisites/
+- Tauri distribution: https://v2.tauri.app/distribute/
+- Tauri Rust to frontend communication: https://v2.tauri.app/develop/calling-frontend/
+- Tauri configuration files: https://v2.tauri.app/develop/configuration-files/

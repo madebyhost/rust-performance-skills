@@ -30,6 +30,7 @@ REQUIRED_SKILLS = [
     "rust-math-algorithms-performance",
     "rust-memory-simd-io-performance",
     "rust-api-type-system-design",
+    "rust-tauri-app-performance",
     "rust-expert-rulebook",
 ]
 
@@ -140,6 +141,7 @@ def validate_docs() -> None:
         "evals/math-graph-simulation.md",
         "evals/memory-simd-io-hotpath.md",
         "evals/api-type-system-design.md",
+        "evals/tauri-cross-platform-app.md",
         "evals/rust-expert-rulebook.md",
         "docs/third-party-rust-skills-review.md",
         "docs/mcpmarket-rust-best-practices-review.md",
@@ -237,6 +239,12 @@ def validate_docs() -> None:
         "Rust Design Patterns",
         "Rust 2024 Edition Guide",
         "Rust Expert Rulebook",
+        "Tauri v2",
+        "Tauri process model",
+        "Tauri IPC",
+        "Tauri app size",
+        "Tauri mobile prerequisites",
+        "Tauri distribution",
         "mcpmarket.com/tools/skills/rust-best-practices",
         "thrashr888-agent-kit",
     ]:

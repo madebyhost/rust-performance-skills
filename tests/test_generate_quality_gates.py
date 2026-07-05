@@ -47,6 +47,22 @@ class QualityGateGeneratorTest(unittest.TestCase):
         self.assertIn("cargo +nightly miri test", commands)
         self.assertIn("cargo bench", commands)
 
+    def test_generates_tauri_gates(self) -> None:
+        result = run_generator(
+            {
+                "project_type": "tauri-app",
+                "findings": ["Tauri app structure detected"],
+                "strengths": [],
+                "recommendations": ["test Windows, Linux, macOS, iOS, and Android targets that are in scope"],
+            }
+        )
+        commands = "\n".join(result["commands"])
+        notes = "\n".join(result["notes"])
+        self.assertIn("cargo tauri build", commands)
+        self.assertIn("cargo tauri android build", commands)
+        self.assertIn("cargo tauri ios build", commands)
+        self.assertIn("Smoke-test Tauri bundles", notes)
+
 
 if __name__ == "__main__":
     unittest.main()

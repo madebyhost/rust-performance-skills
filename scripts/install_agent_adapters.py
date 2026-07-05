@@ -158,12 +158,12 @@ def marketplace_json(marketplace_name: str, plugin_source: str | dict[str, str])
                 "name": PLUGIN_NAME,
                 "displayName": "Rust Performance Skills",
                 "source": plugin_source,
-                "description": "Expert Rust performance engineering plugin with skills, rulebook, and deterministic MCP tools.",
+                "description": "Expert Rust performance engineering plugin with skills, rulebook, deterministic MCP tools, and Tauri desktop/mobile guidance.",
                 "author": {"name": "madebyhost", "email": "contact@mehdiaissani.com"},
                 "homepage": "https://github.com/madebyhost/rust-performance-skills",
                 "repository": "https://github.com/madebyhost/rust-performance-skills",
                 "license": "MIT",
-                "keywords": ["rust", "performance", "low-latency", "pyo3", "wasm", "ebpf", "sbe", "hft"],
+                "keywords": ["rust", "performance", "low-latency", "pyo3", "wasm", "tauri", "ebpf", "sbe", "hft"],
                 "category": "development",
                 "defaultEnabled": True,
             }
@@ -241,7 +241,7 @@ def merge_block(path: Path, block: str) -> None:
 
 
 def base_instruction(bundle_dir: Path) -> str:
-    return f"""Use {PLUGIN_NAME} for Rust performance, quality, and systems work.
+    return f"""Use {PLUGIN_NAME} for Rust performance, quality, and systems work, including Tauri desktop/mobile apps.
 
 Primary router:
 {bundle_dir}/skills/{ROUTER_SKILL}/SKILL.md
@@ -264,7 +264,7 @@ Behavior contract:
 def cursor_rule(bundle_dir: Path) -> str:
     return f"""---
 description: Rust performance engineering specialist for rust-performance-skills
-globs: **/*.rs,**/Cargo.toml,**/pyproject.toml,**/*.md
+globs: **/*.rs,**/Cargo.toml,**/pyproject.toml,**/tauri.conf.*,**/src-tauri/**,**/*.md
 alwaysApply: false
 ---
 

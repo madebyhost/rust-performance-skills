@@ -18,7 +18,7 @@ class ClaudePluginDistributionTest(unittest.TestCase):
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         self.assertEqual(manifest["name"], "rust-performance-skills")
         self.assertEqual(manifest["displayName"], "Rust Performance Skills")
-        self.assertEqual(manifest["version"], "0.1.0")
+        self.assertEqual(manifest["version"], "0.1.1")
         self.assertEqual(manifest["skills"], "./skills/")
         self.assertIn("rust-performance", manifest["mcpServers"])
         server = manifest["mcpServers"]["rust-performance"]
@@ -75,6 +75,7 @@ class ClaudePluginDistributionTest(unittest.TestCase):
             self.assertTrue((plugin_root / ".claude-plugin" / "plugin.json").exists())
             self.assertFalse((plugin_root / ".claude-plugin" / "marketplace.json").exists())
             self.assertTrue((plugin_root / "skills" / "rust-performance-engineering" / "SKILL.md").exists())
+            self.assertTrue((plugin_root / "skills" / "rust-tauri-app-performance" / "SKILL.md").exists())
             self.assertFalse((home / ".claude" / "skills" / "rust-performance-engineering").exists())
 
             calls = log.read_text(encoding="utf-8")

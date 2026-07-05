@@ -40,6 +40,14 @@ def generate(audit: dict) -> dict:
         add_unique(commands, "wasm-pack test --node")
         add_unique(commands, "wasm-pack build --release")
 
+    if audit.get("project_type") == "tauri-app" or has_signal(audit, "tauri"):
+        add_unique(commands, "cargo tauri build")
+        if any(has_signal(audit, token) for token in ["android", "mobile"]):
+            add_unique(commands, "cargo tauri android build")
+        if any(has_signal(audit, token) for token in ["ios", "mobile"]):
+            add_unique(commands, "cargo tauri ios build")
+        add_unique(notes, "Smoke-test Tauri bundles on every desktop/mobile target in scope, including signing and system webview assumptions.")
+
     if has_signal(audit, "unsafe Rust present") or has_signal(audit, "parser"):
         add_unique(commands, "cargo +nightly miri test")
         add_unique(notes, "Run Miri on targeted tests if dependencies support it.")

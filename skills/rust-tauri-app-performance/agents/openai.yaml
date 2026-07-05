@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Tauri App Performance"
+  short_description: "Tauri desktop/mobile Rust app performance"
+  default_prompt: "Use $rust-tauri-app-performance to design or review this Tauri app for cross-platform performance."
+
+policy:
+  allow_implicit_invocation: true
