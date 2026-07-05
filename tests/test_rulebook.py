@@ -37,6 +37,16 @@ ADVANCED_RULES = [
     "math-graph-compact-ids",
     "io-uring-backpressure",
 ]
+MARKET_RULES = [
+    "async-runtime-deliberate-choice",
+    "async-blocking-boundary-budget",
+    "api-constructor-owned-boundary",
+    "iter-collect-result-boundary",
+    "type-enum-over-boolean-parameter",
+    "readability-early-return-control-flow",
+    "const-named-domain-values",
+    "qa-local-quality-gate",
+]
 
 
 def load_rule(path: Path) -> dict[str, object]:
@@ -67,7 +77,7 @@ def load_rule(path: Path) -> dict[str, object]:
 class RulebookTest(unittest.TestCase):
     def test_rulebook_has_expert_scale(self) -> None:
         files = sorted(path for path in RULES.glob("*.md") if path.name != "README.md")
-        self.assertGreaterEqual(len(files), 275)
+        self.assertGreaterEqual(len(files), 283)
 
     def test_every_rule_uses_expert_card_schema(self) -> None:
         for path in sorted(RULES.glob("*.md")):
@@ -96,6 +106,16 @@ class RulebookTest(unittest.TestCase):
                 self.assertIn("rust-performance-skills", "\n".join(rule["sources"]))
                 self.assertIn("measure", str(rule["verification"]).lower())
 
+    def test_mcpmarket_review_rules_are_present_and_improved(self) -> None:
+        for rule_id in MARKET_RULES:
+            with self.subTest(rule=rule_id):
+                rule = load_rule(RULES / f"{rule_id}.md")
+                sources = "\n".join(rule["sources"])
+                self.assertIn("mcpmarket", sources.lower())
+                self.assertIn("thrashr888-agent-kit", sources)
+                self.assertIn("when_not", rule)
+                self.assertNotIn("Use tokio for Async Runtime", str(rule["good"]))
+
     def test_rule_index_matches_rule_files(self) -> None:
         index = json.loads(RULE_INDEX.read_text(encoding="utf-8"))
         indexed = {entry["id"]: entry for entry in index["rules"]}
@@ -105,6 +125,9 @@ class RulebookTest(unittest.TestCase):
             self.assertIn(rule_id, indexed)
             self.assertTrue(indexed[rule_id]["path"].startswith("rules/"))
 
+        for rule_id in MARKET_RULES:
+            self.assertIn(rule_id, indexed)
+
     def test_rulebook_skill_and_eval_exist(self) -> None:
         skill = ROOT / "skills" / "rust-expert-rulebook" / "SKILL.md"
         self.assertTrue(skill.exists())
@@ -112,6 +135,14 @@ class RulebookTest(unittest.TestCase):
         self.assertIn("rules/index.json", text)
         self.assertIn("rule IDs", text)
         self.assertTrue((ROOT / "evals" / "rust-expert-rulebook.md").exists())
+
+    def test_mcpmarket_review_document_exists(self) -> None:
+        review = ROOT / "docs" / "mcpmarket-rust-best-practices-review.md"
+        self.assertTrue(review.exists())
+        text = review.read_text(encoding="utf-8")
+        self.assertIn("Good as-is", text)
+        self.assertIn("Improved before adding", text)
+        self.assertIn("mcpmarket.com/tools/skills/rust-best-practices", text)
 
 
 if __name__ == "__main__":

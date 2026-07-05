@@ -19,6 +19,8 @@ DEFAULT_SOURCE = Path("/tmp/rust-skills-research/leonardomso-rust-skills/rules")
 RULES_DIR = ROOT / "rules"
 UPSTREAM_SOURCE = "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills"
 PLUGIN_SOURCE = "rust-performance-skills: https://github.com/madebyhost/rust-performance-skills"
+MCPMARKET_SOURCE = "mcpmarket rust-best-practices: https://mcpmarket.com/tools/skills/rust-best-practices"
+THRASHR_SOURCE = "thrashr888-agent-kit: https://github.com/thrashr888/thrashr888-agent-kit/tree/main/skills/rust-best-practices"
 
 ASCII_REPLACEMENTS = {
     "\u2013": "-",
@@ -458,6 +460,197 @@ reap_completions(&mut ring, &mut in_flight)?;
 ]
 
 
+MARKET_REVIEW_RULES = [
+    Rule(
+        rule_id="async-runtime-deliberate-choice",
+        severity="high",
+        trigger="Async application setup, library APIs that may be runtime-agnostic, or code that adds Tokio without a clear runtime contract.",
+        bad="""```rust
+#[tokio::main]
+async fn main() -> anyhow::Result<()> {
+    library_entrypoint().await
+}
+```""",
+        good="""```rust
+async fn run(client: Client) -> anyhow::Result<()> {
+    client.fetch().await?;
+    Ok(())
+}
+
+#[tokio::main]
+async fn main() -> anyhow::Result<()> {
+    run(Client::new()).await
+}
+```""",
+        when="Use when choosing an async runtime, adding `#[tokio::main]`, or designing library APIs that should not own the executor.",
+        when_not="Do not prescribe Tokio inside reusable libraries unless the crate intentionally exposes Tokio-specific types, timers, or I/O traits.",
+        verification="Measure runtime worker saturation, blocking sections, cancellation behavior, and test the public API without requiring hidden global runtime state.",
+        sources=[MCPMARKET_SOURCE, THRASHR_SOURCE, "Tokio: https://tokio.rs/"],
+        related_rules=["async-tokio-runtime", "async-spawn-blocking", "async-cancel-safety"],
+    ),
+    Rule(
+        rule_id="async-blocking-boundary-budget",
+        severity="high",
+        trigger="Async functions containing synchronous sleep, filesystem, compression, parsing, crypto, CPU-bound loops, or blocking client calls.",
+        bad="""```rust
+async fn refresh() {
+    std::thread::sleep(Duration::from_secs(1));
+    let bytes = std::fs::read("snapshot.bin").unwrap();
+    parse_big_snapshot(bytes);
+}
+```""",
+        good="""```rust
+async fn refresh() -> anyhow::Result<()> {
+    tokio::time::sleep(Duration::from_secs(1)).await;
+    let bytes = tokio::fs::read("snapshot.bin").await?;
+    tokio::task::spawn_blocking(move || parse_big_snapshot(bytes)).await??;
+    Ok(())
+}
+```""",
+        when="Use when blocking work can stall async workers or hide latency spikes under load.",
+        when_not="Do not move tiny CPU work into `spawn_blocking`; the scheduling overhead can exceed the saved worker time.",
+        verification="Measure worker utilization, latency under concurrent load, blocking pool size, cancellation behavior, and queue depth.",
+        sources=[MCPMARKET_SOURCE, THRASHR_SOURCE, "Tokio spawn_blocking: https://docs.rs/tokio/latest/tokio/task/fn.spawn_blocking.html"],
+        related_rules=["async-spawn-blocking", "async-tokio-fs", "async-bounded-channel"],
+    ),
+    Rule(
+        rule_id="api-constructor-owned-boundary",
+        severity="medium",
+        trigger="Constructors, builders, or factory functions that receive user-owned strings, paths, byte buffers, or domain values.",
+        bad="""```rust
+impl User {
+    pub fn new(name: &str) -> Self {
+        Self { name: name.to_string() }
+    }
+}
+```""",
+        good="""```rust
+impl User {
+    pub fn new(name: impl Into<String>) -> Self {
+        Self { name: name.into() }
+    }
+}
+```""",
+        when="Use when the constructed type stores owned data and callers may already have either borrowed or owned inputs.",
+        when_not="Do not use `impl Into<String>` when the function only borrows temporarily; prefer `&str` or `AsRef<str>` for borrowed APIs.",
+        verification="Add constructor tests for borrowed and owned inputs, check public API docs, and ensure the owned allocation happens only at the ownership boundary.",
+        sources=[MCPMARKET_SOURCE, THRASHR_SOURCE, "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"],
+        related_rules=["api-impl-into", "own-borrow-over-clone", "anti-string-for-str"],
+    ),
+    Rule(
+        rule_id="iter-collect-result-boundary",
+        severity="medium",
+        trigger="Iterator pipelines that transform fallible operations, parse many inputs, or convert many rows/items into domain values.",
+        bad="""```rust
+let users: Vec<User> = rows
+    .into_iter()
+    .filter_map(|row| User::try_from(row).ok())
+    .collect();
+```""",
+        good="""```rust
+let users: Result<Vec<User>, UserError> = rows
+    .into_iter()
+    .map(User::try_from)
+    .collect();
+```""",
+        when="Use when failures must be preserved and the caller should see the first conversion error instead of silent item loss.",
+        when_not="Do not use this when lossy filtering is the documented business rule; name that behavior explicitly.",
+        verification="Test success, first-error propagation, empty input, and input containing multiple invalid rows.",
+        sources=[MCPMARKET_SOURCE, THRASHR_SOURCE, "Rust Iterator docs: https://doc.rust-lang.org/std/iter/trait.Iterator.html"],
+        related_rules=["err-question-mark", "conv-tryfrom-fallible", "type-result-fallible"],
+    ),
+    Rule(
+        rule_id="type-enum-over-boolean-parameter",
+        severity="medium",
+        trigger="Public functions or constructors with boolean parameters whose meaning is not obvious at the call site.",
+        bad="""```rust
+client.sync(true, false);
+```""",
+        good="""```rust
+client.sync(SyncMode::Force, ConflictPolicy::KeepRemote);
+```""",
+        when="Use when each boolean represents a named mode, policy, direction, or state that affects behavior.",
+        when_not="Do not replace clear predicate setters or local booleans when names already communicate the behavior.",
+        verification="Check call sites for readability, add exhaustive tests for enum variants, and document default policies.",
+        sources=[MCPMARKET_SOURCE, THRASHR_SOURCE, "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"],
+        related_rules=["type-enum-states", "pat-exhaustive-enum", "api-non-exhaustive"],
+    ),
+    Rule(
+        rule_id="readability-early-return-control-flow",
+        severity="medium",
+        trigger="Deeply nested validation, parsing, request handling, or error handling where the happy path is obscured.",
+        bad="""```rust
+fn handle(req: Request) -> Result<Response, Error> {
+    if req.is_valid() {
+        if let Some(user) = req.user {
+            if user.active {
+                return process(user);
+            }
+        }
+    }
+    Err(Error::Invalid)
+}
+```""",
+        good="""```rust
+fn handle(req: Request) -> Result<Response, Error> {
+    ensure!(req.is_valid(), Error::Invalid);
+    let Some(user) = req.user else { return Err(Error::Invalid); };
+    ensure!(user.active, Error::Invalid);
+    process(user)
+}
+```""",
+        when="Use when early returns, `let else`, or small extraction makes failure handling explicit and the main path easier to audit.",
+        when_not="Do not split compact logic into many tiny functions if it hides invariants or makes ownership harder to follow.",
+        verification="Run tests for every exit path and review whether error context is preserved after flattening.",
+        sources=[MCPMARKET_SOURCE, THRASHR_SOURCE, "Rust let-else: https://doc.rust-lang.org/rust-by-example/flow_control/let_else.html"],
+        related_rules=["pat-let-else", "err-context-chain", "anti-over-abstraction"],
+    ),
+    Rule(
+        rule_id="const-named-domain-values",
+        severity="medium",
+        trigger="Magic numbers, protocol constants, timeout values, retry counts, port numbers, byte offsets, or capacity limits.",
+        bad="""```rust
+if packet.len() < 42 {
+    return Err(Error::ShortFrame);
+}
+let timeout = Duration::from_millis(250);
+```""",
+        good="""```rust
+const ETHERNET_IPV4_MIN_FRAME: usize = 42;
+const ORDER_ACK_TIMEOUT: Duration = Duration::from_millis(250);
+
+if packet.len() < ETHERNET_IPV4_MIN_FRAME {
+    return Err(Error::ShortFrame);
+}
+```""",
+        when="Use when a literal encodes a domain rule, protocol boundary, capacity, or SLA that reviewers must recognize.",
+        when_not="Do not name obvious tiny literals in local arithmetic when the name adds no domain information.",
+        verification="Check protocol fixtures, timeout tests, and docs to ensure named constants match the external contract.",
+        sources=[MCPMARKET_SOURCE, THRASHR_SOURCE, "Rust const items: https://doc.rust-lang.org/reference/items/constant-items.html"],
+        related_rules=["const-vs-static", "const-block", "mem-assert-type-size"],
+    ),
+    Rule(
+        rule_id="qa-local-quality-gate",
+        severity="high",
+        trigger="Before committing Rust changes, opening PRs, publishing crates, or handing work back to a user.",
+        bad="""```bash
+cargo build
+git commit -m change
+```""",
+        good="""```bash
+cargo fmt --all -- --check
+cargo clippy --workspace --all-targets --all-features -- -D warnings
+cargo test --workspace --all-targets --all-features
+```""",
+        when="Use for ordinary Rust code changes before claiming the work is ready.",
+        when_not="Do not blindly use `--all-features` when features are mutually exclusive; test the documented feature matrix instead.",
+        verification="Run the gate locally or in CI and record any skipped command with the exact blocker.",
+        sources=[MCPMARKET_SOURCE, THRASHR_SOURCE, "Cargo Book: https://doc.rust-lang.org/cargo/"],
+        related_rules=["lint-rustfmt-check", "lint-deny-correctness", "test-integration-dir"],
+    ),
+]
+
+
 def render_rule(rule: Rule) -> str:
     def list_block(values: list[str]) -> str:
         return "\n".join(f"- {value}" for value in values)
@@ -509,7 +702,7 @@ def import_rules(source: Path, destination: Path) -> int:
         (destination / f"{rule.rule_id}.md").write_text(render_rule(rule), encoding="utf-8")
         count += 1
 
-    for rule in ADVANCED_RULES:
+    for rule in ADVANCED_RULES + MARKET_REVIEW_RULES:
         (destination / f"{rule.rule_id}.md").write_text(render_rule(rule), encoding="utf-8")
         count += 1
 

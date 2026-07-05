@@ -293,6 +293,23 @@
     },
     {
       "domain": "api",
+      "id": "api-constructor-owned-boundary",
+      "path": "rules/api-constructor-owned-boundary.md",
+      "related_rules": [
+        "api-impl-into",
+        "own-borrow-over-clone",
+        "anti-string-for-str"
+      ],
+      "severity": "medium",
+      "sources": [
+        "mcpmarket rust-best-practices: https://mcpmarket.com/tools/skills/rust-best-practices",
+        "thrashr888-agent-kit: https://github.com/thrashr888/thrashr888-agent-kit/tree/main/skills/rust-best-practices",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Constructors, builders, or factory functions that receive user-owned strings, paths, byte buffers, or domain values."
+    },
+    {
+      "domain": "api",
       "id": "api-default-impl",
       "path": "rules/api-default-impl.md",
       "related_rules": [
@@ -538,6 +555,23 @@
     },
     {
       "domain": "async",
+      "id": "async-blocking-boundary-budget",
+      "path": "rules/async-blocking-boundary-budget.md",
+      "related_rules": [
+        "async-spawn-blocking",
+        "async-tokio-fs",
+        "async-bounded-channel"
+      ],
+      "severity": "high",
+      "sources": [
+        "mcpmarket rust-best-practices: https://mcpmarket.com/tools/skills/rust-best-practices",
+        "thrashr888-agent-kit: https://github.com/thrashr888/thrashr888-agent-kit/tree/main/skills/rust-best-practices",
+        "Tokio spawn_blocking: https://docs.rs/tokio/latest/tokio/task/fn.spawn_blocking.html"
+      ],
+      "trigger": "Async functions containing synchronous sleep, filesystem, compression, parsing, crypto, CPU-bound loops, or blocking client calls."
+    },
+    {
+      "domain": "async",
       "id": "async-bounded-channel",
       "path": "rules/async-bounded-channel.md",
       "related_rules": [
@@ -711,6 +745,23 @@
         "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
       ],
       "trigger": "Use `oneshot` channel for request-response patterns. Trigger when working on async runtime and cancellation and the code shows `async`-class risk."
+    },
+    {
+      "domain": "async",
+      "id": "async-runtime-deliberate-choice",
+      "path": "rules/async-runtime-deliberate-choice.md",
+      "related_rules": [
+        "async-tokio-runtime",
+        "async-spawn-blocking",
+        "async-cancel-safety"
+      ],
+      "severity": "high",
+      "sources": [
+        "mcpmarket rust-best-practices: https://mcpmarket.com/tools/skills/rust-best-practices",
+        "thrashr888-agent-kit: https://github.com/thrashr888/thrashr888-agent-kit/tree/main/skills/rust-best-practices",
+        "Tokio: https://tokio.rs/"
+      ],
+      "trigger": "Async application setup, library APIs that may be runtime-agnostic, or code that adds Tokio without a clear runtime contract."
     },
     {
       "domain": "async",
@@ -1054,6 +1105,23 @@
         "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
       ],
       "trigger": "Parameterize over values with const generics `<const N: usize>`. Trigger when working on compile-time evaluation and the code shows `const`-class risk."
+    },
+    {
+      "domain": "const",
+      "id": "const-named-domain-values",
+      "path": "rules/const-named-domain-values.md",
+      "related_rules": [
+        "const-vs-static",
+        "const-block",
+        "mem-assert-type-size"
+      ],
+      "severity": "medium",
+      "sources": [
+        "mcpmarket rust-best-practices: https://mcpmarket.com/tools/skills/rust-best-practices",
+        "thrashr888-agent-kit: https://github.com/thrashr888/thrashr888-agent-kit/tree/main/skills/rust-best-practices",
+        "Rust const items: https://doc.rust-lang.org/reference/items/constant-items.html"
+      ],
+      "trigger": "Magic numbers, protocol constants, timeout values, retry counts, port numbers, byte offsets, or capacity limits."
     },
     {
       "domain": "const",
@@ -1566,6 +1634,23 @@
         "io-uring crate: https://docs.rs/io-uring/"
       ],
       "trigger": "io_uring, mmap, direct I/O, queue-depth tuning, or disk/network I/O pipelines in Rust."
+    },
+    {
+      "domain": "iter",
+      "id": "iter-collect-result-boundary",
+      "path": "rules/iter-collect-result-boundary.md",
+      "related_rules": [
+        "err-question-mark",
+        "conv-tryfrom-fallible",
+        "type-result-fallible"
+      ],
+      "severity": "medium",
+      "sources": [
+        "mcpmarket rust-best-practices: https://mcpmarket.com/tools/skills/rust-best-practices",
+        "thrashr888-agent-kit: https://github.com/thrashr888/thrashr888-agent-kit/tree/main/skills/rust-best-practices",
+        "Rust Iterator docs: https://doc.rust-lang.org/std/iter/trait.Iterator.html"
+      ],
+      "trigger": "Iterator pipelines that transform fallible operations, parse many inputs, or convert many rows/items into domain values."
     },
     {
       "domain": "lint",
@@ -3559,6 +3644,40 @@
       "trigger": "PyO3 extension functions that perform CPU-bound loops, parsing, compression, graph algorithms, or batch transforms."
     },
     {
+      "domain": "qa",
+      "id": "qa-local-quality-gate",
+      "path": "rules/qa-local-quality-gate.md",
+      "related_rules": [
+        "lint-rustfmt-check",
+        "lint-deny-correctness",
+        "test-integration-dir"
+      ],
+      "severity": "high",
+      "sources": [
+        "mcpmarket rust-best-practices: https://mcpmarket.com/tools/skills/rust-best-practices",
+        "thrashr888-agent-kit: https://github.com/thrashr888/thrashr888-agent-kit/tree/main/skills/rust-best-practices",
+        "Cargo Book: https://doc.rust-lang.org/cargo/"
+      ],
+      "trigger": "Before committing Rust changes, opening PRs, publishing crates, or handing work back to a user."
+    },
+    {
+      "domain": "readability",
+      "id": "readability-early-return-control-flow",
+      "path": "rules/readability-early-return-control-flow.md",
+      "related_rules": [
+        "pat-let-else",
+        "err-context-chain",
+        "anti-over-abstraction"
+      ],
+      "severity": "medium",
+      "sources": [
+        "mcpmarket rust-best-practices: https://mcpmarket.com/tools/skills/rust-best-practices",
+        "thrashr888-agent-kit: https://github.com/thrashr888/thrashr888-agent-kit/tree/main/skills/rust-best-practices",
+        "Rust let-else: https://doc.rust-lang.org/rust-by-example/flow_control/let_else.html"
+      ],
+      "trigger": "Deeply nested validation, parsing, request handling, or error handling where the happy path is obscured."
+    },
+    {
       "domain": "sbe",
       "id": "sbe-zero-copy-lifetime",
       "path": "rules/sbe-zero-copy-lifetime.md",
@@ -4078,6 +4197,23 @@
         "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
       ],
       "trigger": "Use `Display` for user-facing output and `Debug` for diagnostics; never swap them. Trigger when working on type-system invariants and the code shows `type`-class risk."
+    },
+    {
+      "domain": "types",
+      "id": "type-enum-over-boolean-parameter",
+      "path": "rules/type-enum-over-boolean-parameter.md",
+      "related_rules": [
+        "type-enum-states",
+        "pat-exhaustive-enum",
+        "api-non-exhaustive"
+      ],
+      "severity": "medium",
+      "sources": [
+        "mcpmarket rust-best-practices: https://mcpmarket.com/tools/skills/rust-best-practices",
+        "thrashr888-agent-kit: https://github.com/thrashr888/thrashr888-agent-kit/tree/main/skills/rust-best-practices",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Public functions or constructors with boolean parameters whose meaning is not obvious at the call site."
     },
     {
       "domain": "types",

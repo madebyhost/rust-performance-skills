@@ -24,7 +24,10 @@ This project turns stable Rust ecosystem guidance into agent workflows. Prefer p
 
 - leonardomso/rust-skills: https://github.com/leonardomso/rust-skills
 - actionbook/rust-skills: https://github.com/actionbook/rust-skills
+- MCP Market rust-best-practices: https://mcpmarket.com/tools/skills/rust-best-practices
+- thrashr888-agent-kit rust-best-practices: https://github.com/thrashr888/thrashr888-agent-kit/tree/main/skills/rust-best-practices
 - Local comparison notes: docs/third-party-rust-skills-review.md
+- Local MCPMarket review notes: docs/mcpmarket-rust-best-practices-review.md
 
 ## Rust Expert Rulebook
 
@@ -34,6 +37,7 @@ This project turns stable Rust ecosystem guidance into agent workflows. Prefer p
 - Rule schema: id, severity, trigger, bad, good, when, when_not, verification, sources, related_rules
 - Imported base: leonardomso/rust-skills under the repository MIT license, normalized into local expert rule cards.
 - Local extensions: rust-performance-skills rules for HFT, SBE, eBPF, PyO3, Wasm, SIMD, NUMA, graph/math kernels, and io_uring.
+- MCPMarket review extensions: rust-best-practices guidance normalized into stronger local rules for async runtime selection, blocking boundaries, constructor ownership, fallible iterator collection, boolean API modes, early-return readability, named constants, and local quality gates.
 
 ## Kernel And eBPF
 

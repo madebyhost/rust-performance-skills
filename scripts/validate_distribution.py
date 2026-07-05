@@ -138,6 +138,7 @@ def validate_docs() -> None:
         "evals/api-type-system-design.md",
         "evals/rust-expert-rulebook.md",
         "docs/third-party-rust-skills-review.md",
+        "docs/mcpmarket-rust-best-practices-review.md",
         "rules/index.json",
         "scripts/import_leonardomso_rules.py",
         "scripts/build_rule_index.py",
@@ -207,6 +208,8 @@ def validate_docs() -> None:
         "Rust Design Patterns",
         "Rust 2024 Edition Guide",
         "Rust Expert Rulebook",
+        "mcpmarket.com/tools/skills/rust-best-practices",
+        "thrashr888-agent-kit",
     ]:
         if token not in sources:
             fail(f"sources do not mention {token}")

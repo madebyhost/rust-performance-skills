@@ -18,6 +18,15 @@ This project periodically reviews external Rust skill collections for coverage g
 - Useful coverage: cognitive layer routing from language mechanics to design choices and domain constraints; domain-specific prompts for FinTech, embedded, ML, cloud-native, IoT, web, and CLI work; explicit "do not just clone" style reasoning for ownership errors.
 - Adopted direction: use the reasoning shape as static inspiration for router/review behavior, especially "compiler error -> design constraint -> domain rule". Do not import hook behavior, background agents, `.mcp.json`, achievement scripts, `agent-browser`, or automatic setup.
 
+## MCPMarket rust-best-practices
+
+- Page: https://mcpmarket.com/tools/skills/rust-best-practices
+- Source skill: https://github.com/thrashr888/thrashr888-agent-kit/tree/main/skills/rust-best-practices
+- Reviewed checkout: `74db9cc`
+- License status in checkout: README claims MIT, but no root `LICENSE` file was present.
+- Useful coverage: high-level idiomatic Rust guidance for error handling, ownership, type-safe APIs, iterators, async, tests, performance, module organization, docs, and common anti-patterns.
+- Adopted direction: keep the useful coverage as attribution-backed static guidance, but add only improved local rules where the recommendation needed sharper scope, exceptions, or verification. See `docs/mcpmarket-rust-best-practices-review.md`.
+
 ## Gaps Closed In This Repository
 
 - Added `rust-api-type-system-design` for API and type-system boundaries that were too broad in `rust-code-quality`.
@@ -25,6 +34,7 @@ This project periodically reviews external Rust skill collections for coverage g
 - Added audit detection for API/type-system design signals.
 - Added MCP checklist support for API/type design.
 - Added source attribution so maintainers can trace why these rules exist.
+- Added MCPMarket-derived expert cards for async runtime choice, async blocking boundaries, constructor ownership, fallible iterator collection, boolean API modes, early-return readability, named domain constants, and local quality gates.
 
 ## Non-Goals
 
