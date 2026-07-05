@@ -48,6 +48,37 @@ TOOLS = [
             },
         },
     },
+    {
+        "name": "detect_performance_domains",
+        "description": "Classify performance domains from Rust audit JSON.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {"audit": {"type": "object"}},
+            "required": ["audit"],
+        },
+    },
+    {
+        "name": "rust_algorithm_checklist",
+        "description": "Return algorithm and math performance checks for Rust implementations.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "algorithm": {"type": "string"},
+                "signals": {"type": "array", "items": {"type": "string"}},
+            },
+        },
+    },
+    {
+        "name": "binary_encoding_review_checklist",
+        "description": "Return binary codec and SBE review checks for Rust implementations.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "codec": {"type": "string"},
+                "signals": {"type": "array", "items": {"type": "string"}},
+            },
+        },
+    },
 ]
 
 
@@ -60,15 +91,99 @@ def list_skills() -> dict[str, Any]:
     return {"skills": skills}
 
 
+def append_unique(values: list[str], value: str) -> None:
+    if value not in values:
+        values.append(value)
+
+
+def audit_signal_text(audit_data: dict[str, Any]) -> str:
+    parts = [str(audit_data.get("project_type", ""))]
+    for key in ["strengths", "findings", "recommendations"]:
+        values = audit_data.get(key, [])
+        if isinstance(values, list):
+            parts.extend(str(value) for value in values)
+    return "\n".join(parts).lower()
+
+
+def detect_performance_domains(arguments: dict[str, Any]) -> dict[str, Any]:
+    text = audit_signal_text(arguments.get("audit", {}))
+    domains: list[str] = []
+    if any(token in text for token in ["ebpf", "kernel performance", "xdp", "libbpf", "aya"]):
+        append_unique(domains, "ebpf")
+    if any(token in text for token in ["sbe", "binary codec", "simple binary encoding", "templateid"]):
+        append_unique(domains, "sbe")
+    if any(token in text for token in ["math/algorithm", "algorithm", "graph", "monte carlo", "poisson", "markov"]):
+        append_unique(domains, "math")
+    if any(token in text for token in ["low-latency", "hft", "market data", "multicast"]):
+        append_unique(domains, "hft")
+    if any(token in text for token in ["pyo3", "maturin", "python"]):
+        append_unique(domains, "pyo3")
+    if "wasm" in text:
+        append_unique(domains, "wasm")
+    if "unsafe" in text:
+        append_unique(domains, "unsafe")
+    return {"domains": domains}
+
+
+def algorithm_checklist(arguments: dict[str, Any]) -> dict[str, Any]:
+    algorithm = str(arguments.get("algorithm", "")).lower()
+    signals = " ".join(str(signal).lower() for signal in arguments.get("signals", []))
+    text = f"{algorithm} {signals}"
+    checks = [
+        "define input size, density, distribution, and latency target before optimizing",
+        "benchmark representative and adversarial datasets",
+        "measure allocations, cache misses, and branch misses before changing data layout",
+    ]
+    if any(token in text for token in ["bfs", "dfs", "dijkstra", "a*", "astar", "petgraph", "graph"]):
+        checks.extend(
+            [
+                "use compact node IDs and cache-friendly adjacency storage",
+                "preallocate frontier, distance, and predecessor buffers",
+                "avoid hashing and heap churn in the inner traversal loop",
+            ]
+        )
+    if any(token in text for token in ["rayon", "parallel", "threads"]):
+        checks.append("parallelize only after partitioning avoids shared hot counters and false sharing")
+    if any(token in text for token in ["monte", "markov", "poisson", "rand", "statrs", "simulation"]):
+        checks.extend(
+            [
+                "control RNG seeds and statistical tolerances",
+                "separate deterministic unit tests from stochastic convergence tests",
+            ]
+        )
+    return {"checks": checks}
+
+
+def binary_encoding_checklist(arguments: dict[str, Any]) -> dict[str, Any]:
+    codec = str(arguments.get("codec", "")).lower()
+    signals = " ".join(str(signal).lower() for signal in arguments.get("signals", []))
+    text = f"{codec} {signals}"
+    checks = [
+        "bounds-check every frame length before indexing",
+        "fuzz truncated frames and unknown message versions",
+        "keep decode APIs explicit about ownership and byte order",
+    ]
+    if any(token in text for token in ["sbe", "templateid", "actingversion", "blocklength", "schema"]):
+        checks.extend(
+            [
+                "golden frame fixtures for every schema version",
+                "validate block length, template ID, schema ID, and acting version",
+                "zero-copy decode lifetimes cannot outlive the frame",
+            ]
+        )
+    return {"checks": checks}
+
+
 def review_checklist(arguments: dict[str, Any]) -> dict[str, Any]:
     findings = "\n".join(arguments.get("findings", []))
+    findings_lower = findings.lower()
     checks = [
         "correctness and API compatibility",
         "tests and CI quality gates",
         "allocation/copy hot paths",
         "error handling and observability",
     ]
-    if "unsafe" in findings:
+    if "unsafe" in findings_lower:
         checks.extend(["SAFETY comments", "Miri or sanitizer suitability", "safe wrapper invariants"])
     if arguments.get("project_type") == "pyo3-extension":
         checks.extend(["Python/Rust boundary cost", "maturin wheel build and import test"])
@@ -76,6 +191,12 @@ def review_checklist(arguments: dict[str, Any]) -> dict[str, Any]:
         checks.extend(["JS/Wasm boundary cost", "wasm-pack build and test"])
     if "low-latency/HFT vocabulary present" in findings:
         checks.extend(["p99/p999 latency", "drops and queue depth", "CPU/cache/network assumptions"])
+    if "ebpf" in findings_lower or "kernel performance" in findings_lower:
+        checks.extend(["eBPF verifier, map, and privilege assumptions", "kernel/userspace benchmark separation"])
+    if "sbe" in findings_lower or "binary codec" in findings_lower:
+        checks.extend(["SBE schema compatibility and golden frames", "zero-copy frame lifetime and bounds handling"])
+    if "math/algorithm" in findings_lower or "algorithm" in findings_lower:
+        checks.extend(["algorithmic complexity and cache-aware data layout", "deterministic stochastic test tolerances"])
     return {"checks": checks}
 
 
@@ -88,6 +209,12 @@ def call_tool(name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         return list_skills()
     if name == "rust_review_checklist":
         return review_checklist(arguments)
+    if name == "detect_performance_domains":
+        return detect_performance_domains(arguments)
+    if name == "rust_algorithm_checklist":
+        return algorithm_checklist(arguments)
+    if name == "binary_encoding_review_checklist":
+        return binary_encoding_checklist(arguments)
     raise ValueError(f"unknown tool: {name}")
 
 

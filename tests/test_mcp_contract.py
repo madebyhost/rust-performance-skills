@@ -31,6 +31,9 @@ class McpContractTest(unittest.TestCase):
         self.assertIn("generate_quality_gates", names)
         self.assertIn("list_rust_skills", names)
         self.assertIn("rust_review_checklist", names)
+        self.assertIn("detect_performance_domains", names)
+        self.assertIn("rust_algorithm_checklist", names)
+        self.assertIn("binary_encoding_review_checklist", names)
 
     def test_direct_call_audit_and_gates(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -68,6 +71,88 @@ class McpContractTest(unittest.TestCase):
             )
             gates = json.loads(completed.stdout)
             self.assertIn("cargo fmt --check", "\n".join(gates["commands"]))
+
+    def test_direct_call_v5_domain_tools(self) -> None:
+        audit = {
+            "project_type": "rust",
+            "strengths": [],
+            "findings": [
+                "eBPF/kernel performance signals present",
+                "SBE/binary codec signals present",
+                "math/algorithm performance signals present",
+                "unsafe Rust present",
+            ],
+            "recommendations": [],
+        }
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(SERVER),
+                "--call",
+                "detect_performance_domains",
+                "--arguments",
+                json.dumps({"audit": audit}),
+            ],
+            check=True,
+            text=True,
+            stdout=subprocess.PIPE,
+        )
+        domains = json.loads(completed.stdout)
+        self.assertEqual(["ebpf", "sbe", "math", "unsafe"], domains["domains"])
+
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(SERVER),
+                "--call",
+                "rust_algorithm_checklist",
+                "--arguments",
+                json.dumps({"algorithm": "dijkstra", "signals": ["petgraph", "rayon", "poisson"]}),
+            ],
+            check=True,
+            text=True,
+            stdout=subprocess.PIPE,
+        )
+        algorithm = json.loads(completed.stdout)
+        self.assertIn("use compact node IDs and cache-friendly adjacency storage", algorithm["checks"])
+        self.assertIn("preallocate frontier, distance, and predecessor buffers", algorithm["checks"])
+        self.assertIn("control RNG seeds and statistical tolerances", algorithm["checks"])
+
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(SERVER),
+                "--call",
+                "binary_encoding_review_checklist",
+                "--arguments",
+                json.dumps({"codec": "sbe", "signals": ["templateId", "actingVersion"]}),
+            ],
+            check=True,
+            text=True,
+            stdout=subprocess.PIPE,
+        )
+        codec = json.loads(completed.stdout)
+        self.assertIn("golden frame fixtures for every schema version", codec["checks"])
+        self.assertIn("validate block length, template ID, schema ID, and acting version", codec["checks"])
+        self.assertIn("zero-copy decode lifetimes cannot outlive the frame", codec["checks"])
+
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(SERVER),
+                "--call",
+                "rust_review_checklist",
+                "--arguments",
+                json.dumps({"project_type": "rust", "findings": audit["findings"]}),
+            ],
+            check=True,
+            text=True,
+            stdout=subprocess.PIPE,
+        )
+        review = json.loads(completed.stdout)
+        self.assertIn("eBPF verifier, map, and privilege assumptions", review["checks"])
+        self.assertIn("SBE schema compatibility and golden frames", review["checks"])
+        self.assertIn("algorithmic complexity and cache-aware data layout", review["checks"])
 
 
 if __name__ == "__main__":
