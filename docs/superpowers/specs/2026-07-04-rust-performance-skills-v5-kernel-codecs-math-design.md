@@ -36,7 +36,10 @@ It must help agents:
 - decide when eBPF is justified versus normal userspace tracing or networking;
 - choose XDP, tc, tracepoint, kprobe, uprobe, or userspace-only instrumentation;
 - reason about verifier constraints, map design, stack limits, no-heap/no-std constraints, bounded loops, tail calls, and kernel/user copy cost;
+- use the `docs.ebpf.io` Linux reference vocabulary: maps, verifier, concurrency, pinning, tail calls, loops, timers, resource limits, AF_XDP, kfuncs, dynptrs, trampolines, and USDT;
 - design low-overhead event paths with ring buffers, perf buffers, per-CPU maps, aggregation, and sampling;
+- choose map families deliberately: hash/array, per-CPU maps, LRU maps, queue/stack maps, LPM trie, bloom filter, ringbuf/user-ringbuf, perf event array, devmap, cpumap, xskmap, sockmap, sockhash, and prog array;
+- distinguish network, tracing, cgroup, LSM, syscall, struct-ops, and lightweight tunnel program types before recommending an attachment point;
 - keep safety boundaries explicit when reading kernel memory or packet data;
 - avoid suggesting privileged operations unless the user explicitly asks to run them.
 
@@ -91,7 +94,7 @@ The audit result should add findings and recommendations for each domain without
 
 Add:
 
-- source map entries for Linux BPF docs, Aya, libbpf-rs, FIX SBE, Real Logic SBE, petgraph, ndarray, Rayon, rand, rand_distr, statrs, and Rust std SIMD;
+- source map entries for Linux BPF docs, docs.ebpf.io, ebpf.io, Aya, libbpf-rs, FIX SBE, Real Logic SBE, petgraph, ndarray, Rayon, rand, rand_distr, statrs, and Rust std SIMD;
 - evals for eBPF/XDP, SBE market-data codec, and math/graph/simulation performance reviews;
 - README skill list updates.
 
