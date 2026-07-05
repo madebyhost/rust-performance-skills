@@ -8,9 +8,28 @@ from pathlib import Path
 
 
 HFT_RE = re.compile(r"hft|multicast|ring[_ -]?buffer|disruptor|orderbook|order_book|market[_ -]?data|low[_ -]?latency", re.I)
+EBPF_RE = re.compile(
+    r"\bebpf\b|\bbpf_|\bBPF_(?:PROG|MAP)_TYPE|af_xdp|\bxdp\b|xskmap|cpumap|devmap|sockmap|sockhash|"
+    r"kprobe|uprobe|tracepoint|tcx?|ringbuf|verifier|bounded loop|tail call|aya[_-]?bpf|libbpf",
+    re.I,
+)
+SBE_RE = re.compile(
+    r"\bsbe\b|simple binary encoding|messageHeader|templateId|schemaId|blockLength|actingVersion|"
+    r"actingBlockLength|semanticType|messageSchema",
+    re.I,
+)
+MATH_RE = re.compile(
+    r"\bbfs\b|\bdfs\b|dijkstra|a\*|astar|markov|monte\s*carlo|montecarlo|poisson|"
+    r"bellman|floyd|kruskal|prim|pagerank|toposort|sparse matrix|linear algebra|simulation",
+    re.I,
+)
 UNSAFE_RE = re.compile(r"\bunsafe\b|\*const\b|\*mut\b|transmute|MaybeUninit|NonNull")
 PUBLIC_API_RE = re.compile(r"(?m)^\s*pub\s+(?:unsafe\s+)?(?:async\s+)?(?:fn|struct|enum|trait|mod|type|const|static)\b")
 PARSER_RE = re.compile(r"\bparse(?:r|_|\b)|decode|deserialize", re.I)
+PROJECT_TEXT_EXTENSIONS = {".rs", ".toml", ".xml", ".sbe", ".proto", ".fbs", ".yaml", ".yml"}
+EBPF_DEPS = {"aya", "aya-bpf", "libbpf-rs", "libbpf-cargo", "redbpf", "rbpf"}
+SBE_DEPS = {"sbe", "sbe-codegen", "simple-binary-encoding", "fix-sbe", "fix-simple-binary-encoding"}
+MATH_DEPS = {"petgraph", "ndarray", "nalgebra", "sprs", "faer", "statrs", "rand_distr", "argmin"}
 
 
 def load_toml(path: Path) -> dict:
@@ -26,6 +45,22 @@ def read_rust_sources(root: Path) -> str:
         if any(part in {"target", ".git"} for part in path.parts):
             continue
         try:
+            chunks.append(path.read_text(encoding="utf-8", errors="ignore"))
+        except OSError:
+            continue
+    return "\n".join(chunks)
+
+
+def read_project_text(root: Path) -> str:
+    chunks: list[str] = []
+    for path in root.rglob("*"):
+        if any(part in {"target", ".git"} for part in path.parts):
+            continue
+        if not path.is_file() or path.name == "Cargo.lock" or path.suffix not in PROJECT_TEXT_EXTENSIONS:
+            continue
+        try:
+            if path.stat().st_size > 1_000_000:
+                continue
             chunks.append(path.read_text(encoding="utf-8", errors="ignore"))
         except OSError:
             continue
@@ -127,6 +162,7 @@ def audit(root: Path) -> dict:
     pyproject = load_toml(pyproject_path) if pyproject_path.exists() else None
     deps = dependencies(cargo)
     sources = read_rust_sources(root)
+    project_text = read_project_text(root)
     result["project_type"] = detect_project_type(cargo, pyproject, deps)
 
     package = cargo.get("package", {})
@@ -194,6 +230,28 @@ def audit(root: Path) -> dict:
     if HFT_RE.search(sources) or HFT_RE.search(cargo_path.read_text(encoding="utf-8")):
         append_unique(result["findings"], "low-latency/HFT vocabulary present")
         append_unique(result["recommendations"], "capture p99/p999 latency, drops, queue depth, and replay behavior")
+
+    if EBPF_RE.search(project_text) or EBPF_DEPS & deps:
+        append_unique(result["findings"], "eBPF/kernel performance signals present")
+        if EBPF_DEPS & deps:
+            append_unique(result["strengths"], "eBPF Rust tooling detected")
+        append_unique(result["recommendations"], "verify bounded loops, map capacity, and required kernel capabilities")
+        append_unique(result["recommendations"], "test eBPF loaders without requiring root in default CI")
+        append_unique(result["recommendations"], "separate kernel datapath benchmarks from userspace loader overhead")
+
+    if SBE_RE.search(project_text) or SBE_DEPS & deps:
+        append_unique(result["findings"], "SBE/binary codec signals present")
+        append_unique(result["recommendations"], "add golden frame fixtures and schema compatibility tests")
+        append_unique(result["recommendations"], "verify zero-copy decode lifetimes and endian/block-length handling")
+        append_unique(result["recommendations"], "fuzz decoders for truncated frames and unknown template versions")
+
+    if MATH_RE.search(project_text) or MATH_DEPS & deps:
+        append_unique(result["findings"], "math/algorithm performance signals present")
+        if MATH_DEPS & deps:
+            append_unique(result["strengths"], "math and graph tooling detected")
+        append_unique(result["recommendations"], "benchmark algorithmic complexity against representative graph sizes")
+        append_unique(result["recommendations"], "control RNG seeds and statistical tolerances for simulations")
+        append_unique(result["recommendations"], "prefer compact IDs, preallocation, and cache-friendly layouts for graph hot paths")
 
     return result
 
