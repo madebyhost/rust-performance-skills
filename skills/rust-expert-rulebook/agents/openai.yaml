@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Expert Rulebook"
+  short_description: "Concrete Rust rule cards with bad/good examples, exceptions, verification, and rule IDs"
+  default_prompt: "Use $rust-expert-rulebook to review this Rust code against concrete rule IDs, bad/good examples, exceptions, and verification checks."
+
+policy:
+  allow_implicit_invocation: true

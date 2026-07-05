@@ -12,6 +12,9 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from generate_quality_gates import generate  # noqa: E402
 from rust_project_audit import audit  # noqa: E402
 
+RULES_DIR = ROOT / "rules"
+RULE_INDEX = RULES_DIR / "index.json"
+
 
 TOOLS = [
     {
@@ -99,6 +102,28 @@ TOOLS = [
             },
         },
     },
+    {
+        "name": "select_rust_rules",
+        "description": "Select concrete Rust expert rule cards by signals, domain, severity, and limit.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "signals": {"type": "array", "items": {"type": "string"}},
+                "domain": {"type": "string"},
+                "severity": {"type": "string"},
+                "limit": {"type": "integer"},
+            },
+        },
+    },
+    {
+        "name": "explain_rust_rule",
+        "description": "Return one Rust expert rule card with bad/good examples, exceptions, verification, sources, and related rules.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {"rule_id": {"type": "string"}},
+            "required": ["rule_id"],
+        },
+    },
 ]
 
 
@@ -123,6 +148,84 @@ def audit_signal_text(audit_data: dict[str, Any]) -> str:
         if isinstance(values, list):
             parts.extend(str(value) for value in values)
     return "\n".join(parts).lower()
+
+
+def read_rule_index() -> dict[str, Any]:
+    if not RULE_INDEX.exists():
+        return {"schema_version": 1, "rules": []}
+    return json.loads(RULE_INDEX.read_text(encoding="utf-8"))
+
+
+def parse_rule_card(path: Path) -> dict[str, Any]:
+    data: dict[str, Any] = {}
+    current: str | None = None
+    lines: list[str] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.startswith("## "):
+            if current is not None:
+                data[current] = "\n".join(lines).strip()
+            current = line[3:].strip()
+            lines = []
+        elif current is not None:
+            lines.append(line)
+    if current is not None:
+        data[current] = "\n".join(lines).strip()
+    for field in ["sources", "related_rules"]:
+        raw = str(data.get(field, ""))
+        data[field] = [
+            item[2:].strip()
+            for item in raw.splitlines()
+            if item.startswith("- ") and item[2:].strip()
+        ]
+    return data
+
+
+def severity_rank(severity: str) -> int:
+    return {"critical": 5, "high": 4, "medium": 3, "low": 2, "reference": 1}.get(severity, 0)
+
+
+def select_rust_rules(arguments: dict[str, Any]) -> dict[str, Any]:
+    signals = [str(signal).lower() for signal in arguments.get("signals", [])]
+    domain = str(arguments.get("domain", "")).lower()
+    severity = str(arguments.get("severity", "")).lower()
+    limit = int(arguments.get("limit", 12))
+    limit = max(1, min(limit, 50))
+    selected: list[tuple[int, dict[str, Any]]] = []
+    for entry in read_rule_index().get("rules", []):
+        haystack = " ".join(
+            [
+                str(entry.get("id", "")),
+                str(entry.get("domain", "")),
+                str(entry.get("severity", "")),
+                str(entry.get("trigger", "")),
+                " ".join(str(item) for item in entry.get("related_rules", [])),
+            ]
+        ).lower()
+        if domain and domain not in haystack:
+            continue
+        if severity and severity != str(entry.get("severity", "")).lower():
+            continue
+        score = severity_rank(str(entry.get("severity", "")))
+        for signal in signals:
+            for token in signal.replace("_", "-").split():
+                if token and token in haystack:
+                    score += 10
+            if signal and signal in haystack:
+                score += 25
+        if not signals or score > severity_rank(str(entry.get("severity", ""))):
+            selected.append((score, entry))
+    selected.sort(key=lambda item: (-item[0], -severity_rank(str(item[1].get("severity", ""))), item[1].get("id", "")))
+    return {"rules": [entry for _, entry in selected[:limit]]}
+
+
+def explain_rust_rule(arguments: dict[str, Any]) -> dict[str, Any]:
+    rule_id = str(arguments["rule_id"])
+    if "/" in rule_id or ".." in rule_id:
+        raise ValueError("invalid rule_id")
+    path = RULES_DIR / f"{rule_id}.md"
+    if not path.exists():
+        raise ValueError(f"unknown rule: {rule_id}")
+    return parse_rule_card(path)
 
 
 def detect_performance_domains(arguments: dict[str, Any]) -> dict[str, Any]:
@@ -301,6 +404,10 @@ def call_tool(name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         return memory_simd_io_checklist(arguments)
     if name == "api_type_design_checklist":
         return api_type_design_checklist(arguments)
+    if name == "select_rust_rules":
+        return select_rust_rules(arguments)
+    if name == "explain_rust_rule":
+        return explain_rust_rule(arguments)
     raise ValueError(f"unknown tool: {name}")
 
 

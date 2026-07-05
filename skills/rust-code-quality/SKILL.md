@@ -5,7 +5,7 @@ description: "Use when writing, reviewing, or refactoring Rust code for idiomati
 
 # Rust Code Quality
 
-Use this skill to improve code quality before chasing performance tricks. Load `references/code-quality.md` for detailed checklists. Load `rust-api-type-system-design` when public API contracts, validated types, serde compatibility, macros, traits, feature flags, or semver-sensitive type boundaries dominate the review.
+Use this skill to improve code quality before chasing performance tricks. Load `references/code-quality.md` for detailed checklists. Load `rust-api-type-system-design` when public API contracts, validated types, serde compatibility, macros, traits, feature flags, or semver-sensitive type boundaries dominate the review. Load `rust-expert-rulebook` when the review needs concrete rule IDs, bad/good examples, exceptions, or verification checks.
 
 ## Workflow
 
@@ -24,4 +24,4 @@ Use this skill to improve code quality before chasing performance tricks. Load `
 
 ## Output
 
-Return findings grouped as correctness, API, maintainability, tests/docs, and performance-adjacent quality. Include exact commands to verify.
+Return findings grouped as correctness, API, maintainability, tests/docs, and performance-adjacent quality. For non-trivial findings, cite the applicable rule ID and include exact commands to verify.

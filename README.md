@@ -15,6 +15,7 @@ This repository packages a Codex-compatible plugin and portable skills that can 
 - A quality-gate generator at `scripts/generate_quality_gates.py`.
 - Reusable GitHub Actions templates under `templates/ci`.
 - Evaluation prompts under `evals` for maintainers.
+- An expert rulebook under `rules/` with imported and extended Rust rule cards.
 - Install notes for Codex, Claude Code, and generic agents.
 - CI validation for plugin metadata, skill frontmatter, and reference links.
 - A source map in [docs/sources.md](docs/sources.md) for maintainers.
@@ -54,6 +55,13 @@ Use `$rust-performance-engineering` when an agent is asked to:
 - `rust-math-algorithms-performance`: graph, search, Monte Carlo, Markov, Poisson, SIMD, Rayon, and cache-aware math.
 - `rust-memory-simd-io-performance`: allocators, arenas, SIMD, mmap, io_uring, direct I/O, huge pages, NUMA, and zero-copy byte layout.
 - `rust-api-type-system-design`: type-driven API design, validated newtypes, typestate, serde compatibility, macros, traits, cfgs, and semver boundaries.
+- `rust-expert-rulebook`: concrete Rust rule IDs with bad/good examples, exceptions, and verification checks.
+
+## Expert Rulebook
+
+The plugin includes a heavy rulebook for expert behavior, not only broad guidance. Rule cards live in `rules/` and use this schema: `id`, `severity`, `trigger`, `bad`, `good`, `when`, `when_not`, `verification`, `sources`, and `related_rules`.
+
+The corpus imports and normalizes the MIT-licensed rules from `leonardomso/rust-skills`, then adds plugin-specific rules for HFT, SBE, eBPF, PyO3, Wasm, SIMD, NUMA, graph/math kernels, and io_uring. Agents should cite rule IDs when reviewing or making non-trivial Rust design choices.
 
 ## Audit Helper
 
@@ -114,7 +122,7 @@ See:
 
 ## MCP Status
 
-The distribution remains skill-first and now includes an offline stdio MCP server at `mcp/rust_performance_mcp.py`. It exposes deterministic tools for project audit, quality-gate generation, skill listing, and Rust review checklist generation.
+The distribution remains skill-first and now includes an offline stdio MCP server at `mcp/rust_performance_mcp.py`. It exposes deterministic tools for project audit, quality-gate generation, skill listing, Rust review checklist generation, rule selection, and rule explanation.
 
 ## Contributing
 

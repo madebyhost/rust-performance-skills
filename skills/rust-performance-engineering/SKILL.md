@@ -44,6 +44,7 @@ Load these specialist skills as needed:
 - `rust-math-algorithms-performance`: graph/search/stochastic/numerical algorithms, layouts, SIMD, Rayon, ndarray, and cache-aware math.
 - `rust-memory-simd-io-performance`: allocators, arenas, SoA/AoS, SIMD, mmap, io_uring, direct I/O, huge pages, NUMA, and zero-copy casts.
 - `rust-api-type-system-design`: public APIs, validated newtypes, typestate, traits, serde compatibility, macros, cfgs, and semver-sensitive type boundaries.
+- `rust-expert-rulebook`: concrete Rust rule cards with rule IDs, bad/good examples, exceptions, and verification checks.
 
 Load these local references when the task is broad or does not map cleanly to one specialist:
 
@@ -54,6 +55,7 @@ Load these local references when the task is broad or does not map cleanly to on
 - `references/data-layout-memory.md`: arrays vs vectors, SoA/AoS, cache locality, allocation control, false sharing, and layout.
 - `references/architecture.md`: onion, hexagonal, domain-driven, ECS, actor, pipeline, and low-latency boundary choices.
 - `references/review-checklists.md`: review questions for PRs, unsafe code, async code, and latency-critical code.
+- `../../rules/index.json`: expert rule index for concrete rule-card selection when broad guidance is not sharp enough.
 
 ## Default Rust Performance Stance
 

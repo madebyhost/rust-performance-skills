@@ -8,7 +8,7 @@ This project periodically reviews external Rust skill collections for coverage g
 - Reviewed checkout: `fd2a861`
 - License file present: MIT.
 - Useful coverage: fine-grained rule catalog for ownership, errors, memory, unsafe, API design, async, concurrency, optimization, numeric safety, type safety, traits/generics, conversions, const, serde, pattern matching, macros, closures, collections, naming, testing, docs, observability, project structure, linting, and anti-patterns.
-- Adopted direction: add a focused API/type-system skill rather than copying the rule corpus. The integrated guidance covers validated newtypes, typestate, sealed traits, generics vs `dyn Trait`, serde compatibility, macro hygiene, additive features, `unexpected_cfgs`, exhaustive matches, compile-fail tests, and semver checks.
+- Adopted direction: import and normalize the rule corpus into local expert rule cards while preserving attribution. The integrated rulebook keeps concrete `bad`, `good`, `when`, `when_not`, and `verification` fields so agents can cite rule IDs instead of only following broad guidance.
 
 ## actionbook/rust-skills
 
@@ -21,12 +21,13 @@ This project periodically reviews external Rust skill collections for coverage g
 ## Gaps Closed In This Repository
 
 - Added `rust-api-type-system-design` for API and type-system boundaries that were too broad in `rust-code-quality`.
+- Added `rust-expert-rulebook` and `rules/` so the plugin behaves as both a specialist router and a concrete expert constraint system.
 - Added audit detection for API/type-system design signals.
 - Added MCP checklist support for API/type design.
 - Added source attribution so maintainers can trace why these rules exist.
 
 ## Non-Goals
 
-- No wholesale copy of either repository.
+- No execution of either repository.
 - No execution of third-party hooks, scripts, or MCP launchers.
 - No dependency on third-party runtime services for this plugin.

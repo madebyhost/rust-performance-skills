@@ -36,6 +36,8 @@ class McpContractTest(unittest.TestCase):
         self.assertIn("binary_encoding_review_checklist", names)
         self.assertIn("memory_simd_io_checklist", names)
         self.assertIn("api_type_design_checklist", names)
+        self.assertIn("select_rust_rules", names)
+        self.assertIn("explain_rust_rule", names)
 
     def test_direct_call_audit_and_gates(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -200,6 +202,46 @@ class McpContractTest(unittest.TestCase):
         self.assertIn("algorithmic complexity and cache-aware data layout", review["checks"])
         self.assertIn("allocator, SIMD, mmap, and io_uring evidence", review["checks"])
         self.assertIn("type-driven API invariants and serde compatibility", review["checks"])
+
+    def test_direct_call_rulebook_tools(self) -> None:
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(SERVER),
+                "--call",
+                "select_rust_rules",
+                "--arguments",
+                json.dumps({"signals": ["zero-copy", "udp multicast", "sbe", "pyo3"], "limit": 8}),
+            ],
+            check=True,
+            text=True,
+            stdout=subprocess.PIPE,
+        )
+        selected = json.loads(completed.stdout)
+        rule_ids = {rule["id"] for rule in selected["rules"]}
+        self.assertIn("mem-zero-copy", rule_ids)
+        self.assertIn("hft-udp-multicast-hotpath", rule_ids)
+        self.assertIn("sbe-zero-copy-lifetime", rule_ids)
+        self.assertIn("pyo3-release-gil-hotloop", rule_ids)
+
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(SERVER),
+                "--call",
+                "explain_rust_rule",
+                "--arguments",
+                json.dumps({"rule_id": "hft-udp-multicast-hotpath"}),
+            ],
+            check=True,
+            text=True,
+            stdout=subprocess.PIPE,
+        )
+        rule = json.loads(completed.stdout)
+        self.assertEqual("hft-udp-multicast-hotpath", rule["id"])
+        self.assertIn("bad", rule)
+        self.assertIn("good", rule)
+        self.assertIn("verification", rule)
 
 
 if __name__ == "__main__":

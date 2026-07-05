@@ -1,0 +1,4390 @@
+{
+  "rules": [
+    {
+      "domain": "anti-patterns",
+      "id": "anti-clone-excessive",
+      "path": "rules/anti-clone-excessive.md",
+      "related_rules": [
+        "own-arc-shared",
+        "own-borrow-over-clone",
+        "own-cow-conditional"
+      ],
+      "severity": "reference",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Don't clone when borrowing works. Trigger when working on anti-patterns and the code shows `anti`-class risk."
+    },
+    {
+      "domain": "anti-patterns",
+      "id": "anti-collect-intermediate",
+      "path": "rules/anti-collect-intermediate.md",
+      "related_rules": [
+        "perf-collect-once",
+        "perf-iter-lazy",
+        "perf-iter-over-index"
+      ],
+      "severity": "reference",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Don't collect intermediate iterators. Trigger when working on anti-patterns and the code shows `anti`-class risk."
+    },
+    {
+      "domain": "anti-patterns",
+      "id": "anti-empty-catch",
+      "path": "rules/anti-empty-catch.md",
+      "related_rules": [
+        "anti-unwrap-abuse",
+        "err-context-chain",
+        "err-result-over-panic"
+      ],
+      "severity": "reference",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Don't silently ignore errors. Trigger when working on anti-patterns and the code shows `anti`-class risk."
+    },
+    {
+      "domain": "anti-patterns",
+      "id": "anti-expect-lazy",
+      "path": "rules/anti-expect-lazy.md",
+      "related_rules": [
+        "anti-unwrap-abuse",
+        "err-expect-bugs-only",
+        "err-no-unwrap-prod"
+      ],
+      "severity": "reference",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Don't use expect for recoverable errors. Trigger when working on anti-patterns and the code shows `anti`-class risk."
+    },
+    {
+      "domain": "anti-patterns",
+      "id": "anti-format-hot-path",
+      "path": "rules/anti-format-hot-path.md",
+      "related_rules": [
+        "mem-avoid-format",
+        "mem-reuse-collections",
+        "mem-write-over-format"
+      ],
+      "severity": "reference",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Don't use format! in hot paths. Trigger when working on anti-patterns and the code shows `anti`-class risk."
+    },
+    {
+      "domain": "anti-patterns",
+      "id": "anti-index-over-iter",
+      "path": "rules/anti-index-over-iter.md",
+      "related_rules": [
+        "opt-bounds-check",
+        "perf-iter-lazy",
+        "perf-iter-over-index"
+      ],
+      "severity": "reference",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Don't use indexing when iterators work. Trigger when working on anti-patterns and the code shows `anti`-class risk."
+    },
+    {
+      "domain": "anti-patterns",
+      "id": "anti-lock-across-await",
+      "path": "rules/anti-lock-across-await.md",
+      "related_rules": [
+        "async-clone-before-await",
+        "async-no-lock-await",
+        "own-mutex-interior"
+      ],
+      "severity": "reference",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Don't hold locks across await points. Trigger when working on anti-patterns and the code shows `anti`-class risk."
+    },
+    {
+      "domain": "anti-patterns",
+      "id": "anti-over-abstraction",
+      "path": "rules/anti-over-abstraction.md",
+      "related_rules": [
+        "anti-type-erasure",
+        "api-sealed-trait",
+        "type-generic-bounds"
+      ],
+      "severity": "reference",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Don't over-abstract with excessive generics. Trigger when working on anti-patterns and the code shows `anti`-class risk."
+    },
+    {
+      "domain": "anti-patterns",
+      "id": "anti-panic-expected",
+      "path": "rules/anti-panic-expected.md",
+      "related_rules": [
+        "anti-unwrap-abuse",
+        "err-expect-bugs-only",
+        "err-result-over-panic"
+      ],
+      "severity": "reference",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Don't panic on expected or recoverable errors. Trigger when working on anti-patterns and the code shows `anti`-class risk."
+    },
+    {
+      "domain": "anti-patterns",
+      "id": "anti-premature-optimize",
+      "path": "rules/anti-premature-optimize.md",
+      "related_rules": [
+        "opt-inline-small",
+        "perf-profile-first",
+        "test-criterion-bench"
+      ],
+      "severity": "reference",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Don't optimize before profiling. Trigger when working on anti-patterns and the code shows `anti`-class risk."
+    },
+    {
+      "domain": "anti-patterns",
+      "id": "anti-string-for-str",
+      "path": "rules/anti-string-for-str.md",
+      "related_rules": [
+        "anti-vec-for-slice",
+        "api-impl-asref",
+        "own-slice-over-vec"
+      ],
+      "severity": "reference",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Don't accept &String when &str works. Trigger when working on anti-patterns and the code shows `anti`-class risk."
+    },
+    {
+      "domain": "anti-patterns",
+      "id": "anti-stringly-typed",
+      "path": "rules/anti-stringly-typed.md",
+      "related_rules": [
+        "api-newtype-safety",
+        "api-parse-dont-validate",
+        "type-newtype-ids"
+      ],
+      "severity": "reference",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Don't use strings where enums or newtypes would provide type safety. Trigger when working on anti-patterns and the code shows `anti`-class risk."
+    },
+    {
+      "domain": "anti-patterns",
+      "id": "anti-type-erasure",
+      "path": "rules/anti-type-erasure.md",
+      "related_rules": [
+        "anti-over-abstraction",
+        "closure-static-vs-dyn",
+        "mem-box-large-variant",
+        "trait-dyn-vs-generic",
+        "type-generic-bounds"
+      ],
+      "severity": "reference",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Don't use Box<dyn Trait> when impl Trait works. Trigger when working on anti-patterns and the code shows `anti`-class risk."
+    },
+    {
+      "domain": "anti-patterns",
+      "id": "anti-unwrap-abuse",
+      "path": "rules/anti-unwrap-abuse.md",
+      "related_rules": [
+        "anti-expect-lazy",
+        "err-question-mark",
+        "err-result-over-panic"
+      ],
+      "severity": "reference",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Don't use `.unwrap()` in production code. Trigger when working on anti-patterns and the code shows `anti`-class risk."
+    },
+    {
+      "domain": "anti-patterns",
+      "id": "anti-vec-for-slice",
+      "path": "rules/anti-vec-for-slice.md",
+      "related_rules": [
+        "anti-string-for-str",
+        "api-impl-asref",
+        "own-slice-over-vec"
+      ],
+      "severity": "reference",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Don't accept &Vec<T> when &[T] works. Trigger when working on anti-patterns and the code shows `anti`-class risk."
+    },
+    {
+      "domain": "api",
+      "id": "api-builder-must-use",
+      "path": "rules/api-builder-must-use.md",
+      "related_rules": [
+        "api-builder-pattern",
+        "api-must-use",
+        "err-result-over-panic"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Mark builder methods with `#[must_use]` to prevent silent drops. Trigger when working on public API design and the code shows `api`-class risk."
+    },
+    {
+      "domain": "api",
+      "id": "api-builder-pattern",
+      "path": "rules/api-builder-pattern.md",
+      "related_rules": [
+        "api-builder-must-use",
+        "api-impl-into",
+        "api-typestate"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use Builder pattern for complex construction. Trigger when working on public API design and the code shows `api`-class risk."
+    },
+    {
+      "domain": "api",
+      "id": "api-common-traits",
+      "path": "rules/api-common-traits.md",
+      "related_rules": [
+        "api-default-impl",
+        "doc-examples-section",
+        "own-copy-small",
+        "type-display-vs-debug"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Implement standard traits (Debug, Clone, PartialEq, etc.) for public types. Trigger when working on public API design and the code shows `api`-class risk."
+    },
+    {
+      "domain": "api",
+      "id": "api-default-impl",
+      "path": "rules/api-default-impl.md",
+      "related_rules": [
+        "api-builder-pattern",
+        "api-common-traits",
+        "api-from-not-into"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Implement `Default` for types with sensible default values. Trigger when working on public API design and the code shows `api`-class risk."
+    },
+    {
+      "domain": "api",
+      "id": "api-extension-trait",
+      "path": "rules/api-extension-trait.md",
+      "related_rules": [
+        "api-impl-into",
+        "api-sealed-trait",
+        "name-as-free",
+        "trait-blanket-impl"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use extension traits to add methods to external types. Trigger when working on public API design and the code shows `api`-class risk."
+    },
+    {
+      "domain": "api",
+      "id": "api-from-not-into",
+      "path": "rules/api-from-not-into.md",
+      "related_rules": [
+        "api-impl-into",
+        "api-newtype-safety",
+        "conv-fromstr-parsing",
+        "conv-tryfrom-fallible",
+        "err-from-impl"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Implement `From<T>`, not `Into<U>` - From gives you Into for free. Trigger when working on public API design and the code shows `api`-class risk."
+    },
+    {
+      "domain": "api",
+      "id": "api-impl-asref",
+      "path": "rules/api-impl-asref.md",
+      "related_rules": [
+        "api-impl-into",
+        "own-borrow-over-clone",
+        "own-slice-over-vec"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `AsRef<T>` when you only need to borrow the inner data. Trigger when working on public API design and the code shows `api`-class risk."
+    },
+    {
+      "domain": "api",
+      "id": "api-impl-fromiterator",
+      "path": "rules/api-impl-fromiterator.md",
+      "related_rules": [
+        "api-common-traits",
+        "name-iter-convention",
+        "perf-collect-once"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Implement `FromIterator` and `Extend` for collection types, and `IntoIterator` for all three reference forms. Trigger when working on public API design and the code shows `api`-class risk."
+    },
+    {
+      "domain": "api",
+      "id": "api-impl-into",
+      "path": "rules/api-impl-into.md",
+      "related_rules": [
+        "api-from-not-into",
+        "api-impl-asref",
+        "err-from-impl"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Accept `impl Into<T>` for flexible APIs, implement `From<T>` for conversions. Trigger when working on public API design and the code shows `api`-class risk."
+    },
+    {
+      "domain": "api",
+      "id": "api-must-use",
+      "path": "rules/api-must-use.md",
+      "related_rules": [
+        "api-builder-must-use",
+        "err-result-over-panic",
+        "lint-deny-correctness"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Mark types and functions with `#[must_use]` when ignoring results is likely a bug. Trigger when working on public API design and the code shows `api`-class risk."
+    },
+    {
+      "domain": "api",
+      "id": "api-newtype-safety",
+      "path": "rules/api-newtype-safety.md",
+      "related_rules": [
+        "api-parse-dont-validate",
+        "own-copy-small",
+        "type-newtype-ids"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use newtypes to prevent mixing semantically different values. Trigger when working on public API design and the code shows `api`-class risk."
+    },
+    {
+      "domain": "api",
+      "id": "api-non-exhaustive",
+      "path": "rules/api-non-exhaustive.md",
+      "related_rules": [
+        "api-builder-pattern",
+        "api-sealed-trait",
+        "err-custom-type"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `#[non_exhaustive]` on public enums and structs for forward compatibility. Trigger when working on public API design and the code shows `api`-class risk."
+    },
+    {
+      "domain": "api",
+      "id": "api-operator-overload",
+      "path": "rules/api-operator-overload.md",
+      "related_rules": [
+        "api-common-traits",
+        "type-newtype-ids"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Overload operators only when the semantics are natural and unsurprising. Trigger when working on public API design and the code shows `api`-class risk."
+    },
+    {
+      "domain": "api",
+      "id": "api-parse-dont-validate",
+      "path": "rules/api-parse-dont-validate.md",
+      "related_rules": [
+        "api-newtype-safety",
+        "api-typestate",
+        "conv-tryfrom-fallible",
+        "serde-try-from-validate",
+        "type-newtype-validated"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Parse into validated types at boundaries. Trigger when working on public API design and the code shows `api`-class risk."
+    },
+    {
+      "domain": "api",
+      "id": "api-sealed-trait",
+      "path": "rules/api-sealed-trait.md",
+      "related_rules": [
+        "api-extension-trait",
+        "api-non-exhaustive",
+        "api-typestate"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use sealed traits to prevent external implementations while allowing use. Trigger when working on public API design and the code shows `api`-class risk."
+    },
+    {
+      "domain": "api",
+      "id": "api-serde-optional",
+      "path": "rules/api-serde-optional.md",
+      "related_rules": [
+        "api-common-traits",
+        "lint-deny-correctness",
+        "proj-lib-main-split",
+        "serde-rename-all",
+        "serde-try-from-validate"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Make serde a feature flag, not a hard dependency for library crates. Trigger when working on public API design and the code shows `api`-class risk."
+    },
+    {
+      "domain": "api",
+      "id": "api-typestate",
+      "path": "rules/api-typestate.md",
+      "related_rules": [
+        "api-builder-pattern",
+        "api-parse-dont-validate",
+        "api-sealed-trait"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use typestate pattern to encode state machine invariants in the type system. Trigger when working on public API design and the code shows `api`-class risk."
+    },
+    {
+      "domain": "async",
+      "id": "async-async-fn-bounds",
+      "path": "rules/async-async-fn-bounds.md",
+      "related_rules": [
+        "async-fn-in-trait",
+        "async-tokio-runtime"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `AsyncFn`/`AsyncFnMut`/`AsyncFnOnce` bounds instead of `F: Fn() -> Fut, Fut: Future`. Trigger when working on async runtime and cancellation and the code shows `async`-class risk."
+    },
+    {
+      "domain": "async",
+      "id": "async-bounded-channel",
+      "path": "rules/async-bounded-channel.md",
+      "related_rules": [
+        "async-mpsc-queue",
+        "async-oneshot-response",
+        "async-watch-latest"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use bounded channels to apply backpressure and prevent unbounded memory growth. Trigger when working on async runtime and cancellation and the code shows `async`-class risk."
+    },
+    {
+      "domain": "async",
+      "id": "async-broadcast-pubsub",
+      "path": "rules/async-broadcast-pubsub.md",
+      "related_rules": [
+        "async-bounded-channel",
+        "async-mpsc-queue",
+        "async-watch-latest"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `broadcast` channel for pub/sub where all subscribers receive all messages. Trigger when working on async runtime and cancellation and the code shows `async`-class risk."
+    },
+    {
+      "domain": "async",
+      "id": "async-cancel-safety",
+      "path": "rules/async-cancel-safety.md",
+      "related_rules": [
+        "async-bounded-channel",
+        "async-no-lock-await",
+        "async-select-racing"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Ensure futures used in `tokio::select!` branches are cancellation-safe. Trigger when working on async runtime and cancellation and the code shows `async`-class risk."
+    },
+    {
+      "domain": "async",
+      "id": "async-cancellation-token",
+      "path": "rules/async-cancellation-token.md",
+      "related_rules": [
+        "async-joinset-structured",
+        "async-select-racing",
+        "async-tokio-runtime"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `CancellationToken` for graceful shutdown and task cancellation. Trigger when working on async runtime and cancellation and the code shows `async`-class risk."
+    },
+    {
+      "domain": "async",
+      "id": "async-clone-before-await",
+      "path": "rules/async-clone-before-await.md",
+      "related_rules": [
+        "async-no-lock-await",
+        "async-spawn-blocking",
+        "own-arc-shared"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Clone Arc/Rc data before await points to avoid holding references across suspension. Trigger when working on async runtime and cancellation and the code shows `async`-class risk."
+    },
+    {
+      "domain": "async",
+      "id": "async-fn-in-trait",
+      "path": "rules/async-fn-in-trait.md",
+      "related_rules": [
+        "anti-type-erasure",
+        "async-async-fn-bounds",
+        "async-tokio-runtime"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use native `async fn` in traits (stable 1.75) instead of the `async_trait` macro. Trigger when working on async runtime and cancellation and the code shows `async`-class risk."
+    },
+    {
+      "domain": "async",
+      "id": "async-join-parallel",
+      "path": "rules/async-join-parallel.md",
+      "related_rules": [
+        "async-joinset-structured",
+        "async-select-racing",
+        "async-try-join"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `join!` or `try_join!` for concurrent independent futures. Trigger when working on async runtime and cancellation and the code shows `async`-class risk."
+    },
+    {
+      "domain": "async",
+      "id": "async-joinset-structured",
+      "path": "rules/async-joinset-structured.md",
+      "related_rules": [
+        "async-cancellation-token",
+        "async-join-parallel",
+        "async-try-join"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `JoinSet` for managing dynamic collections of spawned tasks. Trigger when working on async runtime and cancellation and the code shows `async`-class risk."
+    },
+    {
+      "domain": "async",
+      "id": "async-mpsc-queue",
+      "path": "rules/async-mpsc-queue.md",
+      "related_rules": [
+        "async-bounded-channel",
+        "async-broadcast-pubsub",
+        "async-oneshot-response"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `mpsc` channels for async message queues between tasks. Trigger when working on async runtime and cancellation and the code shows `async`-class risk."
+    },
+    {
+      "domain": "async",
+      "id": "async-no-lock-await",
+      "path": "rules/async-no-lock-await.md",
+      "related_rules": [
+        "anti-lock-across-await",
+        "async-clone-before-await",
+        "async-spawn-blocking"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Never hold `Mutex`/`RwLock` across `.await`. Trigger when working on async runtime and cancellation and the code shows `async`-class risk."
+    },
+    {
+      "domain": "async",
+      "id": "async-oneshot-response",
+      "path": "rules/async-oneshot-response.md",
+      "related_rules": [
+        "async-bounded-channel",
+        "async-mpsc-queue",
+        "async-select-racing"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `oneshot` channel for request-response patterns. Trigger when working on async runtime and cancellation and the code shows `async`-class risk."
+    },
+    {
+      "domain": "async",
+      "id": "async-select-racing",
+      "path": "rules/async-select-racing.md",
+      "related_rules": [
+        "async-bounded-channel",
+        "async-cancellation-token",
+        "async-join-parallel"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `select!` to race futures and handle the first to complete. Trigger when working on async runtime and cancellation and the code shows `async`-class risk."
+    },
+    {
+      "domain": "async",
+      "id": "async-spawn-blocking",
+      "path": "rules/async-spawn-blocking.md",
+      "related_rules": [
+        "async-no-lock-await",
+        "async-tokio-fs"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `spawn_blocking` for CPU-intensive work. Trigger when working on async runtime and cancellation and the code shows `async`-class risk."
+    },
+    {
+      "domain": "async",
+      "id": "async-tokio-fs",
+      "path": "rules/async-tokio-fs.md",
+      "related_rules": [
+        "async-spawn-blocking",
+        "async-tokio-runtime",
+        "err-context-chain"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `tokio::fs` instead of `std::fs` in async code. Trigger when working on async runtime and cancellation and the code shows `async`-class risk."
+    },
+    {
+      "domain": "async",
+      "id": "async-tokio-runtime",
+      "path": "rules/async-tokio-runtime.md",
+      "related_rules": [
+        "async-joinset-structured",
+        "async-no-lock-await",
+        "async-spawn-blocking"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Configure Tokio runtime appropriately for your workload. Trigger when working on async runtime and cancellation and the code shows `async`-class risk."
+    },
+    {
+      "domain": "async",
+      "id": "async-try-join",
+      "path": "rules/async-try-join.md",
+      "related_rules": [
+        "async-join-parallel",
+        "async-select-racing",
+        "err-question-mark"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `try_join!` for concurrent fallible operations with early return on error. Trigger when working on async runtime and cancellation and the code shows `async`-class risk."
+    },
+    {
+      "domain": "async",
+      "id": "async-watch-latest",
+      "path": "rules/async-watch-latest.md",
+      "related_rules": [
+        "async-broadcast-pubsub",
+        "async-cancellation-token",
+        "async-mpsc-queue"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `watch` channel for sharing the latest value with multiple observers. Trigger when working on async runtime and cancellation and the code shows `async`-class risk."
+    },
+    {
+      "domain": "closure",
+      "id": "closure-disjoint-capture",
+      "path": "rules/closure-disjoint-capture.md",
+      "related_rules": [
+        "closure-move-capture",
+        "own-borrow-over-clone"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Capture only what you use; lean on edition-2021 disjoint closure captures. Trigger when working on closures and callbacks and the code shows `closure`-class risk."
+    },
+    {
+      "domain": "closure",
+      "id": "closure-fn-trait-bounds",
+      "path": "rules/closure-fn-trait-bounds.md",
+      "related_rules": [
+        "closure-move-capture",
+        "closure-static-vs-dyn"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Require the least restrictive `Fn` trait a callback needs (`FnOnce` superset-or-equal `FnMut` superset-or-equal `Fn`). Trigger when working on closures and callbacks and the code shows `closure`-class risk."
+    },
+    {
+      "domain": "closure",
+      "id": "closure-impl-fn-return",
+      "path": "rules/closure-impl-fn-return.md",
+      "related_rules": [
+        "anti-type-erasure",
+        "closure-static-vs-dyn"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Return closures as `impl Fn`/`FnMut`/`FnOnce`, not `Box<dyn Fn>`. Trigger when working on closures and callbacks and the code shows `closure`-class risk."
+    },
+    {
+      "domain": "closure",
+      "id": "closure-move-capture",
+      "path": "rules/closure-move-capture.md",
+      "related_rules": [
+        "async-clone-before-await",
+        "closure-disjoint-capture",
+        "own-move-large"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `move` for closures that outlive the current scope; clone before `move` to keep the original. Trigger when working on closures and callbacks and the code shows `closure`-class risk."
+    },
+    {
+      "domain": "closure",
+      "id": "closure-static-vs-dyn",
+      "path": "rules/closure-static-vs-dyn.md",
+      "related_rules": [
+        "anti-type-erasure",
+        "closure-fn-trait-bounds",
+        "type-generic-bounds"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Accept `impl Fn` (generic) for hot callbacks; use `&dyn Fn`/`Box<dyn Fn>` to cut code size or to store them. Trigger when working on closures and callbacks and the code shows `closure`-class risk."
+    },
+    {
+      "domain": "coll",
+      "id": "coll-binaryheap",
+      "path": "rules/coll-binaryheap.md",
+      "related_rules": [
+        "coll-seq-choice",
+        "perf-iter-over-index"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `BinaryHeap` for a priority queue or repeated max-extraction. Trigger when working on collections and the code shows `coll`-class risk."
+    },
+    {
+      "domain": "coll",
+      "id": "coll-map-choice",
+      "path": "rules/coll-map-choice.md",
+      "related_rules": [
+        "coll-seq-choice",
+        "perf-ahash",
+        "perf-entry-api"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Pick the map by access pattern: `HashMap` (fast, unordered), `BTreeMap` (sorted / range queries), `IndexMap` (insertion order). Trigger when working on collections and the code shows `coll`-class risk."
+    },
+    {
+      "domain": "coll",
+      "id": "coll-seq-choice",
+      "path": "rules/coll-seq-choice.md",
+      "related_rules": [
+        "coll-map-choice",
+        "mem-with-capacity",
+        "perf-drain-reuse"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Default to `Vec`; use `VecDeque` for queue/deque behaviour; avoid `LinkedList`. Trigger when working on collections and the code shows `coll`-class risk."
+    },
+    {
+      "domain": "coll",
+      "id": "coll-set-membership",
+      "path": "rules/coll-set-membership.md",
+      "related_rules": [
+        "coll-map-choice",
+        "perf-ahash"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `HashSet`/`BTreeSet` for membership tests and dedup, not linear `Vec::contains`. Trigger when working on collections and the code shows `coll`-class risk."
+    },
+    {
+      "domain": "concurrency",
+      "id": "conc-atomic-ordering",
+      "path": "rules/conc-atomic-ordering.md",
+      "related_rules": [
+        "conc-scoped-threads",
+        "own-mutex-interior",
+        "test-loom-concurrency"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use the weakest correct memory `Ordering` for every atomic operation. Trigger when working on concurrency and synchronization and the code shows `conc`-class risk."
+    },
+    {
+      "domain": "concurrency",
+      "id": "conc-rayon-par-iter",
+      "path": "rules/conc-rayon-par-iter.md",
+      "related_rules": [
+        "async-spawn-blocking",
+        "conc-scoped-threads",
+        "perf-iter-over-index"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use rayon's `par_iter()` for CPU-bound data parallelism. Trigger when working on concurrency and synchronization and the code shows `conc`-class risk."
+    },
+    {
+      "domain": "concurrency",
+      "id": "conc-scoped-threads",
+      "path": "rules/conc-scoped-threads.md",
+      "related_rules": [
+        "async-spawn-blocking",
+        "conc-rayon-par-iter",
+        "own-arc-shared"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `std::thread::scope` to borrow stack data across threads. Trigger when working on concurrency and synchronization and the code shows `conc`-class risk."
+    },
+    {
+      "domain": "concurrency",
+      "id": "conc-thread-local",
+      "path": "rules/conc-thread-local.md",
+      "related_rules": [
+        "own-mutex-interior",
+        "own-refcell-interior"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Prefer `thread_local!` with `Cell`/`RefCell` over `static mut`. Trigger when working on concurrency and synchronization and the code shows `conc`-class risk."
+    },
+    {
+      "domain": "const",
+      "id": "const-block",
+      "path": "rules/const-block.md",
+      "related_rules": [
+        "const-fn",
+        "mem-assert-type-size"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use inline `const { }` blocks for compile-time evaluation and assertions. Trigger when working on compile-time evaluation and the code shows `const`-class risk."
+    },
+    {
+      "domain": "const",
+      "id": "const-fn",
+      "path": "rules/const-fn.md",
+      "related_rules": [
+        "const-block",
+        "const-generics",
+        "opt-inline-small"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Make functions `const fn` when they can run at compile time. Trigger when working on compile-time evaluation and the code shows `const`-class risk."
+    },
+    {
+      "domain": "const",
+      "id": "const-generics",
+      "path": "rules/const-generics.md",
+      "related_rules": [
+        "const-fn",
+        "mem-assert-type-size"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Parameterize over values with const generics `<const N: usize>`. Trigger when working on compile-time evaluation and the code shows `const`-class risk."
+    },
+    {
+      "domain": "const",
+      "id": "const-vs-static",
+      "path": "rules/const-vs-static.md",
+      "related_rules": [
+        "name-consts-screaming",
+        "own-mutex-interior"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `const` for an inlined value and `static` for a single addressed instance. Trigger when working on compile-time evaluation and the code shows `const`-class risk."
+    },
+    {
+      "domain": "conv",
+      "id": "conv-asmut-mutable",
+      "path": "rules/conv-asmut-mutable.md",
+      "related_rules": [
+        "api-impl-asref",
+        "own-slice-over-vec"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Accept `impl AsMut<T>` for flexible mutable borrowed inputs instead of concrete mutable references. Trigger when working on conversion boundaries and the code shows `conv`-class risk."
+    },
+    {
+      "domain": "conv",
+      "id": "conv-fromstr-parsing",
+      "path": "rules/conv-fromstr-parsing.md",
+      "related_rules": [
+        "api-parse-dont-validate",
+        "conv-tryfrom-fallible",
+        "type-newtype-validated"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Implement `FromStr` to enable `str::parse` for string-to-type conversions. Trigger when working on conversion boundaries and the code shows `conv`-class risk."
+    },
+    {
+      "domain": "conv",
+      "id": "conv-tryfrom-fallible",
+      "path": "rules/conv-tryfrom-fallible.md",
+      "related_rules": [
+        "api-from-not-into",
+        "api-parse-dont-validate",
+        "conv-fromstr-parsing"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Implement `TryFrom` for fallible conversions instead of ad-hoc conversion functions. Trigger when working on conversion boundaries and the code shows `conv`-class risk."
+    },
+    {
+      "domain": "doc",
+      "id": "doc-all-public",
+      "path": "rules/doc-all-public.md",
+      "related_rules": [
+        "doc-examples-section",
+        "doc-module-inner",
+        "lint-missing-docs"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Document all public items with `///` doc comments. Trigger when working on documentation and the code shows `doc`-class risk."
+    },
+    {
+      "domain": "doc",
+      "id": "doc-cargo-metadata",
+      "path": "rules/doc-cargo-metadata.md",
+      "related_rules": [
+        "doc-module-inner",
+        "lint-cargo-metadata",
+        "proj-workspace-deps"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Fill `Cargo.toml` metadata for published crates. Trigger when working on documentation and the code shows `doc`-class risk."
+    },
+    {
+      "domain": "doc",
+      "id": "doc-crate-readme",
+      "path": "rules/doc-crate-readme.md",
+      "related_rules": [
+        "doc-all-public",
+        "doc-cargo-metadata",
+        "doc-module-inner"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Unify the README and crate root docs with `#![doc = include_str!(\"../README.md\")]`. Trigger when working on documentation and the code shows `doc`-class risk."
+    },
+    {
+      "domain": "doc",
+      "id": "doc-errors-section",
+      "path": "rules/doc-errors-section.md",
+      "related_rules": [
+        "doc-intra-links",
+        "doc-panics-section",
+        "err-doc-errors"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Include `# Errors` section for fallible functions. Trigger when working on documentation and the code shows `doc`-class risk."
+    },
+    {
+      "domain": "doc",
+      "id": "doc-examples-section",
+      "path": "rules/doc-examples-section.md",
+      "related_rules": [
+        "doc-errors-section",
+        "doc-hidden-setup",
+        "doc-question-mark"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Include `# Examples` with runnable code. Trigger when working on documentation and the code shows `doc`-class risk."
+    },
+    {
+      "domain": "doc",
+      "id": "doc-hidden-setup",
+      "path": "rules/doc-hidden-setup.md",
+      "related_rules": [
+        "doc-examples-section",
+        "doc-question-mark",
+        "test-doctest-examples"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `# ` prefix to hide example setup code. Trigger when working on documentation and the code shows `doc`-class risk."
+    },
+    {
+      "domain": "doc",
+      "id": "doc-intra-links",
+      "path": "rules/doc-intra-links.md",
+      "related_rules": [
+        "doc-all-public",
+        "doc-errors-section",
+        "doc-examples-section"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use intra-doc links to reference types and items. Trigger when working on documentation and the code shows `doc`-class risk."
+    },
+    {
+      "domain": "doc",
+      "id": "doc-link-types",
+      "path": "rules/doc-link-types.md",
+      "related_rules": [
+        "doc-examples-section",
+        "err-doc-errors",
+        "lint-deny-correctness"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use intra-doc links to connect related types and functions. Trigger when working on documentation and the code shows `doc`-class risk."
+    },
+    {
+      "domain": "doc",
+      "id": "doc-module-inner",
+      "path": "rules/doc-module-inner.md",
+      "related_rules": [
+        "doc-all-public",
+        "doc-cargo-metadata",
+        "doc-examples-section"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `//!` for module-level documentation. Trigger when working on documentation and the code shows `doc`-class risk."
+    },
+    {
+      "domain": "doc",
+      "id": "doc-panics-section",
+      "path": "rules/doc-panics-section.md",
+      "related_rules": [
+        "doc-errors-section",
+        "doc-safety-section",
+        "err-result-over-panic"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Include `# Panics` section for functions that can panic. Trigger when working on documentation and the code shows `doc`-class risk."
+    },
+    {
+      "domain": "doc",
+      "id": "doc-question-mark",
+      "path": "rules/doc-question-mark.md",
+      "related_rules": [
+        "doc-examples-section",
+        "doc-hidden-setup",
+        "err-question-mark"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `?` in examples, not `.unwrap()`. Trigger when working on documentation and the code shows `doc`-class risk."
+    },
+    {
+      "domain": "doc",
+      "id": "doc-safety-section",
+      "path": "rules/doc-safety-section.md",
+      "related_rules": [
+        "doc-errors-section",
+        "doc-panics-section",
+        "lint-unsafe-doc"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Include `# Safety` section for unsafe functions. Trigger when working on documentation and the code shows `doc`-class risk."
+    },
+    {
+      "domain": "ebpf",
+      "id": "ebpf-verifier-bounds",
+      "path": "rules/ebpf-verifier-bounds.md",
+      "related_rules": [
+        "unsafe-minimize-scope",
+        "unsafe-safety-comment",
+        "num-cast-try-from"
+      ],
+      "severity": "critical",
+      "sources": [
+        "rust-performance-skills: https://github.com/madebyhost/rust-performance-skills",
+        "docs.ebpf.io: https://docs.ebpf.io/",
+        "Linux BPF docs: https://docs.kernel.org/bpf/"
+      ],
+      "trigger": "Rust eBPF/XDP/tc programs that parse packet bytes, use maps, or interact with verifier-sensitive pointer arithmetic."
+    },
+    {
+      "domain": "errors",
+      "id": "err-anyhow-app",
+      "path": "rules/err-anyhow-app.md",
+      "related_rules": [
+        "err-context-chain",
+        "err-thiserror-lib"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `anyhow` for application error handling. Trigger when working on error handling and the code shows `err`-class risk."
+    },
+    {
+      "domain": "errors",
+      "id": "err-context-chain",
+      "path": "rules/err-context-chain.md",
+      "related_rules": [
+        "err-anyhow-app",
+        "err-question-mark",
+        "err-source-chain"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Add context with `.context()` or `.with_context()`. Trigger when working on error handling and the code shows `err`-class risk."
+    },
+    {
+      "domain": "errors",
+      "id": "err-custom-type",
+      "path": "rules/err-custom-type.md",
+      "related_rules": [
+        "api-non-exhaustive",
+        "err-anyhow-app",
+        "err-thiserror-lib"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Define custom error types for domain-specific failures. Trigger when working on error handling and the code shows `err`-class risk."
+    },
+    {
+      "domain": "errors",
+      "id": "err-doc-errors",
+      "path": "rules/err-doc-errors.md",
+      "related_rules": [
+        "api-must-use",
+        "doc-examples-section",
+        "err-thiserror-lib"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Document error conditions with `# Errors` section in doc comments. Trigger when working on error handling and the code shows `err`-class risk."
+    },
+    {
+      "domain": "errors",
+      "id": "err-expect-bugs-only",
+      "path": "rules/err-expect-bugs-only.md",
+      "related_rules": [
+        "api-parse-dont-validate",
+        "err-no-unwrap-prod",
+        "err-result-over-panic"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `expect()` only for invariants that indicate bugs, not user errors. Trigger when working on error handling and the code shows `err`-class risk."
+    },
+    {
+      "domain": "errors",
+      "id": "err-from-impl",
+      "path": "rules/err-from-impl.md",
+      "related_rules": [
+        "conv-tryfrom-fallible",
+        "err-question-mark",
+        "err-source-chain",
+        "err-thiserror-lib"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Implement `From<E>` for error conversions to enable `?` operator. Trigger when working on error handling and the code shows `err`-class risk."
+    },
+    {
+      "domain": "errors",
+      "id": "err-lowercase-msg",
+      "path": "rules/err-lowercase-msg.md",
+      "related_rules": [
+        "doc-examples-section",
+        "err-context-chain",
+        "err-thiserror-lib"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Start error messages lowercase, no trailing punctuation. Trigger when working on error handling and the code shows `err`-class risk."
+    },
+    {
+      "domain": "errors",
+      "id": "err-no-unwrap-prod",
+      "path": "rules/err-no-unwrap-prod.md",
+      "related_rules": [
+        "anti-unwrap-abuse",
+        "err-expect-bugs-only",
+        "err-result-over-panic"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Avoid `unwrap()` in production code; use `?`, `expect()`, or handle errors. Trigger when working on error handling and the code shows `err`-class risk."
+    },
+    {
+      "domain": "errors",
+      "id": "err-question-mark",
+      "path": "rules/err-question-mark.md",
+      "related_rules": [
+        "err-anyhow-app",
+        "err-context-chain",
+        "err-from-impl"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `?` operator for clean propagation. Trigger when working on error handling and the code shows `err`-class risk."
+    },
+    {
+      "domain": "errors",
+      "id": "err-result-over-panic",
+      "path": "rules/err-result-over-panic.md",
+      "related_rules": [
+        "anti-unwrap-abuse",
+        "err-anyhow-app",
+        "err-no-unwrap-prod",
+        "err-thiserror-lib"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Return `Result<T, E>` instead of panicking for recoverable errors. Trigger when working on error handling and the code shows `err`-class risk."
+    },
+    {
+      "domain": "errors",
+      "id": "err-source-chain",
+      "path": "rules/err-source-chain.md",
+      "related_rules": [
+        "err-context-chain",
+        "err-from-impl",
+        "err-thiserror-lib"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Preserve error chains with `#[source]` or `source()` method. Trigger when working on error handling and the code shows `err`-class risk."
+    },
+    {
+      "domain": "errors",
+      "id": "err-thiserror-lib",
+      "path": "rules/err-thiserror-lib.md",
+      "related_rules": [
+        "err-anyhow-app",
+        "err-from-impl",
+        "err-source-chain"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `thiserror` for library error types. Trigger when working on error handling and the code shows `err`-class risk."
+    },
+    {
+      "domain": "hft",
+      "id": "hft-disruptor-ring-buffer",
+      "path": "rules/hft-disruptor-ring-buffer.md",
+      "related_rules": [
+        "conc-atomic-ordering",
+        "mem-assert-type-size",
+        "hft-udp-multicast-hotpath"
+      ],
+      "severity": "critical",
+      "sources": [
+        "rust-performance-skills: https://github.com/madebyhost/rust-performance-skills",
+        "LMAX Disruptor: https://lmax-exchange.github.io/disruptor/"
+      ],
+      "trigger": "Single-writer or staged low-latency pipelines where queues, locks, or heap churn dominate handoff cost."
+    },
+    {
+      "domain": "hft",
+      "id": "hft-udp-multicast-hotpath",
+      "path": "rules/hft-udp-multicast-hotpath.md",
+      "related_rules": [
+        "mem-zero-copy",
+        "async-bounded-channel",
+        "perf-batch-processing"
+      ],
+      "severity": "critical",
+      "sources": [
+        "rust-performance-skills: https://github.com/madebyhost/rust-performance-skills",
+        "Linux networking documentation: https://docs.kernel.org/networking/"
+      ],
+      "trigger": "UDP multicast market-data ingest, packet fanout, feed handlers, or replay paths with tail-latency constraints."
+    },
+    {
+      "domain": "io",
+      "id": "io-uring-backpressure",
+      "path": "rules/io-uring-backpressure.md",
+      "related_rules": [
+        "async-bounded-channel",
+        "mem-reuse-collections",
+        "numa-affinity-evidence"
+      ],
+      "severity": "high",
+      "sources": [
+        "rust-performance-skills: https://github.com/madebyhost/rust-performance-skills",
+        "io-uring crate: https://docs.rs/io-uring/"
+      ],
+      "trigger": "io_uring, mmap, direct I/O, queue-depth tuning, or disk/network I/O pipelines in Rust."
+    },
+    {
+      "domain": "lint",
+      "id": "lint-cargo-metadata",
+      "path": "rules/lint-cargo-metadata.md",
+      "related_rules": [
+        "doc-cargo-metadata",
+        "lint-deny-correctness",
+        "proj-workspace-deps"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Enable clippy::cargo for published crates. Trigger when working on linting and the code shows `lint`-class risk."
+    },
+    {
+      "domain": "lint",
+      "id": "lint-cfg-check",
+      "path": "rules/lint-cfg-check.md",
+      "related_rules": [
+        "lint-warn-suspicious",
+        "lint-workspace-lints",
+        "proj-feature-additive"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Enable `unexpected_cfgs` and declare known cfgs to catch feature-gate typos. Trigger when working on linting and the code shows `lint`-class risk."
+    },
+    {
+      "domain": "lint",
+      "id": "lint-clippy-nursery-selected",
+      "path": "rules/lint-clippy-nursery-selected.md",
+      "related_rules": [
+        "anti-lock-across-await",
+        "lint-pedantic-selective",
+        "lint-warn-perf"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Enable high-value `clippy::nursery` lints selectively, not the whole group. Trigger when working on linting and the code shows `lint`-class risk."
+    },
+    {
+      "domain": "lint",
+      "id": "lint-deny-correctness",
+      "path": "rules/lint-deny-correctness.md",
+      "related_rules": [
+        "lint-warn-perf",
+        "lint-warn-suspicious"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "`#![deny(clippy::correctness)]`. Trigger when working on linting and the code shows `lint`-class risk."
+    },
+    {
+      "domain": "lint",
+      "id": "lint-missing-docs",
+      "path": "rules/lint-missing-docs.md",
+      "related_rules": [
+        "doc-all-public",
+        "doc-examples-section",
+        "lint-unsafe-doc"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Warn on missing documentation for public items. Trigger when working on linting and the code shows `lint`-class risk."
+    },
+    {
+      "domain": "lint",
+      "id": "lint-pedantic-selective",
+      "path": "rules/lint-pedantic-selective.md",
+      "related_rules": [
+        "lint-deny-correctness",
+        "lint-warn-complexity",
+        "lint-warn-style"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Enable clippy::pedantic selectively. Trigger when working on linting and the code shows `lint`-class risk."
+    },
+    {
+      "domain": "lint",
+      "id": "lint-rustfmt-check",
+      "path": "rules/lint-rustfmt-check.md",
+      "related_rules": [
+        "lint-pedantic-selective",
+        "lint-warn-style",
+        "name-funcs-snake"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Run cargo fmt --check in CI. Trigger when working on linting and the code shows `lint`-class risk."
+    },
+    {
+      "domain": "lint",
+      "id": "lint-unsafe-doc",
+      "path": "rules/lint-unsafe-doc.md",
+      "related_rules": [
+        "doc-safety-section",
+        "lint-deny-correctness",
+        "type-repr-transparent"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Require documentation for unsafe blocks. Trigger when working on linting and the code shows `lint`-class risk."
+    },
+    {
+      "domain": "lint",
+      "id": "lint-warn-complexity",
+      "path": "rules/lint-warn-complexity.md",
+      "related_rules": [
+        "lint-pedantic-selective",
+        "lint-warn-perf",
+        "lint-warn-style"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Enable clippy::complexity for simpler code. Trigger when working on linting and the code shows `lint`-class risk."
+    },
+    {
+      "domain": "lint",
+      "id": "lint-warn-perf",
+      "path": "rules/lint-warn-perf.md",
+      "related_rules": [
+        "lint-warn-complexity",
+        "mem-with-capacity",
+        "perf-profile-first"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Enable clippy::perf for performance improvements. Trigger when working on linting and the code shows `lint`-class risk."
+    },
+    {
+      "domain": "lint",
+      "id": "lint-warn-style",
+      "path": "rules/lint-warn-style.md",
+      "related_rules": [
+        "lint-rustfmt-check",
+        "lint-warn-complexity",
+        "lint-warn-suspicious"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Enable clippy::style for idiomatic code. Trigger when working on linting and the code shows `lint`-class risk."
+    },
+    {
+      "domain": "lint",
+      "id": "lint-warn-suspicious",
+      "path": "rules/lint-warn-suspicious.md",
+      "related_rules": [
+        "lint-deny-correctness",
+        "lint-warn-complexity",
+        "lint-warn-style"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Enable clippy::suspicious for likely bugs. Trigger when working on linting and the code shows `lint`-class risk."
+    },
+    {
+      "domain": "lint",
+      "id": "lint-workspace-lints",
+      "path": "rules/lint-workspace-lints.md",
+      "related_rules": [
+        "anti-unwrap-abuse",
+        "lint-deny-correctness",
+        "proj-workspace-deps"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Configure lints at workspace level for consistent enforcement. Trigger when working on linting and the code shows `lint`-class risk."
+    },
+    {
+      "domain": "macros",
+      "id": "macro-export-crate-path",
+      "path": "rules/macro-export-crate-path.md",
+      "related_rules": [
+        "macro-private-helpers",
+        "macro-rules-hygiene",
+        "proj-workspace-deps"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Export declarative macros with `#[macro_export]` and a clean import path. Trigger when working on macro API design and the code shows `macro`-class risk."
+    },
+    {
+      "domain": "macros",
+      "id": "macro-fragment-specifiers",
+      "path": "rules/macro-fragment-specifiers.md",
+      "related_rules": [
+        "macro-prefer-functions",
+        "macro-rules-hygiene"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Capture with precise fragment specifiers, not raw `:tt`, where you can. Trigger when working on macro API design and the code shows `macro`-class risk."
+    },
+    {
+      "domain": "macros",
+      "id": "macro-prefer-functions",
+      "path": "rules/macro-prefer-functions.md",
+      "related_rules": [
+        "anti-over-abstraction",
+        "macro-rules-hygiene",
+        "type-generic-bounds"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Reach for a macro only when a function or generic cannot express it. Trigger when working on macro API design and the code shows `macro`-class risk."
+    },
+    {
+      "domain": "macros",
+      "id": "macro-private-helpers",
+      "path": "rules/macro-private-helpers.md",
+      "related_rules": [
+        "doc-all-public",
+        "macro-proc-two-crate",
+        "macro-rules-hygiene"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Hide macro-generated helper items behind a `#[doc(hidden)] pub mod __private`. Trigger when working on macro API design and the code shows `macro`-class risk."
+    },
+    {
+      "domain": "macros",
+      "id": "macro-proc-error-spans",
+      "path": "rules/macro-proc-error-spans.md",
+      "related_rules": [
+        "err-thiserror-lib",
+        "macro-proc-syn-quote"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Report proc-macro errors as spanned compile errors, never by panicking. Trigger when working on macro API design and the code shows `macro`-class risk."
+    },
+    {
+      "domain": "macros",
+      "id": "macro-proc-syn-quote",
+      "path": "rules/macro-proc-syn-quote.md",
+      "related_rules": [
+        "macro-proc-error-spans",
+        "macro-proc-two-crate"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Build procedural macros with `syn`, `quote`, and `proc-macro2`. Trigger when working on macro API design and the code shows `macro`-class risk."
+    },
+    {
+      "domain": "macros",
+      "id": "macro-proc-two-crate",
+      "path": "rules/macro-proc-two-crate.md",
+      "related_rules": [
+        "err-thiserror-lib",
+        "macro-private-helpers",
+        "macro-proc-syn-quote",
+        "proj-workspace-deps"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Put procedural macros in a dedicated `proc-macro = true` crate and re-export from the facade. Trigger when working on macro API design and the code shows `macro`-class risk."
+    },
+    {
+      "domain": "macros",
+      "id": "macro-rules-hygiene",
+      "path": "rules/macro-rules-hygiene.md",
+      "related_rules": [
+        "macro-export-crate-path",
+        "macro-prefer-functions",
+        "macro-private-helpers"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Rely on `macro_rules!` hygiene and use `$crate` for paths to your crate's items. Trigger when working on macro API design and the code shows `macro`-class risk."
+    },
+    {
+      "domain": "math",
+      "id": "math-graph-compact-ids",
+      "path": "rules/math-graph-compact-ids.md",
+      "related_rules": [
+        "coll-hashmap-capacity",
+        "mem-with-capacity",
+        "num-float-compare"
+      ],
+      "severity": "high",
+      "sources": [
+        "rust-performance-skills: https://github.com/madebyhost/rust-performance-skills",
+        "petgraph: https://docs.rs/petgraph/",
+        "Rayon: https://docs.rs/rayon/"
+      ],
+      "trigger": "BFS, DFS, Dijkstra, A*, Markov chains, Monte Carlo, or graph/numerical kernels with many node lookups."
+    },
+    {
+      "domain": "memory",
+      "id": "mem-arena-allocator",
+      "path": "rules/mem-arena-allocator.md",
+      "related_rules": [
+        "mem-reuse-collections",
+        "mem-with-capacity",
+        "perf-profile-first"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use arena allocators for batch allocations. Trigger when working on memory and allocation and the code shows `mem`-class risk."
+    },
+    {
+      "domain": "memory",
+      "id": "mem-arrayvec",
+      "path": "rules/mem-arrayvec.md",
+      "related_rules": [
+        "mem-smallvec",
+        "mem-with-capacity",
+        "own-move-large"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `ArrayVec<T, N>` for fixed-capacity collections that never heap-allocate. Trigger when working on memory and allocation and the code shows `mem`-class risk."
+    },
+    {
+      "domain": "memory",
+      "id": "mem-assert-type-size",
+      "path": "rules/mem-assert-type-size.md",
+      "related_rules": [
+        "mem-box-large-variant",
+        "mem-smaller-integers",
+        "opt-cache-friendly"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use static assertions to guard against accidental type size growth. Trigger when working on memory and allocation and the code shows `mem`-class risk."
+    },
+    {
+      "domain": "memory",
+      "id": "mem-avoid-format",
+      "path": "rules/mem-avoid-format.md",
+      "related_rules": [
+        "mem-with-capacity",
+        "mem-write-over-format",
+        "own-cow-conditional"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Avoid `format!()` when string literals work. Trigger when working on memory and allocation and the code shows `mem`-class risk."
+    },
+    {
+      "domain": "memory",
+      "id": "mem-box-large-variant",
+      "path": "rules/mem-box-large-variant.md",
+      "related_rules": [
+        "lint-deny-correctness",
+        "mem-smallvec",
+        "own-move-large"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Box large enum variants to reduce overall enum size. Trigger when working on memory and allocation and the code shows `mem`-class risk."
+    },
+    {
+      "domain": "memory",
+      "id": "mem-boxed-slice",
+      "path": "rules/mem-boxed-slice.md",
+      "related_rules": [
+        "mem-compact-string",
+        "mem-with-capacity",
+        "own-slice-over-vec"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `Box<[T]>` instead of `Vec<T>` for fixed-size heap data. Trigger when working on memory and allocation and the code shows `mem`-class risk."
+    },
+    {
+      "domain": "memory",
+      "id": "mem-clone-from",
+      "path": "rules/mem-clone-from.md",
+      "related_rules": [
+        "mem-reuse-collections",
+        "mem-with-capacity",
+        "own-clone-explicit"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `clone_from()` to reuse allocations when repeatedly cloning. Trigger when working on memory and allocation and the code shows `mem`-class risk."
+    },
+    {
+      "domain": "memory",
+      "id": "mem-compact-string",
+      "path": "rules/mem-compact-string.md",
+      "related_rules": [
+        "mem-boxed-slice",
+        "mem-smallvec",
+        "own-cow-conditional"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use compact string types for memory-constrained string storage. Trigger when working on memory and allocation and the code shows `mem`-class risk."
+    },
+    {
+      "domain": "memory",
+      "id": "mem-drop-order",
+      "path": "rules/mem-drop-order.md",
+      "related_rules": [
+        "mem-take-replace",
+        "own-mutex-interior",
+        "test-fixture-raii"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Know and control drop order: struct fields drop top-to-bottom, locals in reverse. Trigger when working on memory and allocation and the code shows `mem`-class risk."
+    },
+    {
+      "domain": "memory",
+      "id": "mem-reuse-collections",
+      "path": "rules/mem-reuse-collections.md",
+      "related_rules": [
+        "mem-clone-from",
+        "mem-with-capacity",
+        "mem-write-over-format"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Clear and reuse collections instead of creating new ones in loops. Trigger when working on memory and allocation and the code shows `mem`-class risk."
+    },
+    {
+      "domain": "memory",
+      "id": "mem-smaller-integers",
+      "path": "rules/mem-smaller-integers.md",
+      "related_rules": [
+        "mem-assert-type-size",
+        "mem-box-large-variant",
+        "num-cast-try-from",
+        "num-nonzero",
+        "type-newtype-ids"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use appropriately-sized integers to reduce memory footprint. Trigger when working on memory and allocation and the code shows `mem`-class risk."
+    },
+    {
+      "domain": "memory",
+      "id": "mem-smallvec",
+      "path": "rules/mem-smallvec.md",
+      "related_rules": [
+        "mem-arrayvec",
+        "mem-thinvec",
+        "mem-with-capacity"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `SmallVec` for usually-small collections. Trigger when working on memory and allocation and the code shows `mem`-class risk."
+    },
+    {
+      "domain": "memory",
+      "id": "mem-take-replace",
+      "path": "rules/mem-take-replace.md",
+      "related_rules": [
+        "mem-clone-from",
+        "own-borrow-over-clone",
+        "own-move-large"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `mem::take` / `mem::replace` to move a value out of a `&mut` without cloning. Trigger when working on memory and allocation and the code shows `mem`-class risk."
+    },
+    {
+      "domain": "memory",
+      "id": "mem-thinvec",
+      "path": "rules/mem-thinvec.md",
+      "related_rules": [
+        "mem-boxed-slice",
+        "mem-smallvec",
+        "mem-with-capacity"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `ThinVec<T>` for nullable collections with minimal overhead. Trigger when working on memory and allocation and the code shows `mem`-class risk."
+    },
+    {
+      "domain": "memory",
+      "id": "mem-with-capacity",
+      "path": "rules/mem-with-capacity.md",
+      "related_rules": [
+        "coll-seq-choice",
+        "mem-reuse-collections",
+        "mem-smallvec",
+        "perf-extend-batch"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `with_capacity()` when size is known. Trigger when working on memory and allocation and the code shows `mem`-class risk."
+    },
+    {
+      "domain": "memory",
+      "id": "mem-write-over-format",
+      "path": "rules/mem-write-over-format.md",
+      "related_rules": [
+        "mem-avoid-format",
+        "mem-reuse-collections",
+        "mem-with-capacity"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `write!()` into existing buffers instead of `format!()` allocations. Trigger when working on memory and allocation and the code shows `mem`-class risk."
+    },
+    {
+      "domain": "memory",
+      "id": "mem-zero-copy",
+      "path": "rules/mem-zero-copy.md",
+      "related_rules": [
+        "mem-arena-allocator",
+        "own-borrow-over-clone",
+        "own-cow-conditional"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use zero-copy patterns with slices and `Bytes`. Trigger when working on memory and allocation and the code shows `mem`-class risk."
+    },
+    {
+      "domain": "name",
+      "id": "name-acronym-word",
+      "path": "rules/name-acronym-word.md",
+      "related_rules": [
+        "name-consts-screaming",
+        "name-funcs-snake",
+        "name-types-camel"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Treat acronyms as words in identifiers: `HttpServer`, not `HTTPServer`. Trigger when working on naming and readability and the code shows `name`-class risk."
+    },
+    {
+      "domain": "name",
+      "id": "name-as-free",
+      "path": "rules/name-as-free.md",
+      "related_rules": [
+        "name-into-ownership",
+        "name-to-expensive"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "`as_` prefix: free reference conversion. Trigger when working on naming and readability and the code shows `name`-class risk."
+    },
+    {
+      "domain": "name",
+      "id": "name-consts-screaming",
+      "path": "rules/name-consts-screaming.md",
+      "related_rules": [
+        "name-funcs-snake",
+        "name-types-camel",
+        "type-newtype-ids"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `SCREAMING_SNAKE_CASE` for constants and statics. Trigger when working on naming and readability and the code shows `name`-class risk."
+    },
+    {
+      "domain": "name",
+      "id": "name-crate-no-rs",
+      "path": "rules/name-crate-no-rs.md",
+      "related_rules": [
+        "doc-cargo-metadata",
+        "name-funcs-snake",
+        "proj-workspace-deps"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Don't suffix crate names with `-rs` or `-rust`. Trigger when working on naming and readability and the code shows `name`-class risk."
+    },
+    {
+      "domain": "name",
+      "id": "name-funcs-snake",
+      "path": "rules/name-funcs-snake.md",
+      "related_rules": [
+        "name-consts-screaming",
+        "name-lifetime-short",
+        "name-types-camel"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `snake_case` for functions, methods, variables, and modules. Trigger when working on naming and readability and the code shows `name`-class risk."
+    },
+    {
+      "domain": "name",
+      "id": "name-into-ownership",
+      "path": "rules/name-into-ownership.md",
+      "related_rules": [
+        "api-from-not-into",
+        "name-as-free",
+        "name-to-expensive"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `into_` prefix for ownership-consuming conversions. Trigger when working on naming and readability and the code shows `name`-class risk."
+    },
+    {
+      "domain": "name",
+      "id": "name-is-has-bool",
+      "path": "rules/name-is-has-bool.md",
+      "related_rules": [
+        "api-must-use",
+        "name-funcs-snake",
+        "name-no-get-prefix"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `is_`, `has_`, `can_`, `should_` prefixes for boolean-returning methods. Trigger when working on naming and readability and the code shows `name`-class risk."
+    },
+    {
+      "domain": "name",
+      "id": "name-iter-convention",
+      "path": "rules/name-iter-convention.md",
+      "related_rules": [
+        "name-iter-method",
+        "name-iter-type-match",
+        "perf-iter-over-index"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use iter/iter_mut/into_iter for iterator methods. Trigger when working on naming and readability and the code shows `name`-class risk."
+    },
+    {
+      "domain": "name",
+      "id": "name-iter-method",
+      "path": "rules/name-iter-method.md",
+      "related_rules": [
+        "api-common-traits",
+        "api-extension-trait",
+        "name-as-free"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Name iterator methods `iter()`, `iter_mut()`, and `into_iter()` consistently. Trigger when working on naming and readability and the code shows `name`-class risk."
+    },
+    {
+      "domain": "name",
+      "id": "name-iter-type-match",
+      "path": "rules/name-iter-type-match.md",
+      "related_rules": [
+        "api-common-traits",
+        "name-iter-convention",
+        "name-iter-method"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Name iterator types after their source method. Trigger when working on naming and readability and the code shows `name`-class risk."
+    },
+    {
+      "domain": "name",
+      "id": "name-lifetime-short",
+      "path": "rules/name-lifetime-short.md",
+      "related_rules": [
+        "name-type-param-single",
+        "own-borrow-over-clone",
+        "own-lifetime-elision"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use short, conventional lifetime names: `'a`, `'b`, `'de`, `'src`. Trigger when working on naming and readability and the code shows `name`-class risk."
+    },
+    {
+      "domain": "name",
+      "id": "name-no-get-prefix",
+      "path": "rules/name-no-get-prefix.md",
+      "related_rules": [
+        "api-builder-pattern",
+        "name-is-has-bool"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Omit get_ prefix for simple getters. Trigger when working on naming and readability and the code shows `name`-class risk."
+    },
+    {
+      "domain": "name",
+      "id": "name-to-expensive",
+      "path": "rules/name-to-expensive.md",
+      "related_rules": [
+        "name-as-free",
+        "name-into-ownership",
+        "own-cow-conditional"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `to_` prefix for expensive conversions that allocate or compute. Trigger when working on naming and readability and the code shows `name`-class risk."
+    },
+    {
+      "domain": "name",
+      "id": "name-type-param-single",
+      "path": "rules/name-type-param-single.md",
+      "related_rules": [
+        "name-lifetime-short",
+        "name-types-camel",
+        "type-generic-bounds"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use single uppercase letters for type parameters: `T`, `E`, `K`, `V`. Trigger when working on naming and readability and the code shows `name`-class risk."
+    },
+    {
+      "domain": "name",
+      "id": "name-types-camel",
+      "path": "rules/name-types-camel.md",
+      "related_rules": [
+        "name-acronym-word",
+        "name-funcs-snake",
+        "name-variants-camel"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `UpperCamelCase` for types, traits, and enum names. Trigger when working on naming and readability and the code shows `name`-class risk."
+    },
+    {
+      "domain": "name",
+      "id": "name-variants-camel",
+      "path": "rules/name-variants-camel.md",
+      "related_rules": [
+        "api-non-exhaustive",
+        "name-types-camel",
+        "type-enum-states"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `UpperCamelCase` for enum variants. Trigger when working on naming and readability and the code shows `name`-class risk."
+    },
+    {
+      "domain": "numeric",
+      "id": "num-cast-try-from",
+      "path": "rules/num-cast-try-from.md",
+      "related_rules": [
+        "conv-tryfrom-fallible",
+        "num-overflow-explicit"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Avoid `as` for narrowing casts; use `From` for widening and `TryFrom` for narrowing. Trigger when working on numeric safety and the code shows `num`-class risk."
+    },
+    {
+      "domain": "numeric",
+      "id": "num-float-compare",
+      "path": "rules/num-float-compare.md",
+      "related_rules": [
+        "num-overflow-explicit"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Don't compare floats with `==`; use a tolerance, and `total_cmp` for ordering. Trigger when working on numeric safety and the code shows `num`-class risk."
+    },
+    {
+      "domain": "numeric",
+      "id": "num-nonzero",
+      "path": "rules/num-nonzero.md",
+      "related_rules": [
+        "mem-smaller-integers",
+        "type-newtype-ids"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `NonZero*` types to forbid zero and unlock the niche optimization. Trigger when working on numeric safety and the code shows `num`-class risk."
+    },
+    {
+      "domain": "numeric",
+      "id": "num-overflow-explicit",
+      "path": "rules/num-overflow-explicit.md",
+      "related_rules": [
+        "num-cast-try-from",
+        "num-saturating-clamp"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Handle integer overflow explicitly: `checked_`/`saturating_`/`wrapping_`/`overflowing_`. Trigger when working on numeric safety and the code shows `num`-class risk."
+    },
+    {
+      "domain": "numeric",
+      "id": "num-saturating-clamp",
+      "path": "rules/num-saturating-clamp.md",
+      "related_rules": [
+        "num-cast-try-from",
+        "num-overflow-explicit"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Bound values with `clamp` and saturating arithmetic. Trigger when working on numeric safety and the code shows `num`-class risk."
+    },
+    {
+      "domain": "numa",
+      "id": "numa-affinity-evidence",
+      "path": "rules/numa-affinity-evidence.md",
+      "related_rules": [
+        "mem-assert-type-size",
+        "hft-disruptor-ring-buffer",
+        "io-uring-backpressure"
+      ],
+      "severity": "high",
+      "sources": [
+        "rust-performance-skills: https://github.com/madebyhost/rust-performance-skills",
+        "Linux NUMA docs: https://docs.kernel.org/admin-guide/mm/numa_memory_policy.html"
+      ],
+      "trigger": "CPU pinning, NUMA node placement, huge pages, isolated cores, or memory locality changes."
+    },
+    {
+      "domain": "obs",
+      "id": "obs-error-chain",
+      "path": "rules/obs-error-chain.md",
+      "related_rules": [
+        "anti-empty-catch",
+        "err-context-chain",
+        "err-source-chain"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Log errors with their full source chain, and log each error exactly once. Trigger when working on observability and the code shows `obs`-class risk."
+    },
+    {
+      "domain": "obs",
+      "id": "obs-instrument-spans",
+      "path": "rules/obs-instrument-spans.md",
+      "related_rules": [
+        "async-no-lock-await",
+        "obs-no-sensitive-data",
+        "obs-structured-fields"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `#[tracing::instrument]` and spans to attach context to async tasks and requests. Trigger when working on observability and the code shows `obs`-class risk."
+    },
+    {
+      "domain": "obs",
+      "id": "obs-levels-filter",
+      "path": "rules/obs-levels-filter.md",
+      "related_rules": [
+        "obs-library-facade",
+        "obs-tracing-over-log"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use log levels meaningfully and filter with `EnvFilter` / `RUST_LOG`. Trigger when working on observability and the code shows `obs`-class risk."
+    },
+    {
+      "domain": "obs",
+      "id": "obs-library-facade",
+      "path": "rules/obs-library-facade.md",
+      "related_rules": [
+        "api-serde-optional",
+        "obs-levels-filter",
+        "obs-tracing-over-log"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Libraries emit through the tracing/log facade and never install a subscriber. Trigger when working on observability and the code shows `obs`-class risk."
+    },
+    {
+      "domain": "obs",
+      "id": "obs-no-sensitive-data",
+      "path": "rules/obs-no-sensitive-data.md",
+      "related_rules": [
+        "err-thiserror-lib",
+        "obs-instrument-spans",
+        "obs-structured-fields"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Never log secrets or PII; redact or skip them. Trigger when working on observability and the code shows `obs`-class risk."
+    },
+    {
+      "domain": "obs",
+      "id": "obs-structured-fields",
+      "path": "rules/obs-structured-fields.md",
+      "related_rules": [
+        "obs-error-chain",
+        "obs-no-sensitive-data",
+        "obs-tracing-over-log"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Record structured key-value fields, not values interpolated into the message string. Trigger when working on observability and the code shows `obs`-class risk."
+    },
+    {
+      "domain": "obs",
+      "id": "obs-tracing-over-log",
+      "path": "rules/obs-tracing-over-log.md",
+      "related_rules": [
+        "async-tokio-runtime",
+        "obs-instrument-spans",
+        "obs-structured-fields"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `tracing` for structured, span-aware diagnostics instead of `println!` or bare `log`. Trigger when working on observability and the code shows `obs`-class risk."
+    },
+    {
+      "domain": "optimization",
+      "id": "opt-bounds-check",
+      "path": "rules/opt-bounds-check.md",
+      "related_rules": [
+        "opt-cache-friendly",
+        "opt-simd-portable",
+        "perf-profile-first"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use iterators and patterns that eliminate bounds checks in hot paths. Trigger when working on compiler optimization and the code shows `opt`-class risk."
+    },
+    {
+      "domain": "optimization",
+      "id": "opt-cache-friendly",
+      "path": "rules/opt-cache-friendly.md",
+      "related_rules": [
+        "mem-box-large-variant",
+        "mem-smaller-integers",
+        "opt-bounds-check"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Organize data for cache-efficient access patterns. Trigger when working on compiler optimization and the code shows `opt`-class risk."
+    },
+    {
+      "domain": "optimization",
+      "id": "opt-codegen-units",
+      "path": "rules/opt-codegen-units.md",
+      "related_rules": [
+        "opt-lto-release",
+        "opt-pgo-profile",
+        "opt-target-cpu"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Set `codegen-units = 1` for maximum optimization in release builds. Trigger when working on compiler optimization and the code shows `opt`-class risk."
+    },
+    {
+      "domain": "optimization",
+      "id": "opt-cold-unlikely",
+      "path": "rules/opt-cold-unlikely.md",
+      "related_rules": [
+        "err-result-over-panic",
+        "opt-inline-never-cold",
+        "opt-likely-hint"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Mark unlikely code paths with `#[cold]` to help compiler optimization. Trigger when working on compiler optimization and the code shows `opt`-class risk."
+    },
+    {
+      "domain": "optimization",
+      "id": "opt-inline-always-rare",
+      "path": "rules/opt-inline-always-rare.md",
+      "related_rules": [
+        "opt-inline-never-cold",
+        "opt-inline-small",
+        "perf-profile-first"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `#[inline(always)]` sparingly-only for critical hot paths proven by profiling. Trigger when working on compiler optimization and the code shows `opt`-class risk."
+    },
+    {
+      "domain": "optimization",
+      "id": "opt-inline-never-cold",
+      "path": "rules/opt-inline-never-cold.md",
+      "related_rules": [
+        "err-result-over-panic",
+        "opt-inline-always-rare",
+        "opt-inline-small"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `#[inline(never)]` and `#[cold]` for error paths and rarely-executed code. Trigger when working on compiler optimization and the code shows `opt`-class risk."
+    },
+    {
+      "domain": "optimization",
+      "id": "opt-inline-small",
+      "path": "rules/opt-inline-small.md",
+      "related_rules": [
+        "opt-cold-unlikely",
+        "opt-inline-always-rare",
+        "opt-inline-never-cold",
+        "opt-lto-release"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `#[inline]` for small hot functions. Trigger when working on compiler optimization and the code shows `opt`-class risk."
+    },
+    {
+      "domain": "optimization",
+      "id": "opt-likely-hint",
+      "path": "rules/opt-likely-hint.md",
+      "related_rules": [
+        "opt-cold-unlikely",
+        "opt-inline-never-cold",
+        "perf-profile-first"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use code structure to hint at likely branches; use intrinsics on nightly. Trigger when working on compiler optimization and the code shows `opt`-class risk."
+    },
+    {
+      "domain": "optimization",
+      "id": "opt-lto-release",
+      "path": "rules/opt-lto-release.md",
+      "related_rules": [
+        "opt-codegen-units",
+        "opt-pgo-profile",
+        "perf-release-profile"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Enable LTO in release builds. Trigger when working on compiler optimization and the code shows `opt`-class risk."
+    },
+    {
+      "domain": "optimization",
+      "id": "opt-pgo-profile",
+      "path": "rules/opt-pgo-profile.md",
+      "related_rules": [
+        "opt-codegen-units",
+        "opt-lto-release",
+        "perf-profile-first"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use Profile-Guided Optimization (PGO) for maximum performance. Trigger when working on compiler optimization and the code shows `opt`-class risk."
+    },
+    {
+      "domain": "optimization",
+      "id": "opt-simd-portable",
+      "path": "rules/opt-simd-portable.md",
+      "related_rules": [
+        "opt-bounds-check",
+        "opt-target-cpu",
+        "perf-profile-first"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use portable SIMD for vectorized operations across architectures. Trigger when working on compiler optimization and the code shows `opt`-class risk."
+    },
+    {
+      "domain": "optimization",
+      "id": "opt-target-cpu",
+      "path": "rules/opt-target-cpu.md",
+      "related_rules": [
+        "opt-codegen-units",
+        "opt-lto-release",
+        "opt-simd-portable"
+      ],
+      "severity": "high",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `target-cpu=native` for maximum performance on known deployment targets. Trigger when working on compiler optimization and the code shows `opt`-class risk."
+    },
+    {
+      "domain": "ownership",
+      "id": "own-arc-shared",
+      "path": "rules/own-arc-shared.md",
+      "related_rules": [
+        "async-clone-before-await",
+        "conc-scoped-threads",
+        "own-mutex-interior",
+        "own-rc-single-thread",
+        "unsafe-send-sync-manual"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `Arc<T>` for thread-safe shared ownership. Trigger when working on ownership and borrowing and the code shows `own`-class risk."
+    },
+    {
+      "domain": "ownership",
+      "id": "own-borrow-over-clone",
+      "path": "rules/own-borrow-over-clone.md",
+      "related_rules": [
+        "mem-clone-from",
+        "mem-take-replace",
+        "own-cow-conditional",
+        "own-slice-over-vec"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Prefer `&T` borrowing over `.clone()`. Trigger when working on ownership and borrowing and the code shows `own`-class risk."
+    },
+    {
+      "domain": "ownership",
+      "id": "own-clone-explicit",
+      "path": "rules/own-clone-explicit.md",
+      "related_rules": [
+        "mem-clone-from",
+        "own-copy-small",
+        "own-cow-conditional"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use explicit `Clone` for types where copying has meaningful cost. Trigger when working on ownership and borrowing and the code shows `own`-class risk."
+    },
+    {
+      "domain": "ownership",
+      "id": "own-copy-small",
+      "path": "rules/own-copy-small.md",
+      "related_rules": [
+        "own-clone-explicit",
+        "type-newtype-ids"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Implement `Copy` for small, simple types. Trigger when working on ownership and borrowing and the code shows `own`-class risk."
+    },
+    {
+      "domain": "ownership",
+      "id": "own-cow-conditional",
+      "path": "rules/own-cow-conditional.md",
+      "related_rules": [
+        "mem-avoid-format",
+        "own-borrow-over-clone"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `Cow<'a, T>` for conditional ownership. Trigger when working on ownership and borrowing and the code shows `own`-class risk."
+    },
+    {
+      "domain": "ownership",
+      "id": "own-lifetime-elision",
+      "path": "rules/own-lifetime-elision.md",
+      "related_rules": [
+        "api-impl-asref",
+        "own-borrow-over-clone"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Rely on lifetime elision rules; add explicit lifetimes only when required. Trigger when working on ownership and borrowing and the code shows `own`-class risk."
+    },
+    {
+      "domain": "ownership",
+      "id": "own-move-large",
+      "path": "rules/own-move-large.md",
+      "related_rules": [
+        "mem-box-large-variant",
+        "own-copy-small",
+        "perf-profile-first"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Move large types instead of copying; use `Box` if moves are expensive. Trigger when working on ownership and borrowing and the code shows `own`-class risk."
+    },
+    {
+      "domain": "ownership",
+      "id": "own-mutex-interior",
+      "path": "rules/own-mutex-interior.md",
+      "related_rules": [
+        "async-no-lock-await",
+        "conc-atomic-ordering",
+        "own-refcell-interior",
+        "own-rwlock-readers"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `Mutex<T>` for interior mutability across threads. Trigger when working on ownership and borrowing and the code shows `own`-class risk."
+    },
+    {
+      "domain": "ownership",
+      "id": "own-rc-single-thread",
+      "path": "rules/own-rc-single-thread.md",
+      "related_rules": [
+        "conc-thread-local",
+        "mem-drop-order",
+        "own-arc-shared",
+        "own-refcell-interior"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `Rc<T>` for shared ownership in single-threaded contexts. Trigger when working on ownership and borrowing and the code shows `own`-class risk."
+    },
+    {
+      "domain": "ownership",
+      "id": "own-refcell-interior",
+      "path": "rules/own-refcell-interior.md",
+      "related_rules": [
+        "conc-thread-local",
+        "own-mutex-interior",
+        "own-rc-single-thread"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `RefCell<T>` for interior mutability in single-threaded code. Trigger when working on ownership and borrowing and the code shows `own`-class risk."
+    },
+    {
+      "domain": "ownership",
+      "id": "own-rwlock-readers",
+      "path": "rules/own-rwlock-readers.md",
+      "related_rules": [
+        "async-no-lock-await",
+        "own-mutex-interior"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `RwLock<T>` when reads significantly outnumber writes. Trigger when working on ownership and borrowing and the code shows `own`-class risk."
+    },
+    {
+      "domain": "ownership",
+      "id": "own-slice-over-vec",
+      "path": "rules/own-slice-over-vec.md",
+      "related_rules": [
+        "api-impl-asref",
+        "own-borrow-over-clone"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Accept `&[T]` not `&Vec<T>`, `&str` not `&String`. Trigger when working on ownership and borrowing and the code shows `own`-class risk."
+    },
+    {
+      "domain": "pat",
+      "id": "pat-at-bindings",
+      "path": "rules/pat-at-bindings.md",
+      "related_rules": [
+        "pat-exhaustive-enum",
+        "type-enum-states"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `@` bindings to capture a value while matching it against a pattern. Trigger when working on pattern matching and the code shows `pat`-class risk."
+    },
+    {
+      "domain": "pat",
+      "id": "pat-exhaustive-enum",
+      "path": "rules/pat-exhaustive-enum.md",
+      "related_rules": [
+        "api-non-exhaustive",
+        "pat-matches-macro",
+        "type-enum-states"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Match owned enums exhaustively; avoid catch-all `_` that hides new variants. Trigger when working on pattern matching and the code shows `pat`-class risk."
+    },
+    {
+      "domain": "pat",
+      "id": "pat-if-let-chains",
+      "path": "rules/pat-if-let-chains.md",
+      "related_rules": [
+        "pat-let-else",
+        "pat-matches-macro"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `if let` chains to combine pattern bindings and conditions. Trigger when working on pattern matching and the code shows `pat`-class risk."
+    },
+    {
+      "domain": "pat",
+      "id": "pat-let-else",
+      "path": "rules/pat-let-else.md",
+      "related_rules": [
+        "anti-unwrap-abuse",
+        "err-question-mark",
+        "pat-exhaustive-enum"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `let ... else` for early-return pattern extraction. Trigger when working on pattern matching and the code shows `pat`-class risk."
+    },
+    {
+      "domain": "pat",
+      "id": "pat-matches-macro",
+      "path": "rules/pat-matches-macro.md",
+      "related_rules": [
+        "name-is-has-bool",
+        "pat-exhaustive-enum"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `matches!()` for boolean pattern tests. Trigger when working on pattern matching and the code shows `pat`-class risk."
+    },
+    {
+      "domain": "perf",
+      "id": "perf-ahash",
+      "path": "rules/perf-ahash.md",
+      "related_rules": [
+        "mem-with-capacity",
+        "perf-entry-api",
+        "perf-profile-first"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use a faster hasher (`ahash` / `FxHashMap`) when DoS resistance is not needed. Trigger when working on performance patterns and the code shows `perf`-class risk."
+    },
+    {
+      "domain": "perf",
+      "id": "perf-black-box-bench",
+      "path": "rules/perf-black-box-bench.md",
+      "related_rules": [
+        "perf-profile-first",
+        "perf-release-profile",
+        "test-criterion-bench"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use black_box in benchmarks. Trigger when working on performance patterns and the code shows `perf`-class risk."
+    },
+    {
+      "domain": "perf",
+      "id": "perf-chain-avoid",
+      "path": "rules/perf-chain-avoid.md",
+      "related_rules": [
+        "opt-cache-friendly",
+        "perf-extend-batch",
+        "perf-iter-over-index"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Avoid chain in hot loops. Trigger when working on performance patterns and the code shows `perf`-class risk."
+    },
+    {
+      "domain": "perf",
+      "id": "perf-collect-into",
+      "path": "rules/perf-collect-into.md",
+      "related_rules": [
+        "mem-reuse-collections",
+        "perf-drain-reuse",
+        "perf-extend-batch"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use collect_into for reusing containers. Trigger when working on performance patterns and the code shows `perf`-class risk."
+    },
+    {
+      "domain": "perf",
+      "id": "perf-collect-once",
+      "path": "rules/perf-collect-once.md",
+      "related_rules": [
+        "anti-collect-intermediate",
+        "mem-with-capacity",
+        "perf-iter-lazy"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Don't collect intermediate iterators. Trigger when working on performance patterns and the code shows `perf`-class risk."
+    },
+    {
+      "domain": "perf",
+      "id": "perf-drain-reuse",
+      "path": "rules/perf-drain-reuse.md",
+      "related_rules": [
+        "mem-reuse-collections",
+        "mem-with-capacity",
+        "perf-extend-batch"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use drain to reuse allocations. Trigger when working on performance patterns and the code shows `perf`-class risk."
+    },
+    {
+      "domain": "perf",
+      "id": "perf-entry-api",
+      "path": "rules/perf-entry-api.md",
+      "related_rules": [
+        "coll-map-choice",
+        "mem-with-capacity",
+        "perf-drain-reuse",
+        "perf-extend-batch"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use entry API for map insert-or-update. Trigger when working on performance patterns and the code shows `perf`-class risk."
+    },
+    {
+      "domain": "perf",
+      "id": "perf-extend-batch",
+      "path": "rules/perf-extend-batch.md",
+      "related_rules": [
+        "mem-reuse-collections",
+        "mem-with-capacity",
+        "perf-drain-reuse"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use extend for batch insertions. Trigger when working on performance patterns and the code shows `perf`-class risk."
+    },
+    {
+      "domain": "perf",
+      "id": "perf-io-buffering",
+      "path": "rules/perf-io-buffering.md",
+      "related_rules": [
+        "mem-with-capacity",
+        "perf-profile-first"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Wrap `Read`/`Write` in `BufReader`/`BufWriter` for many small operations. Trigger when working on performance patterns and the code shows `perf`-class risk."
+    },
+    {
+      "domain": "perf",
+      "id": "perf-iter-lazy",
+      "path": "rules/perf-iter-lazy.md",
+      "related_rules": [
+        "anti-collect-intermediate",
+        "perf-collect-once",
+        "perf-iter-over-index"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Keep iterators lazy, collect only when needed. Trigger when working on performance patterns and the code shows `perf`-class risk."
+    },
+    {
+      "domain": "perf",
+      "id": "perf-iter-over-index",
+      "path": "rules/perf-iter-over-index.md",
+      "related_rules": [
+        "anti-index-over-iter",
+        "conc-rayon-par-iter",
+        "opt-bounds-check",
+        "perf-iter-lazy"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Prefer iterators over manual indexing. Trigger when working on performance patterns and the code shows `perf`-class risk."
+    },
+    {
+      "domain": "perf",
+      "id": "perf-profile-first",
+      "path": "rules/perf-profile-first.md",
+      "related_rules": [
+        "anti-premature-optimize",
+        "opt-lto-release",
+        "test-criterion-bench"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Profile before optimizing. Trigger when working on performance patterns and the code shows `perf`-class risk."
+    },
+    {
+      "domain": "perf",
+      "id": "perf-release-profile",
+      "path": "rules/perf-release-profile.md",
+      "related_rules": [
+        "opt-codegen-units",
+        "opt-lto-release",
+        "opt-pgo-profile"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Optimize release profile settings. Trigger when working on performance patterns and the code shows `perf`-class risk."
+    },
+    {
+      "domain": "proj",
+      "id": "proj-bin-dir",
+      "path": "rules/proj-bin-dir.md",
+      "related_rules": [
+        "proj-flat-small",
+        "proj-lib-main-split",
+        "proj-workspace-large"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Put multiple binaries in src/bin/. Trigger when working on project structure and the code shows `proj`-class risk."
+    },
+    {
+      "domain": "proj",
+      "id": "proj-build-rs-minimal",
+      "path": "rules/proj-build-rs-minimal.md",
+      "related_rules": [
+        "lint-cfg-check",
+        "proj-feature-additive"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Keep `build.rs` minimal, deterministic, and idempotent. Trigger when working on project structure and the code shows `proj`-class risk."
+    },
+    {
+      "domain": "proj",
+      "id": "proj-feature-additive",
+      "path": "rules/proj-feature-additive.md",
+      "related_rules": [
+        "api-serde-optional",
+        "lint-cfg-check",
+        "proj-workspace-deps"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Design Cargo features to be strictly additive. Trigger when working on project structure and the code shows `proj`-class risk."
+    },
+    {
+      "domain": "proj",
+      "id": "proj-flat-small",
+      "path": "rules/proj-flat-small.md",
+      "related_rules": [
+        "proj-lib-main-split",
+        "proj-mod-by-feature",
+        "proj-mod-rs-dir"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Keep small projects flat. Trigger when working on project structure and the code shows `proj`-class risk."
+    },
+    {
+      "domain": "proj",
+      "id": "proj-lib-main-split",
+      "path": "rules/proj-lib-main-split.md",
+      "related_rules": [
+        "proj-bin-dir",
+        "proj-mod-by-feature",
+        "test-integration-dir"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Keep `main.rs` minimal, logic in `lib.rs`. Trigger when working on project structure and the code shows `proj`-class risk."
+    },
+    {
+      "domain": "proj",
+      "id": "proj-mod-by-feature",
+      "path": "rules/proj-mod-by-feature.md",
+      "related_rules": [
+        "proj-flat-small",
+        "proj-lib-main-split",
+        "proj-pub-use-reexport"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Organize modules by feature, not type. Trigger when working on project structure and the code shows `proj`-class risk."
+    },
+    {
+      "domain": "proj",
+      "id": "proj-mod-rs-dir",
+      "path": "rules/proj-mod-rs-dir.md",
+      "related_rules": [
+        "proj-flat-small",
+        "proj-mod-by-feature",
+        "proj-pub-use-reexport"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use mod.rs for multi-file modules. Trigger when working on project structure and the code shows `proj`-class risk."
+    },
+    {
+      "domain": "proj",
+      "id": "proj-msrv-declare",
+      "path": "rules/proj-msrv-declare.md",
+      "related_rules": [
+        "doc-cargo-metadata",
+        "lint-cargo-metadata",
+        "proj-workspace-deps"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Declare `rust-version` (MSRV) in Cargo.toml and test it in CI. Trigger when working on project structure and the code shows `proj`-class risk."
+    },
+    {
+      "domain": "proj",
+      "id": "proj-prelude-module",
+      "path": "rules/proj-prelude-module.md",
+      "related_rules": [
+        "api-extension-trait",
+        "doc-module-inner",
+        "proj-pub-use-reexport"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Create prelude module for common imports. Trigger when working on project structure and the code shows `proj`-class risk."
+    },
+    {
+      "domain": "proj",
+      "id": "proj-pub-crate-internal",
+      "path": "rules/proj-pub-crate-internal.md",
+      "related_rules": [
+        "api-non-exhaustive",
+        "proj-pub-super-parent",
+        "proj-pub-use-reexport"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use pub(crate) for internal APIs. Trigger when working on project structure and the code shows `proj`-class risk."
+    },
+    {
+      "domain": "proj",
+      "id": "proj-pub-super-parent",
+      "path": "rules/proj-pub-super-parent.md",
+      "related_rules": [
+        "proj-mod-by-feature",
+        "proj-pub-crate-internal",
+        "proj-pub-use-reexport"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use pub(super) for parent-only visibility. Trigger when working on project structure and the code shows `proj`-class risk."
+    },
+    {
+      "domain": "proj",
+      "id": "proj-pub-use-reexport",
+      "path": "rules/proj-pub-use-reexport.md",
+      "related_rules": [
+        "api-non-exhaustive",
+        "proj-prelude-module",
+        "proj-pub-crate-internal"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use pub use for clean public API. Trigger when working on project structure and the code shows `proj`-class risk."
+    },
+    {
+      "domain": "proj",
+      "id": "proj-workspace-deps",
+      "path": "rules/proj-workspace-deps.md",
+      "related_rules": [
+        "api-serde-optional",
+        "lint-deny-correctness",
+        "proj-lib-main-split"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use workspace dependency inheritance for consistent versions across crates. Trigger when working on project structure and the code shows `proj`-class risk."
+    },
+    {
+      "domain": "proj",
+      "id": "proj-workspace-large",
+      "path": "rules/proj-workspace-large.md",
+      "related_rules": [
+        "proj-bin-dir",
+        "proj-lib-main-split",
+        "proj-workspace-deps"
+      ],
+      "severity": "low",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use workspaces for large projects. Trigger when working on project structure and the code shows `proj`-class risk."
+    },
+    {
+      "domain": "pyo3",
+      "id": "pyo3-release-gil-hotloop",
+      "path": "rules/pyo3-release-gil-hotloop.md",
+      "related_rules": [
+        "conc-rayon-par-iter",
+        "mem-zero-copy",
+        "err-thiserror-lib"
+      ],
+      "severity": "high",
+      "sources": [
+        "rust-performance-skills: https://github.com/madebyhost/rust-performance-skills",
+        "PyO3 guide: https://pyo3.rs/",
+        "maturin: https://www.maturin.rs/"
+      ],
+      "trigger": "PyO3 extension functions that perform CPU-bound loops, parsing, compression, graph algorithms, or batch transforms."
+    },
+    {
+      "domain": "sbe",
+      "id": "sbe-zero-copy-lifetime",
+      "path": "rules/sbe-zero-copy-lifetime.md",
+      "related_rules": [
+        "mem-zero-copy",
+        "unsafe-maybeuninit",
+        "type-repr-transparent"
+      ],
+      "severity": "critical",
+      "sources": [
+        "rust-performance-skills: https://github.com/madebyhost/rust-performance-skills",
+        "Real Logic SBE: https://github.com/real-logic/simple-binary-encoding"
+      ],
+      "trigger": "SBE, fixed-layout binary codecs, market-data frames, or borrowed decoders over network buffers."
+    },
+    {
+      "domain": "serde",
+      "id": "serde-custom-with",
+      "path": "rules/serde-custom-with.md",
+      "related_rules": [
+        "serde-try-from-validate",
+        "type-newtype-validated"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Customize a field's (de)serialization with `with` / `serialize_with` / `deserialize_with`. Trigger when working on serialization compatibility and the code shows `serde`-class risk."
+    },
+    {
+      "domain": "serde",
+      "id": "serde-default-compat",
+      "path": "rules/serde-default-compat.md",
+      "related_rules": [
+        "api-default-impl",
+        "serde-skip-empty"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `#[serde(default)]` for optional and backward-compatible fields. Trigger when working on serialization compatibility and the code shows `serde`-class risk."
+    },
+    {
+      "domain": "serde",
+      "id": "serde-deny-unknown-fields",
+      "path": "rules/serde-deny-unknown-fields.md",
+      "related_rules": [
+        "api-parse-dont-validate",
+        "serde-flatten"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Reject unexpected keys with `#[serde(deny_unknown_fields)]`. Trigger when working on serialization compatibility and the code shows `serde`-class risk."
+    },
+    {
+      "domain": "serde",
+      "id": "serde-enum-representation",
+      "path": "rules/serde-enum-representation.md",
+      "related_rules": [
+        "api-non-exhaustive",
+        "serde-flatten",
+        "type-enum-states"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Choose enum tagging deliberately: externally, internally, adjacently tagged, or untagged. Trigger when working on serialization compatibility and the code shows `serde`-class risk."
+    },
+    {
+      "domain": "serde",
+      "id": "serde-flatten",
+      "path": "rules/serde-flatten.md",
+      "related_rules": [
+        "serde-deny-unknown-fields",
+        "serde-enum-representation"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Inline nested structs or capture extra keys with `#[serde(flatten)]`. Trigger when working on serialization compatibility and the code shows `serde`-class risk."
+    },
+    {
+      "domain": "serde",
+      "id": "serde-rename-all",
+      "path": "rules/serde-rename-all.md",
+      "related_rules": [
+        "api-serde-optional",
+        "serde-default-compat"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Match the external naming convention with `#[serde(rename_all = ...)]`. Trigger when working on serialization compatibility and the code shows `serde`-class risk."
+    },
+    {
+      "domain": "serde",
+      "id": "serde-skip-empty",
+      "path": "rules/serde-skip-empty.md",
+      "related_rules": [
+        "serde-default-compat",
+        "serde-rename-all"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Omit empty fields with `skip_serializing_if`. Trigger when working on serialization compatibility and the code shows `serde`-class risk."
+    },
+    {
+      "domain": "serde",
+      "id": "serde-try-from-validate",
+      "path": "rules/serde-try-from-validate.md",
+      "related_rules": [
+        "api-parse-dont-validate",
+        "serde-custom-with",
+        "type-newtype-validated"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Validate while deserializing with `#[serde(try_from = \"Raw\")]`. Trigger when working on serialization compatibility and the code shows `serde`-class risk."
+    },
+    {
+      "domain": "simd",
+      "id": "simd-runtime-dispatch",
+      "path": "rules/simd-runtime-dispatch.md",
+      "related_rules": [
+        "opt-simd-portable",
+        "unsafe-minimize-scope",
+        "num-overflow-explicit"
+      ],
+      "severity": "high",
+      "sources": [
+        "rust-performance-skills: https://github.com/madebyhost/rust-performance-skills",
+        "core::arch docs: https://doc.rust-lang.org/core/arch/"
+      ],
+      "trigger": "SIMD acceleration using core::arch, std::simd, target_feature, or CPU-specific hot paths."
+    },
+    {
+      "domain": "test",
+      "id": "test-arrange-act-assert",
+      "path": "rules/test-arrange-act-assert.md",
+      "related_rules": [
+        "test-descriptive-names",
+        "test-fixture-raii",
+        "test-mock-traits"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Structure tests with clear Arrange, Act, Assert sections. Trigger when working on testing strategy and the code shows `test`-class risk."
+    },
+    {
+      "domain": "test",
+      "id": "test-cfg-test-module",
+      "path": "rules/test-cfg-test-module.md",
+      "related_rules": [
+        "test-descriptive-names",
+        "test-integration-dir",
+        "test-use-super"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Put unit tests in `#[cfg(test)] mod tests { }` within each module. Trigger when working on testing strategy and the code shows `test`-class risk."
+    },
+    {
+      "domain": "test",
+      "id": "test-criterion-bench",
+      "path": "rules/test-criterion-bench.md",
+      "related_rules": [
+        "perf-black-box-bench",
+        "perf-profile-first"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `criterion` for benchmarking. Trigger when working on testing strategy and the code shows `test`-class risk."
+    },
+    {
+      "domain": "test",
+      "id": "test-descriptive-names",
+      "path": "rules/test-descriptive-names.md",
+      "related_rules": [
+        "doc-examples-section",
+        "test-arrange-act-assert",
+        "test-cfg-test-module"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use descriptive test names that explain what is being tested. Trigger when working on testing strategy and the code shows `test`-class risk."
+    },
+    {
+      "domain": "test",
+      "id": "test-doctest-examples",
+      "path": "rules/test-doctest-examples.md",
+      "related_rules": [
+        "doc-examples-section",
+        "doc-hidden-setup",
+        "doc-question-mark"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Keep documentation examples as executable doctests. Trigger when working on testing strategy and the code shows `test`-class risk."
+    },
+    {
+      "domain": "test",
+      "id": "test-fixture-raii",
+      "path": "rules/test-fixture-raii.md",
+      "related_rules": [
+        "test-arrange-act-assert",
+        "test-mock-traits",
+        "test-tokio-async"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use RAII pattern (Drop trait) for automatic test cleanup. Trigger when working on testing strategy and the code shows `test`-class risk."
+    },
+    {
+      "domain": "test",
+      "id": "test-integration-dir",
+      "path": "rules/test-integration-dir.md",
+      "related_rules": [
+        "test-cfg-test-module",
+        "test-descriptive-names",
+        "test-tokio-async"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Put integration tests in the `tests/` directory. Trigger when working on testing strategy and the code shows `test`-class risk."
+    },
+    {
+      "domain": "test",
+      "id": "test-loom-concurrency",
+      "path": "rules/test-loom-concurrency.md",
+      "related_rules": [
+        "conc-atomic-ordering",
+        "test-criterion-bench"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `loom` to exhaustively test lock-free and concurrent code. Trigger when working on testing strategy and the code shows `test`-class risk."
+    },
+    {
+      "domain": "test",
+      "id": "test-mock-traits",
+      "path": "rules/test-mock-traits.md",
+      "related_rules": [
+        "api-sealed-trait",
+        "proj-lib-main-split",
+        "test-proptest-properties"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use traits for dependencies to enable mocking in tests. Trigger when working on testing strategy and the code shows `test`-class risk."
+    },
+    {
+      "domain": "test",
+      "id": "test-mockall-mocking",
+      "path": "rules/test-mockall-mocking.md",
+      "related_rules": [
+        "test-arrange-act-assert",
+        "test-mock-traits",
+        "test-proptest-properties"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use mockall for trait mocking. Trigger when working on testing strategy and the code shows `test`-class risk."
+    },
+    {
+      "domain": "test",
+      "id": "test-proptest-properties",
+      "path": "rules/test-proptest-properties.md",
+      "related_rules": [
+        "test-arrange-act-assert",
+        "test-criterion-bench",
+        "test-mockall-mocking"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use proptest for property-based testing. Trigger when working on testing strategy and the code shows `test`-class risk."
+    },
+    {
+      "domain": "test",
+      "id": "test-should-panic",
+      "path": "rules/test-should-panic.md",
+      "related_rules": [
+        "err-expect-bugs-only",
+        "err-result-over-panic",
+        "test-descriptive-names"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `#[should_panic]` to test that code panics as expected. Trigger when working on testing strategy and the code shows `test`-class risk."
+    },
+    {
+      "domain": "test",
+      "id": "test-snapshot-testing",
+      "path": "rules/test-snapshot-testing.md",
+      "related_rules": [
+        "test-arrange-act-assert",
+        "test-doctest-examples",
+        "test-proptest-properties"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use snapshot testing (insta) for complex or serialized output. Trigger when working on testing strategy and the code shows `test`-class risk."
+    },
+    {
+      "domain": "test",
+      "id": "test-tokio-async",
+      "path": "rules/test-tokio-async.md",
+      "related_rules": [
+        "async-tokio-runtime",
+        "test-fixture-raii",
+        "test-mock-traits"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `#[tokio::test]` for async tests. Trigger when working on testing strategy and the code shows `test`-class risk."
+    },
+    {
+      "domain": "test",
+      "id": "test-use-super",
+      "path": "rules/test-use-super.md",
+      "related_rules": [
+        "proj-pub-crate-internal",
+        "test-cfg-test-module",
+        "test-integration-dir"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `use super::*;` in test modules to access parent module items. Trigger when working on testing strategy and the code shows `test`-class risk."
+    },
+    {
+      "domain": "traits",
+      "id": "trait-associated-type-vs-generic",
+      "path": "rules/trait-associated-type-vs-generic.md",
+      "related_rules": [
+        "api-impl-fromiterator",
+        "trait-default-methods",
+        "type-generic-bounds"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use an associated type when each impl has exactly one output type; use a generic parameter when a type can implement the trait for many input types. Trigger when working on traits and generics and the code shows `trait`-class risk."
+    },
+    {
+      "domain": "traits",
+      "id": "trait-blanket-impl",
+      "path": "rules/trait-blanket-impl.md",
+      "related_rules": [
+        "api-extension-trait",
+        "api-sealed-trait",
+        "trait-coherence-newtype"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use a blanket impl `impl<T: Bound> Trait for T` to give behaviour to every type that satisfies a bound. Trigger when working on traits and generics and the code shows `trait`-class risk."
+    },
+    {
+      "domain": "traits",
+      "id": "trait-coherence-newtype",
+      "path": "rules/trait-coherence-newtype.md",
+      "related_rules": [
+        "api-from-not-into",
+        "api-newtype-safety",
+        "trait-blanket-impl",
+        "type-repr-transparent"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Respect the orphan rule; wrap a foreign type in a newtype to implement a foreign trait on it. Trigger when working on traits and generics and the code shows `trait`-class risk."
+    },
+    {
+      "domain": "traits",
+      "id": "trait-default-methods",
+      "path": "rules/trait-default-methods.md",
+      "related_rules": [
+        "api-extension-trait",
+        "trait-associated-type-vs-generic",
+        "trait-blanket-impl"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Define a trait in terms of a few required methods plus defaulted ones built on top of them. Trigger when working on traits and generics and the code shows `trait`-class risk."
+    },
+    {
+      "domain": "traits",
+      "id": "trait-dyn-vs-generic",
+      "path": "rules/trait-dyn-vs-generic.md",
+      "related_rules": [
+        "anti-type-erasure",
+        "trait-object-safety",
+        "type-generic-bounds"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Choose static dispatch (generics / `impl Trait`) vs dynamic dispatch (`dyn Trait`) deliberately. Trigger when working on traits and generics and the code shows `trait`-class risk."
+    },
+    {
+      "domain": "traits",
+      "id": "trait-object-safety",
+      "path": "rules/trait-object-safety.md",
+      "related_rules": [
+        "anti-type-erasure",
+        "api-sealed-trait",
+        "trait-dyn-vs-generic"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Keep a trait dyn-compatible (object-safe) when you need `dyn Trait`. Trigger when working on traits and generics and the code shows `trait`-class risk."
+    },
+    {
+      "domain": "types",
+      "id": "type-deref-coercion",
+      "path": "rules/type-deref-coercion.md",
+      "related_rules": [
+        "api-newtype-safety",
+        "own-borrow-over-clone",
+        "type-newtype-ids"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Implement `Deref`/`DerefMut` only for smart-pointer and transparent wrapper types. Trigger when working on type-system invariants and the code shows `type`-class risk."
+    },
+    {
+      "domain": "types",
+      "id": "type-display-vs-debug",
+      "path": "rules/type-display-vs-debug.md",
+      "related_rules": [
+        "api-common-traits",
+        "err-thiserror-lib",
+        "type-numeric-fmt"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `Display` for user-facing output and `Debug` for diagnostics; never swap them. Trigger when working on type-system invariants and the code shows `type`-class risk."
+    },
+    {
+      "domain": "types",
+      "id": "type-enum-states",
+      "path": "rules/type-enum-states.md",
+      "related_rules": [
+        "api-non-exhaustive",
+        "api-typestate",
+        "pat-exhaustive-enum",
+        "serde-enum-representation",
+        "type-option-nullable"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use enums for mutually exclusive states. Trigger when working on type-system invariants and the code shows `type`-class risk."
+    },
+    {
+      "domain": "types",
+      "id": "type-generic-bounds",
+      "path": "rules/type-generic-bounds.md",
+      "related_rules": [
+        "api-impl-asref",
+        "api-impl-into",
+        "name-type-param-single",
+        "trait-associated-type-vs-generic",
+        "trait-dyn-vs-generic"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Add trait bounds only where needed, prefer where clauses for readability. Trigger when working on type-system invariants and the code shows `type`-class risk."
+    },
+    {
+      "domain": "types",
+      "id": "type-never-diverge",
+      "path": "rules/type-never-diverge.md",
+      "related_rules": [
+        "err-result-over-panic",
+        "opt-cold-unlikely",
+        "type-result-fallible"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `!` (never type) for functions that never return. Trigger when working on type-system invariants and the code shows `type`-class risk."
+    },
+    {
+      "domain": "types",
+      "id": "type-newtype-ids",
+      "path": "rules/type-newtype-ids.md",
+      "related_rules": [
+        "api-newtype-safety",
+        "api-parse-dont-validate",
+        "num-nonzero",
+        "type-newtype-validated"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Wrap IDs in newtypes: `UserId(u64)`. Trigger when working on type-system invariants and the code shows `type`-class risk."
+    },
+    {
+      "domain": "types",
+      "id": "type-newtype-validated",
+      "path": "rules/type-newtype-validated.md",
+      "related_rules": [
+        "api-newtype-safety",
+        "api-parse-dont-validate",
+        "conv-fromstr-parsing",
+        "serde-try-from-validate",
+        "type-newtype-ids"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use newtypes to enforce validation at construction time. Trigger when working on type-system invariants and the code shows `type`-class risk."
+    },
+    {
+      "domain": "types",
+      "id": "type-no-stringly",
+      "path": "rules/type-no-stringly.md",
+      "related_rules": [
+        "anti-stringly-typed",
+        "type-enum-states",
+        "type-newtype-validated"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Avoid stringly-typed APIs; use enums, newtypes, or validated types. Trigger when working on type-system invariants and the code shows `type`-class risk."
+    },
+    {
+      "domain": "types",
+      "id": "type-numeric-fmt",
+      "path": "rules/type-numeric-fmt.md",
+      "related_rules": [
+        "type-display-vs-debug",
+        "type-newtype-ids"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Implement `LowerHex`, `UpperHex`, `Octal`, and `Binary` for numeric newtypes. Trigger when working on type-system invariants and the code shows `type`-class risk."
+    },
+    {
+      "domain": "types",
+      "id": "type-option-nullable",
+      "path": "rules/type-option-nullable.md",
+      "related_rules": [
+        "err-no-unwrap-prod",
+        "type-enum-states",
+        "type-result-fallible"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `Option<T>` for values that might not exist. Trigger when working on type-system invariants and the code shows `type`-class risk."
+    },
+    {
+      "domain": "types",
+      "id": "type-phantom-marker",
+      "path": "rules/type-phantom-marker.md",
+      "related_rules": [
+        "api-newtype-safety",
+        "api-typestate",
+        "type-newtype-ids"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `PhantomData` to express type relationships without runtime cost. Trigger when working on type-system invariants and the code shows `type`-class risk."
+    },
+    {
+      "domain": "types",
+      "id": "type-repr-transparent",
+      "path": "rules/type-repr-transparent.md",
+      "related_rules": [
+        "api-newtype-safety",
+        "type-newtype-ids",
+        "type-phantom-marker"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `#[repr(transparent)]` for newtypes in FFI contexts. Trigger when working on type-system invariants and the code shows `type`-class risk."
+    },
+    {
+      "domain": "types",
+      "id": "type-result-fallible",
+      "path": "rules/type-result-fallible.md",
+      "related_rules": [
+        "err-question-mark",
+        "err-thiserror-lib",
+        "type-option-nullable"
+      ],
+      "severity": "medium",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `Result<T, E>` for operations that can fail. Trigger when working on type-system invariants and the code shows `type`-class risk."
+    },
+    {
+      "domain": "unsafe",
+      "id": "unsafe-extern-block",
+      "path": "rules/unsafe-extern-block.md",
+      "related_rules": [
+        "type-repr-transparent",
+        "unsafe-no-mangle-unsafe"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "In Rust 2024, wrap `extern` blocks in `unsafe extern { }` and annotate each item as `safe` or `unsafe`.. Trigger when working on unsafe soundness and the code shows `unsafe`-class risk."
+    },
+    {
+      "domain": "unsafe",
+      "id": "unsafe-maybeuninit",
+      "path": "rules/unsafe-maybeuninit.md",
+      "related_rules": [
+        "mem-with-capacity",
+        "unsafe-safety-comment"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Use `MaybeUninit<T>` for uninitialized memory; never use `mem::uninitialized()` or `mem::zeroed()` for types with validity invariants.. Trigger when working on unsafe soundness and the code shows `unsafe`-class risk."
+    },
+    {
+      "domain": "unsafe",
+      "id": "unsafe-minimize-scope",
+      "path": "rules/unsafe-minimize-scope.md",
+      "related_rules": [
+        "unsafe-safety-comment",
+        "unsafe-send-sync-manual"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Keep `unsafe` blocks as small as possible - mark only the operation that requires unsafety, not the surrounding safe code.. Trigger when working on unsafe soundness and the code shows `unsafe`-class risk."
+    },
+    {
+      "domain": "unsafe",
+      "id": "unsafe-miri-ci",
+      "path": "rules/unsafe-miri-ci.md",
+      "related_rules": [
+        "test-criterion-bench",
+        "unsafe-maybeuninit",
+        "unsafe-safety-comment"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Run `cargo miri test` in CI for every crate that contains `unsafe` code.. Trigger when working on unsafe soundness and the code shows `unsafe`-class risk."
+    },
+    {
+      "domain": "unsafe",
+      "id": "unsafe-no-mangle-unsafe",
+      "path": "rules/unsafe-no-mangle-unsafe.md",
+      "related_rules": [
+        "type-repr-transparent",
+        "unsafe-extern-block"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "In Rust 2024, write `#[unsafe(no_mangle)]`, `#[unsafe(export_name = \"...\")]`, and `#[unsafe(link_section = \"...\")]` - not the bare attribute forms.. Trigger when working on unsafe soundness and the code shows `unsafe`-class risk."
+    },
+    {
+      "domain": "unsafe",
+      "id": "unsafe-safety-comment",
+      "path": "rules/unsafe-safety-comment.md",
+      "related_rules": [
+        "doc-safety-section",
+        "lint-unsafe-doc",
+        "unsafe-minimize-scope"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Write a `// SAFETY:` comment above every `unsafe` block and a `# Safety` section in every `unsafe fn`.. Trigger when working on unsafe soundness and the code shows `unsafe`-class risk."
+    },
+    {
+      "domain": "unsafe",
+      "id": "unsafe-send-sync-manual",
+      "path": "rules/unsafe-send-sync-manual.md",
+      "related_rules": [
+        "own-arc-shared",
+        "type-phantom-marker",
+        "unsafe-safety-comment"
+      ],
+      "severity": "critical",
+      "sources": [
+        "leonardomso/rust-skills: https://github.com/leonardomso/rust-skills",
+        "Rust API Guidelines: https://rust-lang.github.io/api-guidelines/"
+      ],
+      "trigger": "Document the invariants when manually implementing `Send` or `Sync`; prefer letting the compiler derive them automatically.. Trigger when working on unsafe soundness and the code shows `unsafe`-class risk."
+    },
+    {
+      "domain": "wasm",
+      "id": "wasm-boundary-copy-budget",
+      "path": "rules/wasm-boundary-copy-budget.md",
+      "related_rules": [
+        "mem-zero-copy",
+        "type-repr-transparent",
+        "api-must-use"
+      ],
+      "severity": "high",
+      "sources": [
+        "rust-performance-skills: https://github.com/madebyhost/rust-performance-skills",
+        "wasm-bindgen: https://rustwasm.github.io/docs/wasm-bindgen/"
+      ],
+      "trigger": "Rust/Wasm modules exchanging strings, arrays, frames, images, or simulation buffers with JavaScript."
+    }
+  ],
+  "schema_version": 1
+}

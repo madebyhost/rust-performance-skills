@@ -30,6 +30,7 @@ REQUIRED_SKILLS = [
     "rust-math-algorithms-performance",
     "rust-memory-simd-io-performance",
     "rust-api-type-system-design",
+    "rust-expert-rulebook",
 ]
 
 
@@ -135,7 +136,12 @@ def validate_docs() -> None:
         "evals/math-graph-simulation.md",
         "evals/memory-simd-io-hotpath.md",
         "evals/api-type-system-design.md",
+        "evals/rust-expert-rulebook.md",
         "docs/third-party-rust-skills-review.md",
+        "rules/index.json",
+        "scripts/import_leonardomso_rules.py",
+        "scripts/build_rule_index.py",
+        "scripts/validate_rules.py",
     ]:
         read(ROOT / rel)
 
@@ -200,9 +206,14 @@ def validate_docs() -> None:
         "Rust API Guidelines",
         "Rust Design Patterns",
         "Rust 2024 Edition Guide",
+        "Rust Expert Rulebook",
     ]:
         if token not in sources:
             fail(f"sources do not mention {token}")
+
+    import validate_rules
+
+    validate_rules.validate()
 
 
 def main() -> None:

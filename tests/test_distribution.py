@@ -27,6 +27,7 @@ REQUIRED_SKILLS = [
     "rust-math-algorithms-performance",
     "rust-memory-simd-io-performance",
     "rust-api-type-system-design",
+    "rust-expert-rulebook",
 ]
 
 
@@ -136,6 +137,16 @@ class DistributionTest(unittest.TestCase):
         self.assertIn("leonardomso/rust-skills", review)
         self.assertIn("actionbook/rust-skills", review)
         self.assertIn("static guidance only", review)
+
+    def test_v8_rulebook_files_exist(self) -> None:
+        for rel in [
+            "rules/index.json",
+            "scripts/import_leonardomso_rules.py",
+            "scripts/build_rule_index.py",
+            "scripts/validate_rules.py",
+            "evals/rust-expert-rulebook.md",
+        ]:
+            self.assertTrue((ROOT / rel).exists(), f"missing {rel}")
 
     def test_source_map_mentions_v3_tools(self) -> None:
         sources = (ROOT / "docs" / "sources.md").read_text()

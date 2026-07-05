@@ -1,13 +1,19 @@
-# Optional MCP Roadmap
+# Rust Performance MCP
 
-The v1 repository is skill-first. This directory documents MCP ideas that can be added without changing the public skill contract.
+This repository remains skill-first, but it includes an offline stdio MCP server for deterministic tasks that should not depend on model memory.
 
-Useful future MCP tools:
+Current tools:
 
-- inspect Cargo release profiles and dependency feature flags;
-- generate benchmark scaffolds for selected functions;
-- parse Criterion output and summarize regressions;
-- scan Rust diffs for hot-path red flags such as unbounded channels, clones, allocation, and blocking calls;
-- produce latency-review checklists from project metadata.
+- `audit_rust_project`: inspect Rust project structure and performance signals.
+- `generate_quality_gates`: produce quality-gate commands from an audit.
+- `list_rust_skills`: list packaged specialist skills.
+- `rust_review_checklist`: produce review checks from project findings.
+- `detect_performance_domains`: classify detected Rust performance domains.
+- `rust_algorithm_checklist`: return graph, stochastic, and numerical performance checks.
+- `binary_encoding_review_checklist`: return SBE and binary-codec checks.
+- `memory_simd_io_checklist`: return allocator, SIMD, mmap, io_uring, NUMA, and zero-copy checks.
+- `api_type_design_checklist`: return API/type-system, serde, macro, cfg, and semver checks.
+- `select_rust_rules`: select concrete rule cards from `rules/index.json`.
+- `explain_rust_rule`: return one full rule card with bad/good examples and verification.
 
-Do not implement an MCP tool for advice that requires broad architectural judgment. Keep those decisions in the skill and references.
+Keep architectural judgment in the skills. Use MCP tools for selection, indexing, repeatable checks, and structured context.

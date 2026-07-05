@@ -26,6 +26,15 @@ This project turns stable Rust ecosystem guidance into agent workflows. Prefer p
 - actionbook/rust-skills: https://github.com/actionbook/rust-skills
 - Local comparison notes: docs/third-party-rust-skills-review.md
 
+## Rust Expert Rulebook
+
+- Local rule cards: rules/
+- Rule index: rules/index.json
+- Importer: scripts/import_leonardomso_rules.py
+- Rule schema: id, severity, trigger, bad, good, when, when_not, verification, sources, related_rules
+- Imported base: leonardomso/rust-skills under the repository MIT license, normalized into local expert rule cards.
+- Local extensions: rust-performance-skills rules for HFT, SBE, eBPF, PyO3, Wasm, SIMD, NUMA, graph/math kernels, and io_uring.
+
 ## Kernel And eBPF
 
 - Linux BPF documentation: https://docs.kernel.org/bpf/
